@@ -12,3 +12,17 @@ using System.Diagnostics.CodeAnalysis;
     Scope = "namespaceanddescendants",
     Target = "~N:Nono.Capabilities"
 )]
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0060:Remove unused parameter",
+    Justification = "Examples",
+    Scope = "namespaceanddescendants",
+    Target = "~N:Nono.Capabilities"
+)]
+[assembly: SuppressMessage(
+    "Design",
+    "CA1002:Do not expose generic lists",
+    Justification = "Examples",
+    Scope = "namespaceanddescendants",
+    Target = "~N:Nono.Capabilities"
+)]

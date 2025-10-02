@@ -1,6 +1,6 @@
 ﻿using AwesomeAssertions.Execution;
 using Kapa.Abstractions.Capabilities;
-using Kapa.Core.Capabilities;
+using Kapa.Core.Extensions;
 
 namespace Workbench;
 
