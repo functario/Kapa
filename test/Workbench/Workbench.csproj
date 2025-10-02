@@ -24,4 +24,9 @@
         </PackageReference>
         <PackageReference Include="xunit.v3" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\examples\Nono\Nono.csproj" />
+      <ProjectReference Include="..\..\src\Kapa.Abstractions\Kapa.Abstractions.csproj" />
+      <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
+    </ItemGroup>
 </Project>

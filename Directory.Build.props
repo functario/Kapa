@@ -15,37 +15,6 @@
   </PropertyGroup>
   <!--Warnings ignores for the solution-->
   <PropertyGroup>
-    <NoWarn>IDE0055, CS1591</NoWarn>
+    <NoWarn>IDE0055, CS1591, IDE0290</NoWarn>
   </PropertyGroup>
-  <!--Restore dotnet tools from ./.config/dotnet-tools.json-->
-  <Target Name="ToolRestore" BeforeTargets="Restore">
-    <Message Importance="high" Text="Restoring .NET tools..." />
-    <Exec Command="dotnet tool restore" />
-  </Target>
-  <!--Copy .env to every project to ease file management-->
-  <Target
-    Name="CopyFilesToProjectRoot"
-    AfterTargets="BeforeBuild"
-    Condition="exists('$(MSBuildThisFileDirectory).env')"
-  >
-    <ItemGroup>
-      <EnFile Include="$(MSBuildThisFileDirectory).env" />
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(EnFile)"
-      DestinationFolder="$(MSBuildProjectDirectory)"
-      SkipUnchangedFiles="true"
-    />
-  </Target>
-  <Target
-    Name="CopyFilesToBin"
-    AfterTargets="BeforeBuild"
-    Condition="exists('$(MSBuildThisFileDirectory).env')"
-  >
-    <ItemGroup>
-      <EnFile Include="$(MSBuildThisFileDirectory).env" />
-    </ItemGroup>
-    <Copy SourceFiles="@(EnFile)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
-  </Target>
-  <ItemGroup></ItemGroup>
 </Project>
