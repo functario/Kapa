@@ -6,7 +6,7 @@ namespace Nono.Capabilities;
 [Kapability]
 public sealed class KapaA
 {
-    [KapaStep("description", "name")]
+    [KapaStep("description", "title with spaces")]
     public IOutcome DoSomething()
     {
         return new Outcome(nameof(KapaA), OutcomeStatus.Ok);
