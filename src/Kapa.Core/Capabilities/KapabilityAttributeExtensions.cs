@@ -10,7 +10,7 @@ public static class KapabilityAttributeExtensions
 
         if (!type.IsDefined(typeof(KapabilityAttribute), inherit: true))
             throw new InvalidOperationException(
-                $"Type '{type.FullName}' does not have KapabilityAttribute."
+                $"Type '{type.FullName}' does not have '{nameof(KapabilityAttribute)}'."
             );
 
         var kapaSteps = new List<IKapaStep>();
