@@ -4,9 +4,14 @@ namespace Kapa.Core.Outcomes;
 
 public record Outcome : IOutcome
 {
-    public Outcome(string kapaStepName, OutcomeStatus outcomeStatus)
+    /// <summary>
+    /// Initializes a new instance of <see cref="Outcome"/>.
+    /// </summary>
+    /// <param name="source">The source that has generated the <see cref="IOutcome"/>.</param>
+    /// <param name="outcomeStatus">The <see cref="OutcomeStatus"/>.</param>
+    public Outcome(string source, OutcomeStatus outcomeStatus)
     {
-        KapaStepName = kapaStepName;
+        Source = source;
         Status = outcomeStatus;
     }
 
@@ -14,5 +19,5 @@ public record Outcome : IOutcome
 
     public string? Reason { get; init; }
 
-    public string KapaStepName { get; init; }
+    public string Source { get; init; }
 }

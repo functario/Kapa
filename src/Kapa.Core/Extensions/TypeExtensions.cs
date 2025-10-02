@@ -6,17 +6,25 @@ namespace Kapa.Core.Extensions;
 
 public static class TypeExtensions
 {
-    public static IKapability ToKapability(this Type type)
+    public static IKapability ToKapability(this Type kapabilityType)
     {
-        ArgumentNullException.ThrowIfNull(type);
+        ArgumentNullException.ThrowIfNull(kapabilityType);
 
-        if (!type.IsDefined(typeof(KapabilityAttribute), inherit: true))
+        if (!kapabilityType.IsDefined(typeof(KapabilityAttribute), inherit: true))
             throw new InvalidOperationException(
-                $"Type '{type.FullName}' does not have '{nameof(KapabilityAttribute)}'."
+                $"Type '{kapabilityType.FullName}' does not have '{nameof(KapabilityAttribute)}'."
             );
 
+        var kapaSteps = ExtractKapaSteps(kapabilityType);
+        return new Kapability(kapaSteps);
+    }
+
+    public static ICollection<IKapaStep> ExtractKapaSteps(Type kapabilityType)
+    {
+        ArgumentNullException.ThrowIfNull(kapabilityType);
         var kapaSteps = new List<IKapaStep>();
-        var methods = type.GetMethods(
+
+        var methods = kapabilityType.GetMethods(
             System.Reflection.BindingFlags.Instance
                 | System.Reflection.BindingFlags.Public
                 | System.Reflection.BindingFlags.NonPublic
@@ -31,25 +39,43 @@ public static class TypeExtensions
 
             if (stepAttr is not null)
             {
-                kapaSteps.Add(stepAttr.ToKapaStep(method));
+                var step = stepAttr.ToKapaStep(method);
+                var kapaParams = method.ExtractKapaParams();
+                if (kapaParams.Count > 0 && step is KapaStep stepRecord)
+                {
+                    stepRecord = new KapaStep(
+                        stepRecord.Name,
+                        stepRecord.Description,
+                        stepRecord.Title
+                    )
+                    {
+                        Parameters = [.. kapaParams],
+                    };
+
+                    kapaSteps.Add(stepRecord);
+                }
+                else
+                {
+                    kapaSteps.Add(step);
+                }
             }
         }
 
-        return new Kapability(kapaSteps);
+        return kapaSteps;
     }
 
     /// <summary>
     /// Infers the KapaParamTypes from a CLR type.
     /// </summary>
-    /// <param name="type">The CLR type to infer KapaParamTypes from.</param>
+    /// <param name="paramType">The CLR type to infer KapaParamTypes from.</param>
     /// <returns>The inferred KapaParamTypes.</returns>
-    public static KapaParamTypes InferKapaParamType(this Type type)
+    public static KapaParamTypes InferKapaParamType(this Type paramType)
     {
-        if (type == null)
+        if (paramType is null)
             return KapaParamTypes.Null;
 
         // Handle nullable types
-        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+        var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
 
         if (underlyingType == typeof(string))
             return KapaParamTypes.String;
@@ -57,19 +83,24 @@ public static class TypeExtensions
         if (underlyingType == typeof(bool))
             return KapaParamTypes.Boolean;
 
-        // Numeric types
+        // Integer types (JSON integer)
         if (
             underlyingType == typeof(int)
             || underlyingType == typeof(long)
-            || underlyingType == typeof(float)
-            || underlyingType == typeof(double)
-            || underlyingType == typeof(decimal)
             || underlyingType == typeof(short)
             || underlyingType == typeof(byte)
             || underlyingType == typeof(uint)
             || underlyingType == typeof(ulong)
             || underlyingType == typeof(ushort)
             || underlyingType == typeof(sbyte)
+        )
+            return KapaParamTypes.Integer;
+
+        // Floating-point types (JSON number)
+        if (
+            underlyingType == typeof(float)
+            || underlyingType == typeof(double)
+            || underlyingType == typeof(decimal)
         )
             return KapaParamTypes.Number;
 
@@ -102,8 +133,12 @@ public static class TypeExtensions
             {
                 yield return instance;
             }
-
-            throw new InvalidCastException($"Could not cast type '{type}' to '{nameof(IRule)}'.");
+            else
+            {
+                throw new InvalidCastException(
+                    $"Could not cast type '{type.FullName}' to '{nameof(IRule)}'."
+                );
+            }
         }
     }
 }

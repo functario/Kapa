@@ -1,0 +1,57 @@
+{
+  "Steps": [
+    {
+      "Name": "DoSomething",
+      "Description": "description",
+      "Title": null,
+      "Parameters": [
+        {
+          "Name": "str",
+          "Description": "description str",
+          "KapaParamType": 0,
+          "Rules": [
+            {
+              "Name": "StrRule"
+            }
+          ]
+        },
+        {
+          "Name": "decimalNumber",
+          "Description": "description decimalNumber",
+          "KapaParamType": 1,
+          "Rules": []
+        },
+        {
+          "Name": "boolean",
+          "Description": "description boolean",
+          "KapaParamType": 5,
+          "Rules": []
+        },
+        {
+          "Name": "obj",
+          "Description": "description obj",
+          "KapaParamType": 3,
+          "Rules": []
+        },
+        {
+          "Name": "objNull",
+          "Description": "description objNull",
+          "KapaParamType": 3,
+          "Rules": []
+        },
+        {
+          "Name": "intCollection",
+          "Description": "description intCollection",
+          "KapaParamType": 4,
+          "Rules": []
+        },
+        {
+          "Name": "boolList",
+          "Description": "description boolList",
+          "KapaParamType": 4,
+          "Rules": []
+        }
+      ]
+    }
+  ]
+}

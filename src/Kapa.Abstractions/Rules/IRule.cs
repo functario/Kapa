@@ -1,6 +1,9 @@
-﻿namespace Kapa.Abstractions.Rules;
+﻿using Kapa.Abstractions.Outcomes;
+
+namespace Kapa.Abstractions.Rules;
 
 public interface IRule
 {
-    string Name { get; }
+    public string Name { get; }
+    public IOutcome Validate();
 }

@@ -23,4 +23,6 @@ public record KapaStep : IKapaStep
     public string Description { get; }
 
     public string? Title { get; }
+
+    public IReadOnlyCollection<IKapaParam> Parameters { get; init; } = [];
 }

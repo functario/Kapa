@@ -2,7 +2,7 @@
 
 public interface IOutcome
 {
-    public string KapaStepName { get; }
+    public string Source { get; }
     public OutcomeStatus Status { get; }
     public string? Reason { get; }
 }

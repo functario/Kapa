@@ -4,9 +4,9 @@ public enum KapaParamTypes
 {
     String,
     Number,
+    Integer,
     Object,
     Array,
     Boolean,
     Null,
-    DateTime,
 }

@@ -4,8 +4,8 @@ namespace Kapa.Core.Outcomes;
 
 public record TypedOutcome<T> : Outcome, ITypedOutcome<T>
 {
-    public TypedOutcome(string kapaStepName, OutcomeStatus status, T? value)
-        : base(kapaStepName, status)
+    public TypedOutcome(string source, OutcomeStatus status, T? value)
+        : base(source, status)
     {
         Value = value;
     }

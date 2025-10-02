@@ -1,6 +1,7 @@
 ﻿using AwesomeAssertions.Execution;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Core.Extensions;
+using Newtonsoft.Json;
 
 namespace Workbench;
 
@@ -15,7 +16,10 @@ public class UnitTest1
 
         // Assert
         using var scope = new AssertionScope();
-        kapaA.Should().NotBeNull().And.Satisfy<IKapability>(k => k.KapaSteps.Should().HaveCount(1));
-        kapaB.Should().NotBeNull().And.Satisfy<IKapability>(k => k.KapaSteps.Should().HaveCount(1));
+
+        var a = JsonConvert.SerializeObject(kapaB);
+
+        kapaA.Should().NotBeNull().And.Satisfy<IKapability>(k => k.Steps.Should().HaveCount(1));
+        kapaB.Should().NotBeNull().And.Satisfy<IKapability>(k => k.Steps.Should().HaveCount(1));
     }
 }

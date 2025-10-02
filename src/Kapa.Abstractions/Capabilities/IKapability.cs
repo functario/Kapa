@@ -2,5 +2,5 @@
 
 public interface IKapability
 {
-    public IReadOnlyCollection<IKapaStep> KapaSteps { get; }
+    public IReadOnlyCollection<IKapaStep> Steps { get; }
 }

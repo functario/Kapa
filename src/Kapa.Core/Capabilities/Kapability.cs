@@ -4,10 +4,10 @@ namespace Kapa.Core.Capabilities;
 
 public class Kapability : IKapability
 {
-    public Kapability(ICollection<IKapaStep> kapaSteps)
+    public Kapability(ICollection<IKapaStep> steps)
     {
-        KapaSteps = [.. kapaSteps];
+        Steps = [.. steps];
     }
 
-    public IReadOnlyCollection<IKapaStep> KapaSteps { get; }
+    public IReadOnlyCollection<IKapaStep> Steps { get; }
 }
