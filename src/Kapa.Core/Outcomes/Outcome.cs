@@ -4,9 +4,9 @@ namespace Kapa.Core.Outcomes;
 
 public record Outcome : IOutcome
 {
-    public Outcome(string capabilityName, OutcomeStatus outcomeStatus)
+    public Outcome(string kapaStepName, OutcomeStatus outcomeStatus)
     {
-        CapabilityName = capabilityName;
+        KapaStepName = kapaStepName;
         Status = outcomeStatus;
     }
 
@@ -14,5 +14,5 @@ public record Outcome : IOutcome
 
     public string? Reason { get; init; }
 
-    public string CapabilityName { get; init; }
+    public string KapaStepName { get; init; }
 }

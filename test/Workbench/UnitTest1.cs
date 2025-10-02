@@ -1,4 +1,6 @@
 ﻿using AwesomeAssertions.Execution;
+using Kapa.Abstractions.Capabilities;
+using Kapa.Core.Capabilities;
 
 namespace Workbench;
 
@@ -8,12 +10,12 @@ public class UnitTest1
     public void Test1()
     {
         // Act
-        var kapaA = new KapaA();
-        var kapaB = new KapaB();
+        var kapaA = typeof(KapaA).ToKapability();
+        var kapaB = typeof(KapaB).ToKapability();
 
         // Assert
         using var scope = new AssertionScope();
-        kapaA.Should().NotBeNull();
-        kapaB.Should().NotBeNull();
+        kapaA.Should().NotBeNull().And.Satisfy<IKapability>(k => k.KapaSteps.Should().HaveCount(1));
+        kapaB.Should().NotBeNull().And.Satisfy<IKapability>(k => k.KapaSteps.Should().HaveCount(1));
     }
 }

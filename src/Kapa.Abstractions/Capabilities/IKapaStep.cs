@@ -1,6 +1,6 @@
 ﻿namespace Kapa.Abstractions.Capabilities;
 
-public interface ICapabilityFunc
+public interface IKapaStep
 {
     public string Name { get; }
     public string Description { get; }

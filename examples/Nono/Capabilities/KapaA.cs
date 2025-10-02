@@ -3,10 +3,10 @@ using Kapa.Core.Outcomes;
 
 namespace Nono.Capabilities;
 
-[Capability]
+[Kapability]
 public sealed class KapaA
 {
-    [CapabilityFunc("description", "name")]
+    [KapaStep("description", "name")]
     public IOutcome DoSomething()
     {
         return new Outcome(nameof(KapaA), OutcomeStatus.Ok);
