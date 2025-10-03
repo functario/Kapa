@@ -8,5 +8,4 @@ public enum ParameterTypes
     Object,
     Array,
     Boolean,
-    Null,
 }

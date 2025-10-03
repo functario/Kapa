@@ -1,0 +1,8 @@
+﻿namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
+
+[System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "For testing."
+)]
+public class StaticChildWithoutExplicitCapabilityTypeAttribute : StaticChildLevel3CapabilityType { }

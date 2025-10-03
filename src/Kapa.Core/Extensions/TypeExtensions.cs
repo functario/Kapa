@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Kapa.Abstractions.Capabilities;
+using Kapa.Abstractions.Exceptions;
 using Kapa.Abstractions.Rules;
 using Kapa.Core.Capabilities;
 
@@ -7,26 +8,39 @@ namespace Kapa.Core.Extensions;
 
 public static class TypeExtensions
 {
-    public static ICapabilityType ToCapability(this Type capabilityType)
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="capabilityType"></param>
+    /// <returns></returns>
+    /// <exception cref="TypeIsNotCapabilityException"></exception>
+    public static ICapabilityType ToCapabilityType(this Type capabilityType)
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
 
-        if (!capabilityType.IsDefined(typeof(CapabilityTypeAttribute), inherit: true))
-            throw new InvalidOperationException(
-                $"Type '{capabilityType.FullName}' does not have '{nameof(CapabilityTypeAttribute)}'."
-            );
+        ThrowIfNotCapabilitType(capabilityType);
 
-        var capability = ExtractCapability(capabilityType);
+        var capability = GetCapabilities(capabilityType);
+
         return new CapabilityType(capability);
     }
 
-    public static ICollection<ICapability> ExtractCapability(Type capabilityType)
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="capabilityType"></param>
+    /// <returns></returns>
+    /// <exception cref="MissingCapabilityException"></exception>
+    /// <exception cref="TypeIsNotCapabilityException"></exception>
+    public static ICollection<ICapability> GetCapabilities(this Type capabilityType)
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
-        var capabilities = new List<ICapability>();
 
+        ThrowIfNotCapabilitType(capabilityType);
+
+        var capabilities = new List<ICapability>();
         var methods = capabilityType.GetMethods(
-            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+            BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public
         );
 
         foreach (var method in methods)
@@ -36,6 +50,10 @@ public static class TypeExtensions
                 capabilities.Add(capability);
             }
         }
+
+        ThrowIfMissingCapabilityException(capabilityType, capabilities.Count);
+
+        ThrowIfDuplicatedDescriptions(capabilities, capabilityType);
 
         return capabilities;
     }
@@ -47,8 +65,7 @@ public static class TypeExtensions
     /// <returns>The inferred <see cref="ParameterTypes"/>.</returns>
     public static ParameterTypes InferParamerType(this Type paramType)
     {
-        if (paramType is null)
-            return ParameterTypes.Null;
+        ArgumentNullException.ThrowIfNull(paramType);
 
         // Handle nullable types
         var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
@@ -97,6 +114,9 @@ public static class TypeExtensions
         return ParameterTypes.Object;
     }
 
+    public static bool IsCapabilityType(this Type type) =>
+        type?.IsDefined(typeof(CapabilityTypeAttribute), inherit: true) ?? false;
+
     internal static IEnumerable<IRule> ToRules(this IReadOnlyCollection<Type> ruleTypes)
     {
         foreach (var type in ruleTypes)
@@ -115,6 +135,39 @@ public static class TypeExtensions
                     $"Could not cast type '{type.FullName}' to '{nameof(IRule)}'."
                 );
             }
+        }
+    }
+
+    private static void ThrowIfMissingCapabilityException(Type capabilityType, int count)
+    {
+        if (count == 0)
+        {
+            throw new MissingCapabilityException(capabilityType);
+        }
+    }
+
+    private static void ThrowIfDuplicatedDescriptions(
+        ICollection<ICapability> capabilities,
+        Type capabilityType
+    )
+    {
+        var duplicateStrings = capabilities
+            .GroupBy(x => x.Description) // Group elements by their value
+            .Where(g => g.Count() > 1) // Filter groups that have more than one element (duplicates)
+            .Select(g => g.Key) // Select the key (the string itself) from these groups
+            .ToArray(); // Convert the result to a List<string>
+
+        if (duplicateStrings.Length > 0)
+        {
+            throw new DuplicateCapabilityDescriptionsException(capabilityType, duplicateStrings);
+        }
+    }
+
+    private static void ThrowIfNotCapabilitType(this Type type)
+    {
+        if (!type.IsCapabilityType())
+        {
+            throw new TypeIsNotCapabilityException(type);
         }
     }
 }
