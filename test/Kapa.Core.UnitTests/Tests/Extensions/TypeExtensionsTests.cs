@@ -337,4 +337,29 @@ public class TypeExtensionsTests
                 options => options.WithoutStrictOrdering()
             );
     }
+
+    [Fact(
+        DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"with a {nameof(ICapability)} having "
+            + $"all {nameof(ParameterTypes)} arguments"
+    )]
+    public void Test16()
+    {
+        // Arrange
+        var type = typeof(CapabilityWithAllParemeterTypes);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Should().HaveCount(1);
+        sut.Capabilities.Single()
+            .Parameters.Select(x => x.ParameterType)
+            .Should()
+            .BeEquivalentTo(expectedParameterTypes, options => options.WithoutStrictOrdering());
+    }
 }

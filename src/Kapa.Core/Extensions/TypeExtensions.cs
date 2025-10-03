@@ -65,8 +65,7 @@ public static class TypeExtensions
     /// <returns>The inferred <see cref="ParameterTypes"/>.</returns>
     public static ParameterTypes InferParamerType(this Type paramType)
     {
-        if (paramType is null)
-            return ParameterTypes.Null;
+        ArgumentNullException.ThrowIfNull(paramType);
 
         // Handle nullable types
         var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
