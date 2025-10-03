@@ -8,7 +8,8 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Naming",
     "CA1720:Identifier contains type name",
-    Justification = "<Pending>",
+    Justification = "Type names in this enum represent JSON types"
+        + " and including type names improves clarity and interoperability.",
     Scope = "type",
     Target = "~T:Kapa.Abstractions.Capabilities.ParameterTypes"
 )]
