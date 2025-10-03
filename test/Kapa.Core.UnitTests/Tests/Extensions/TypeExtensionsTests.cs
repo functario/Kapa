@@ -1,4 +1,7 @@
-﻿namespace Kapa.Core.UnitTests.Tests.Extensions;
+﻿using Kapa.Fixtures.Capabilities.Inheritances;
+using Kapa.Fixtures.Capabilities.Inheritances.Statics;
+
+namespace Kapa.Core.UnitTests.Tests.Extensions;
 
 public class TypeExtensionsTests
 {
@@ -15,7 +18,6 @@ public class TypeExtensionsTests
         var sut = type.ToCapabilityType();
 
         // Assert
-        using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<ICapabilityType>();
     }
 
@@ -32,7 +34,6 @@ public class TypeExtensionsTests
         Action sut = () => type.ToCapabilityType();
 
         // Assert
-        using var scope = new AssertionScope();
         sut.Should().ThrowExactly<TypeIsNotCapabilityException>();
     }
 
@@ -83,8 +84,8 @@ public class TypeExtensionsTests
 
     [Fact(
         DisplayName = $"Confirm that {nameof(Type)} "
-            + $"decorated with {nameof(CapabilityTypeAttribute)}"
-            + $" is {nameof(ICapabilityType)}"
+            + $"decorated with {nameof(CapabilityTypeAttribute)} "
+            + $"is {nameof(ICapabilityType)}"
     )]
     public void Test5()
     {
@@ -100,8 +101,8 @@ public class TypeExtensionsTests
 
     [Fact(
         DisplayName = $"Confirm that {nameof(Type)} "
-            + $"not decorated with {nameof(CapabilityTypeAttribute)}"
-            + $" is not {nameof(ICapabilityType)}"
+            + $"not decorated with {nameof(CapabilityTypeAttribute)} "
+            + $"is not {nameof(ICapabilityType)}"
     )]
     public void Test6()
     {
@@ -128,7 +129,6 @@ public class TypeExtensionsTests
         Action sut = () => type.ToCapabilityType();
 
         // Assert
-        using var scope = new AssertionScope();
         sut.Should().ThrowExactly<MissingCapabilityException>();
     }
 
@@ -145,7 +145,196 @@ public class TypeExtensionsTests
         Action sut = () => type.ToCapabilityType();
 
         // Assert
-        using var scope = new AssertionScope();
         sut.Should().ThrowExactly<DuplicateCapabilityDescriptionsException>();
+    }
+
+    [Fact(
+        DisplayName = $"Create {nameof(ICapabilityType)} from static {nameof(Type)} "
+            + $"decorated with {nameof(CapabilityTypeAttribute)}"
+    )]
+    public void Test9()
+    {
+        // Arrange
+        var type = typeof(StaticCapabilityType);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        sut.Should().BeAssignableTo<ICapabilityType>();
+    }
+
+    [Fact(
+        DisplayName = $"Create child {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"decorated with {nameof(CapabilityTypeAttribute)} and "
+            + $"inheriting from many parent levels"
+    )]
+    public void Test10()
+    {
+        // Arrange
+        var type = typeof(ChildLevel3CapabilityType);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Select(x => x.Name)
+            .Should()
+            .BeEquivalentTo(
+                [
+                    nameof(ParentCapabitlity.Handle),
+                    nameof(ChildLevel1CapabilityType.Handle1),
+                    nameof(ChildLevel2CapabilityType.Handle2),
+                    nameof(ChildLevel3CapabilityType.Handle3),
+                ],
+                options => options.WithoutStrictOrdering()
+            );
+    }
+
+    [Fact(
+        DisplayName = $"Create child {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"not decorated with {nameof(CapabilityTypeAttribute)} but "
+            + $"inheriting from decorated {nameof(ICapabilityType)}"
+    )]
+    public void Test11()
+    {
+        // Arrange
+        var type = typeof(ChildWithoutExplicitCapabilityTypeAttribute);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Select(x => x.Name)
+            .Should()
+            .BeEquivalentTo(
+                [
+                    nameof(ParentCapabitlity.Handle),
+                    nameof(ChildLevel1CapabilityType.Handle1),
+                    nameof(ChildLevel2CapabilityType.Handle2),
+                    nameof(ChildLevel3CapabilityType.Handle3),
+                ],
+                options => options.WithoutStrictOrdering()
+            );
+    }
+
+    [Fact(
+        DisplayName = $"Create great child {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"not decorated with {nameof(CapabilityTypeAttribute)} but "
+            + $"inheriting from decorated {nameof(ICapabilityType)}"
+    )]
+    public void Test12()
+    {
+        // Arrange
+        var type = typeof(GreatChildWithoutExplicitCapabilityTypeAttribute);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Select(x => x.Name)
+            .Should()
+            .BeEquivalentTo(
+                [
+                    nameof(ParentCapabitlity.Handle),
+                    nameof(ChildLevel1CapabilityType.Handle1),
+                    nameof(ChildLevel2CapabilityType.Handle2),
+                    nameof(ChildLevel3CapabilityType.Handle3),
+                ],
+                options => options.WithoutStrictOrdering()
+            );
+    }
+
+    [Fact(
+        DisplayName = $"Create static child {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"decorated with {nameof(CapabilityTypeAttribute)} and "
+            + $"inheriting from many parent levels"
+    )]
+    public void Test13()
+    {
+        // Arrange
+        var type = typeof(StaticChildLevel3CapabilityType);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Select(x => x.Name)
+            .Should()
+            .BeEquivalentTo(
+                [
+                    nameof(StaticParentCapabitlity.Handle),
+                    nameof(StaticChildLevel1CapabilityType.Handle1),
+                    nameof(StaticChildLevel2CapabilityType.Handle2),
+                    nameof(StaticChildLevel3CapabilityType.Handle3),
+                ],
+                options => options.WithoutStrictOrdering()
+            );
+    }
+
+    [Fact(
+        DisplayName = $"Create static child {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"not decorated with {nameof(CapabilityTypeAttribute)} but "
+            + $"inheriting from decorated {nameof(ICapabilityType)}"
+    )]
+    public void Test14()
+    {
+        // Arrange
+        var type = typeof(StaticChildWithoutExplicitCapabilityTypeAttribute);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Select(x => x.Name)
+            .Should()
+            .BeEquivalentTo(
+                [
+                    nameof(StaticParentCapabitlity.Handle),
+                    nameof(StaticChildLevel1CapabilityType.Handle1),
+                    nameof(StaticChildLevel2CapabilityType.Handle2),
+                    nameof(StaticChildLevel3CapabilityType.Handle3),
+                ],
+                options => options.WithoutStrictOrdering()
+            );
+    }
+
+    [Fact(
+        DisplayName = $"Create static great child {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"not decorated with {nameof(CapabilityTypeAttribute)} but "
+            + $"inheriting from decorated {nameof(ICapabilityType)}"
+    )]
+    public void Test15()
+    {
+        // Arrange
+        var type = typeof(StaticGreatChildWithoutExplicitCapabilityTypeAttribute);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Select(x => x.Name)
+            .Should()
+            .BeEquivalentTo(
+                [
+                    nameof(StaticParentCapabitlity.Handle),
+                    nameof(StaticChildLevel1CapabilityType.Handle1),
+                    nameof(StaticChildLevel2CapabilityType.Handle2),
+                    nameof(StaticChildLevel3CapabilityType.Handle3),
+                ],
+                options => options.WithoutStrictOrdering()
+            );
     }
 }

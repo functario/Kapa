@@ -1,7 +1,7 @@
-﻿namespace Kapa.Fixtures.Capabilities;
+﻿namespace Kapa.Fixtures.Capabilities.Inheritances;
 
 [CapabilityType]
-public sealed class OneCapability
+public class ParentCapabitlity
 {
     [Capability(nameof(Handle))]
     public IOutcome Handle()

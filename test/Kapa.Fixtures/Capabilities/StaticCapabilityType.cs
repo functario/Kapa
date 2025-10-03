@@ -1,10 +1,10 @@
 ﻿namespace Kapa.Fixtures.Capabilities;
 
 [CapabilityType]
-public sealed class OneCapability
+public static class StaticCapabilityType
 {
     [Capability(nameof(Handle))]
-    public IOutcome Handle()
+    public static IOutcome Handle()
     {
         return new Outcome(nameof(OneCapability), OutcomeStatus.Ok);
     }
