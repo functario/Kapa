@@ -25,21 +25,10 @@ public static class MethodInfoExtensions
         var parameters = GetParameters(method);
         if (parameters.Count > 0)
         {
-            return new Capability(
-                method.Name,
-                capabilityAttribute.Description,
-                capabilityAttribute.Title
-            )
-            {
-                Parameters = [.. parameters],
-            };
+            return new Capability(method.Name, capabilityAttribute.Description, [.. parameters]);
         }
 
-        return new Capability(
-            method.Name,
-            capabilityAttribute.Description,
-            capabilityAttribute.Title
-        );
+        return new Capability(method.Name, capabilityAttribute.Description);
     }
 
     public static ICollection<IParameter> GetParameters(this MethodInfo method)

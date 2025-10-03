@@ -6,7 +6,7 @@ namespace Nono.Capabilities;
 [CapabilityType]
 public sealed class CapaA
 {
-    [Capability("description", "title with spaces")]
+    [Capability("description")]
     public IOutcome DoSomething()
     {
         return new Outcome(nameof(CapaA), OutcomeStatus.Ok);

@@ -8,21 +8,18 @@ public record Capability : ICapability
     {
         Name = name;
         Description = description;
-        Title = null;
     }
 
-    public Capability(string name, string description, string? title)
+    public Capability(string name, string description, IParameter[] parameters)
     {
         Name = name;
         Description = description;
-        Title = title;
+        Parameters = parameters;
     }
 
     public string Name { get; }
 
     public string Description { get; }
-
-    public string? Title { get; }
 
     public IReadOnlyCollection<IParameter> Parameters { get; init; } = [];
 }
