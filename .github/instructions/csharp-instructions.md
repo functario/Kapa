@@ -8,6 +8,7 @@ applyTo: "**/*.cs"
 - Split long method chains into multiple lines for better readability.
 - Use 'is not null' instead of '!= null' for null checks.
 - Do not add using namespaces or full type names already present in GlobalUsings.cs
+- Use 'nameof()' instead of string literals for parameter names and other identifiers, in the code and documentation.
   
 - Use 'sut' (System Under Test) as the variable name for the main object being tested.
 - Use AutoFixture.Xunit3 and NSubstitute for test data generation and mocking.

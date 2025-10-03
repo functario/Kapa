@@ -9,7 +9,7 @@ public sealed class EmptyCapabilityType
         "CA1822:Mark members as static",
         Justification = "For testing"
     )]
-    public void SomeMethod()
+    public void Handle()
     {
         // This method has no [Capability] attribute
     }

@@ -3,7 +3,7 @@
 // Intentionally missing [CapabilityType] attribute for testing
 public sealed class NotCapabilityType
 {
-    public IOutcome HandleAction()
+    public IOutcome Handle()
     {
         return new Outcome(nameof(NotCapabilityType), OutcomeStatus.Ok);
     }
