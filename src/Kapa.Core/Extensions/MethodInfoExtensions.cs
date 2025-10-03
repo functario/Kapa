@@ -6,13 +6,13 @@ namespace Kapa.Core.Extensions;
 
 public static class MethodInfoExtensions
 {
-    public static CapabilityAttribute? GetCapabilityAttribute(this MethodInfo method) =>
+    internal static CapabilityAttribute? GetCapabilityAttribute(this MethodInfo method) =>
         method
             ?.GetCustomAttributes(typeof(CapabilityAttribute), inherit: true)
             .Cast<CapabilityAttribute>()
             .FirstOrDefault();
 
-    public static ICapability? ToCapability(this MethodInfo method)
+    internal static ICapability? ToCapability(this MethodInfo method)
     {
         ArgumentNullException.ThrowIfNull(method);
 
@@ -31,7 +31,7 @@ public static class MethodInfoExtensions
         return new Capability(method.Name, capabilityAttribute.Description);
     }
 
-    public static ICollection<IParameter> GetParameters(this MethodInfo method)
+    internal static ICollection<IParameter> GetParameters(this MethodInfo method)
     {
         ArgumentNullException.ThrowIfNull(method);
         var capabilityParameters = new List<IParameter>();
