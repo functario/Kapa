@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Kapa.Abstractions.Capabilities;
+﻿using Kapa.Abstractions.Capabilities;
 
 namespace Kapa.Core.Capabilities;
 
@@ -24,10 +23,4 @@ public sealed class CapabilityAttribute : Attribute
     public string? Title { get; }
 
     public string Description { get; }
-
-    public ICapability ToCapability(MethodInfo method)
-    {
-        ArgumentNullException.ThrowIfNull(method);
-        return new Capability(method.Name, Description, Title);
-    }
 }

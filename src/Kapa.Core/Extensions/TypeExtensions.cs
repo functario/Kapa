@@ -1,4 +1,5 @@
-﻿using Kapa.Abstractions.Capabilities;
+﻿using System.Reflection;
+using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Rules;
 using Kapa.Core.Capabilities;
 
@@ -22,46 +23,21 @@ public static class TypeExtensions
     public static ICollection<ICapability> ExtractCapability(Type capabilityType)
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
-        var capabilityList = new List<ICapability>();
+        var capabilities = new List<ICapability>();
 
         var methods = capabilityType.GetMethods(
-            System.Reflection.BindingFlags.Instance
-                | System.Reflection.BindingFlags.Public
-                | System.Reflection.BindingFlags.NonPublic
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
         );
 
         foreach (var method in methods)
         {
-            var capabilityAttribute = method
-                .GetCustomAttributes(typeof(CapabilityAttribute), inherit: true)
-                .Cast<CapabilityAttribute>()
-                .FirstOrDefault();
-
-            if (capabilityAttribute is not null)
+            if (method.ToCapability() is ICapability capability)
             {
-                var capabilities = capabilityAttribute.ToCapability(method);
-                var parameters = method.ExtractParameters();
-                if (parameters.Count > 0 && capabilities is Capability capability)
-                {
-                    capability = new Capability(
-                        capability.Name,
-                        capability.Description,
-                        capability.Title
-                    )
-                    {
-                        Parameters = [.. parameters],
-                    };
-
-                    capabilityList.Add(capability);
-                }
-                else
-                {
-                    capabilityList.Add(capabilities);
-                }
+                capabilities.Add(capability);
             }
         }
 
-        return capabilityList;
+        return capabilities;
     }
 
     /// <summary>
