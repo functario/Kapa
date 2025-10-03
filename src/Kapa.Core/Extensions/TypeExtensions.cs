@@ -17,12 +17,8 @@ public static class TypeExtensions
     public static ICapabilityType ToCapabilityType(this Type capabilityType)
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
-        if (
-            GetExceptionIfNotCapabilitType(capabilityType) is TypeIsNotCapabilityException exception
-        )
-        {
-            throw exception;
-        }
+
+        ThrowIfNotCapabilitType(capabilityType);
 
         var capability = GetCapabilities(capabilityType);
 
@@ -36,15 +32,11 @@ public static class TypeExtensions
     /// <returns></returns>
     /// <exception cref="MissingCapabilityException"></exception>
     /// <exception cref="TypeIsNotCapabilityException"></exception>
-    public static ICollection<ICapability> GetCapabilities(Type capabilityType)
+    public static ICollection<ICapability> GetCapabilities(this Type capabilityType)
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
-        if (
-            GetExceptionIfNotCapabilitType(capabilityType) is TypeIsNotCapabilityException exception
-        )
-        {
-            throw exception;
-        }
+
+        ThrowIfNotCapabilitType(capabilityType);
 
         var capabilities = new List<ICapability>();
         var methods = capabilityType.GetMethods(
@@ -59,10 +51,9 @@ public static class TypeExtensions
             }
         }
 
-        if (capabilities.Count == 0)
-        {
-            throw new MissingCapabilityException(capabilityType);
-        }
+        ThrowIfMissingCapabilityException(capabilityType, capabilities.Count);
+
+        ThrowIfDuplicatedDescriptions(capabilities, capabilityType);
 
         return capabilities;
     }
@@ -148,13 +139,36 @@ public static class TypeExtensions
         }
     }
 
-    private static TypeIsNotCapabilityException? GetExceptionIfNotCapabilitType(this Type type)
+    private static void ThrowIfMissingCapabilityException(Type capabilityType, int count)
     {
-        if (type.IsCapabilityType())
+        if (count == 0)
         {
-            return null;
+            throw new MissingCapabilityException(capabilityType);
         }
+    }
 
-        return new TypeIsNotCapabilityException(type);
+    private static void ThrowIfDuplicatedDescriptions(
+        ICollection<ICapability> capabilities,
+        Type capabilityType
+    )
+    {
+        var duplicateStrings = capabilities
+            .GroupBy(x => x.Description) // Group elements by their value
+            .Where(g => g.Count() > 1) // Filter groups that have more than one element (duplicates)
+            .Select(g => g.Key) // Select the key (the string itself) from these groups
+            .ToArray(); // Convert the result to a List<string>
+
+        if (duplicateStrings.Length > 0)
+        {
+            throw new DuplicateCapabilityDescriptionsException(capabilityType, duplicateStrings);
+        }
+    }
+
+    private static void ThrowIfNotCapabilitType(this Type type)
+    {
+        if (!type.IsCapabilityType())
+        {
+            throw new TypeIsNotCapabilityException(type);
+        }
     }
 }
