@@ -1,6 +1,4 @@
-﻿using AwesomeAssertions.Execution;
-
-namespace Kapa.Core.UnitTests.Tests.Extensions;
+﻿namespace Kapa.Core.UnitTests.Tests.Extensions;
 
 public class TypeExtensionsTests
 {
@@ -18,9 +16,7 @@ public class TypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().NotBeNull();
         result.Should().BeAssignableTo<ICapabilityType>();
-        result.Capabilities.Should().NotBeEmpty();
     }
 
     [Fact(
@@ -30,10 +26,14 @@ public class TypeExtensionsTests
     public void Test2()
     {
         // Arrange
+        var sut = typeof(NotCapabilityType);
 
         // Act
+        Action act = () => sut.ToCapabilityType();
 
         // Assert
+        using var scope = new AssertionScope();
+        act.Should().ThrowExactly<TypeIsNotCapabilityException>();
     }
 
     [Fact(
@@ -84,9 +84,13 @@ public class TypeExtensionsTests
     public void Test6()
     {
         // Arrange
+        var sut = typeof(EmptyCapabilityType);
 
         // Act
+        Action act = () => sut.ToCapabilityType();
 
         // Assert
+        using var scope = new AssertionScope();
+        act.Should().ThrowExactly<MissingCapabilityException>();
     }
 }

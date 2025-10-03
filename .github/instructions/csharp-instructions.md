@@ -7,11 +7,12 @@ applyTo: "**/*.cs"
 - Use ArgumentNullException.ThrowIfNull(argument) for argument validation.
 - Split long method chains into multiple lines for better readability.
 - Use 'is not null' instead of '!= null' for null checks.
-
+- Do not add using namespaces or full type names already present in GlobalUsings.cs
+  
 - Use 'sut' (System Under Test) as the variable name for the main object being tested.
 - Use AutoFixture.Xunit3 and NSubstitute for test data generation and mocking.
 - AwesomeAssertions and xunit.v3 for unit tests.
-- DisplayName attribute for test methods to provide more descriptive and unique names. You cannot change the name onless explicitly asked.
+- DisplayName attribute for test methods to provide more descriptive and unique names. You cannot change the name unless explicitly asked.
 - All tests methods named like "TestX" where X is an incrementing number.
 - Tests should be independent and not rely on the execution order.
 - Tests should cover both typical and edge cases.
@@ -21,3 +22,4 @@ applyTo: "**/*.cs"
   Give them descriptive names.
 - use 'using var scope = new AssertionScope();' before multiple assertions in a test method.
 - Use `// Arrange`, `// Act`, `// Assert` comments to separate test sections.
+
