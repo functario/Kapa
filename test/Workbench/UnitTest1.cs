@@ -1,5 +1,6 @@
 ﻿using AwesomeAssertions.Execution;
 using Kapa.Abstractions.Capabilities;
+using Kapa.Abstractions.Outcomes;
 using Kapa.Core.Extensions;
 using Newtonsoft.Json;
 
@@ -11,8 +12,8 @@ public class UnitTest1
     public void Test1()
     {
         // Act
-        var capaA = typeof(CapaA).ToCapability();
-        var capaB = typeof(CapaB).ToCapability();
+        var capaA = typeof(CapaA).ToCapabilityType();
+        var capaB = typeof(CapaB).ToCapabilityType();
 
         // Assert
         using var scope = new AssertionScope();
@@ -28,5 +29,17 @@ public class UnitTest1
             .Should()
             .NotBeNull()
             .And.Satisfy<ICapabilityType>(k => k.Capabilities.Should().HaveCount(1));
+    }
+
+    [Fact]
+    public void MyTestMethod()
+    {
+        var capaA = new CapaA();
+        var capaC = new CapaC();
+
+        capaA.DoSomething().Should().BeAssignableTo<IOutcome>();
+        var a = capaC.DoSomething();
+        a.Should().BeAssignableTo<ITypedOutcome<string>>();
+        a.As<ITypedOutcome<string>>().Value.Should().BeEquivalentTo("value");
     }
 }

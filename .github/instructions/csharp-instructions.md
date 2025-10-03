@@ -7,4 +7,3 @@ applyTo: "**/*.cs"
 - Use ArgumentNullException.ThrowIfNull(argument) for argument validation.
 - Split long method chains into multiple lines for better readability.
 - Use 'is not null' instead of '!= null' for null checks.
-- Prefer pattern matching over traditional type checks and casts.
