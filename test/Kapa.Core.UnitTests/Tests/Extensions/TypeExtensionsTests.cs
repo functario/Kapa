@@ -1,4 +1,4 @@
-﻿using Kapa.Abstractions.Capabilities;
+﻿using AwesomeAssertions.Execution;
 
 namespace Kapa.Core.UnitTests.Tests.Extensions;
 
@@ -11,10 +11,16 @@ public class TypeExtensionsTests
     public void Test1()
     {
         // Arrange
+        var sut = typeof(SimpleCapabilityType);
 
         // Act
+        var result = sut.ToCapabilityType();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeNull();
+        result.Should().BeAssignableTo<ICapabilityType>();
+        result.Capabilities.Should().NotBeEmpty();
     }
 
     [Fact(
@@ -63,6 +69,19 @@ public class TypeExtensionsTests
             + $" is not {nameof(ICapabilityType)}"
     )]
     public void Test5()
+    {
+        // Arrange
+
+        // Act
+
+        // Assert
+    }
+
+    [Fact(
+        DisplayName = $"Cannot create {nameof(ICapabilityType)} "
+            + $"without ${nameof(ICapability)}"
+    )]
+    public void Test6()
     {
         // Arrange
 

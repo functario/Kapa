@@ -3,8 +3,7 @@
         <TargetFramework>$(SdkTargetFramework)</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <OutputType>Exe</OutputType>
-        <RootNamespace>Kapa.Core.UnitTests</RootNamespace>
+        <RootNamespace>Kapa.Fixtures</RootNamespace>
         <!--
     This template uses native xUnit.net command line options when using 'dotnet run' and
     VSTest by default when using 'dotnet test'. For more information on how to enable support
@@ -13,25 +12,16 @@
     -->
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="AutoFixture.Xunit3" />
-        <PackageReference Include="AwesomeAssertions" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NSubstitute" />
         <PackageReference Include="System.Net.Http" />
         <PackageReference Include="System.Text.RegularExpressions" />
-        <PackageReference Include="xunit.runner.visualstudio">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="xunit.v3" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\examples\Nono\Nono.csproj" />
         <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
-        <ProjectReference Include="..\Kapa.Fixtures\Kapa.Fixtures.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Outcomes\" />
+        <Folder Include="Rules\" />
     </ItemGroup>
 </Project>
