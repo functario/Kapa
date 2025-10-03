@@ -1,0 +1,2 @@
+- Do not summarize which modifications you have done.
+- Do not try to build or test the solutions or projects. Unless explicitly asked by the user. 

@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Kapa.Abstractions\Kapa.Abstractions.csproj" />
+        <ProjectReference Include="..\..\src\Kapa.Abstractions\Kapa.Abstractions.csproj" />
+        <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
     </ItemGroup>
 </Project>
