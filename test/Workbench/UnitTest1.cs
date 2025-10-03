@@ -11,15 +11,22 @@ public class UnitTest1
     public void Test1()
     {
         // Act
-        var kapaA = typeof(KapaA).ToKapability();
-        var kapaB = typeof(KapaB).ToKapability();
+        var capaA = typeof(CapaA).ToCapability();
+        var capaB = typeof(CapaB).ToCapability();
 
         // Assert
         using var scope = new AssertionScope();
 
-        var a = JsonConvert.SerializeObject(kapaB);
+        var a = JsonConvert.SerializeObject(capaB);
 
-        kapaA.Should().NotBeNull().And.Satisfy<IKapability>(k => k.Steps.Should().HaveCount(1));
-        kapaB.Should().NotBeNull().And.Satisfy<IKapability>(k => k.Steps.Should().HaveCount(1));
+        capaA
+            .Should()
+            .NotBeNull()
+            .And.Satisfy<ICapabilityType>(k => k.Capabilities.Should().HaveCount(1));
+
+        capaB
+            .Should()
+            .NotBeNull()
+            .And.Satisfy<ICapabilityType>(k => k.Capabilities.Should().HaveCount(1));
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace Kapa.Abstractions.Capabilities;
 
-public interface IKapaStep
+public interface ICapability
 {
     public string Name { get; }
     public string Description { get; }
     public string? Title { get; }
-    public IReadOnlyCollection<IKapaParam> Parameters { get; }
+    public IReadOnlyCollection<IParameter> Parameters { get; }
 }

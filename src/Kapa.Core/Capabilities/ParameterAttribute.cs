@@ -8,9 +8,9 @@ namespace Kapa.Core.Capabilities;
     AttributeTargets.Parameter | AttributeTargets.GenericParameter,
     AllowMultiple = false
 )]
-public sealed class KapaParamAttribute : Attribute
+public sealed class ParameterAttribute : Attribute
 {
-    public KapaParamAttribute(string description, params Type[] rules)
+    public ParameterAttribute(string description, params Type[] rules)
     {
         Description = description;
         Rules = rules;
@@ -20,13 +20,13 @@ public sealed class KapaParamAttribute : Attribute
 
     public IReadOnlyCollection<Type> Rules { get; }
 
-    public IKapaParam ToKapaParam(ParameterInfo parameterInfo)
+    public IParameter ToParameter(ParameterInfo parameterInfo)
     {
         ArgumentNullException.ThrowIfNull(parameterInfo);
         ArgumentNullException.ThrowIfNull(parameterInfo.Name);
 
-        var paramType = parameterInfo.ParameterType.InferKapaParamType();
+        var paramType = parameterInfo.ParameterType.InferParamerType();
         var rules = Rules.ToRules();
-        return new KapaParam(parameterInfo.Name, Description, paramType, [.. rules]);
+        return new Parameter(parameterInfo.Name, Description, paramType, [.. rules]);
     }
 }

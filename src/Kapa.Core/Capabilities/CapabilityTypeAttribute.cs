@@ -1,4 +1,4 @@
 ﻿namespace Kapa.Core.Capabilities;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public sealed class KapabilityAttribute : Attribute { }
+public sealed class CapabilityTypeAttribute : Attribute { }

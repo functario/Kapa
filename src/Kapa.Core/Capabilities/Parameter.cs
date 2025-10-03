@@ -3,23 +3,23 @@ using Kapa.Abstractions.Rules;
 
 namespace Kapa.Core.Capabilities;
 
-public record KapaParam : IKapaParam
+public record Parameter : IParameter
 {
-    public KapaParam(
+    public Parameter(
         string name,
         string description,
-        KapaParamTypes kapaParamTypes,
+        ParameterTypes kapaParamTypes,
         params IRule[] rules
     )
     {
         Name = name;
         Description = description;
-        KapaParamType = kapaParamTypes;
+        ParameterType = kapaParamTypes;
         Rules = rules;
     }
 
     public string Name { get; init; }
     public string Description { get; init; }
-    public KapaParamTypes KapaParamType { get; init; }
+    public ParameterTypes ParameterType { get; init; }
     public IReadOnlyCollection<IRule> Rules { get; init; }
 }

@@ -2,16 +2,16 @@
 
 namespace Kapa.Core.Capabilities;
 
-public record KapaStep : IKapaStep
+public record Capability : ICapability
 {
-    public KapaStep(string name, string description)
+    public Capability(string name, string description)
     {
         Name = name;
         Description = description;
         Title = null;
     }
 
-    public KapaStep(string name, string description, string? title)
+    public Capability(string name, string description, string? title)
     {
         Name = name;
         Description = description;
@@ -24,5 +24,5 @@ public record KapaStep : IKapaStep
 
     public string? Title { get; }
 
-    public IReadOnlyCollection<IKapaParam> Parameters { get; init; } = [];
+    public IReadOnlyCollection<IParameter> Parameters { get; init; } = [];
 }

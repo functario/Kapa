@@ -6,23 +6,23 @@ namespace Kapa.Core.Extensions;
 
 public static class MethodInfoExtensions
 {
-    public static ICollection<IKapaParam> ExtractKapaParams(this MethodInfo method)
+    public static ICollection<IParameter> ExtractParameters(this MethodInfo method)
     {
         ArgumentNullException.ThrowIfNull(method);
-        var kapaParams = new List<IKapaParam>();
-        var parameters = method.GetParameters();
-        foreach (var param in parameters)
+        var capabilityParameters = new List<IParameter>();
+        var methodParameters = method.GetParameters();
+        foreach (var param in methodParameters)
         {
             var paramAttr = param
-                .GetCustomAttributes(typeof(KapaParamAttribute), inherit: true)
-                .Cast<KapaParamAttribute>()
+                .GetCustomAttributes(typeof(ParameterAttribute), inherit: true)
+                .Cast<ParameterAttribute>()
                 .FirstOrDefault();
 
             if (paramAttr is not null)
             {
-                kapaParams.Add(paramAttr.ToKapaParam(param));
+                capabilityParameters.Add(paramAttr.ToParameter(param));
             }
         }
-        return kapaParams;
+        return capabilityParameters;
     }
 }

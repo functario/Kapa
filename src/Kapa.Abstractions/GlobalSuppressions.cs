@@ -5,4 +5,10 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "type", Target = "~T:Kapa.Abstractions.Capabilities.KapaParamTypes")]
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1720:Identifier contains type name",
+    Justification = "<Pending>",
+    Scope = "type",
+    Target = "~T:Kapa.Abstractions.Capabilities.ParameterTypes"
+)]

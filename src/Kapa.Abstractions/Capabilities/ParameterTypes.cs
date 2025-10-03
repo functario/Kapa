@@ -1,6 +1,6 @@
 ﻿namespace Kapa.Abstractions.Capabilities;
 
-public enum KapaParamTypes
+public enum ParameterTypes
 {
     String,
     Number,

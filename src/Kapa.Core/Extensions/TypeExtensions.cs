@@ -6,25 +6,25 @@ namespace Kapa.Core.Extensions;
 
 public static class TypeExtensions
 {
-    public static IKapability ToKapability(this Type kapabilityType)
+    public static ICapabilityType ToCapability(this Type capabilityType)
     {
-        ArgumentNullException.ThrowIfNull(kapabilityType);
+        ArgumentNullException.ThrowIfNull(capabilityType);
 
-        if (!kapabilityType.IsDefined(typeof(KapabilityAttribute), inherit: true))
+        if (!capabilityType.IsDefined(typeof(CapabilityTypeAttribute), inherit: true))
             throw new InvalidOperationException(
-                $"Type '{kapabilityType.FullName}' does not have '{nameof(KapabilityAttribute)}'."
+                $"Type '{capabilityType.FullName}' does not have '{nameof(CapabilityTypeAttribute)}'."
             );
 
-        var kapaSteps = ExtractKapaSteps(kapabilityType);
-        return new Kapability(kapaSteps);
+        var capability = ExtractCapability(capabilityType);
+        return new CapabilityType(capability);
     }
 
-    public static ICollection<IKapaStep> ExtractKapaSteps(Type kapabilityType)
+    public static ICollection<ICapability> ExtractCapability(Type capabilityType)
     {
-        ArgumentNullException.ThrowIfNull(kapabilityType);
-        var kapaSteps = new List<IKapaStep>();
+        ArgumentNullException.ThrowIfNull(capabilityType);
+        var capabilityList = new List<ICapability>();
 
-        var methods = kapabilityType.GetMethods(
+        var methods = capabilityType.GetMethods(
             System.Reflection.BindingFlags.Instance
                 | System.Reflection.BindingFlags.Public
                 | System.Reflection.BindingFlags.NonPublic
@@ -32,56 +32,56 @@ public static class TypeExtensions
 
         foreach (var method in methods)
         {
-            var stepAttr = method
-                .GetCustomAttributes(typeof(KapaStepAttribute), inherit: true)
-                .Cast<KapaStepAttribute>()
+            var capabilityAttribute = method
+                .GetCustomAttributes(typeof(CapabilityAttribute), inherit: true)
+                .Cast<CapabilityAttribute>()
                 .FirstOrDefault();
 
-            if (stepAttr is not null)
+            if (capabilityAttribute is not null)
             {
-                var step = stepAttr.ToKapaStep(method);
-                var kapaParams = method.ExtractKapaParams();
-                if (kapaParams.Count > 0 && step is KapaStep stepRecord)
+                var capabilities = capabilityAttribute.ToCapability(method);
+                var parameters = method.ExtractParameters();
+                if (parameters.Count > 0 && capabilities is Capability capability)
                 {
-                    stepRecord = new KapaStep(
-                        stepRecord.Name,
-                        stepRecord.Description,
-                        stepRecord.Title
+                    capability = new Capability(
+                        capability.Name,
+                        capability.Description,
+                        capability.Title
                     )
                     {
-                        Parameters = [.. kapaParams],
+                        Parameters = [.. parameters],
                     };
 
-                    kapaSteps.Add(stepRecord);
+                    capabilityList.Add(capability);
                 }
                 else
                 {
-                    kapaSteps.Add(step);
+                    capabilityList.Add(capabilities);
                 }
             }
         }
 
-        return kapaSteps;
+        return capabilityList;
     }
 
     /// <summary>
-    /// Infers the KapaParamTypes from a CLR type.
+    /// Infers the <see cref="ParameterTypes"/> from a CLR type.
     /// </summary>
-    /// <param name="paramType">The CLR type to infer KapaParamTypes from.</param>
-    /// <returns>The inferred KapaParamTypes.</returns>
-    public static KapaParamTypes InferKapaParamType(this Type paramType)
+    /// <param name="paramType">The CLR type to infer <see cref="ParameterTypes"/> from <paramref name="paramType"/>.</param>
+    /// <returns>The inferred <see cref="ParameterTypes"/>.</returns>
+    public static ParameterTypes InferParamerType(this Type paramType)
     {
         if (paramType is null)
-            return KapaParamTypes.Null;
+            return ParameterTypes.Null;
 
         // Handle nullable types
         var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
 
         if (underlyingType == typeof(string))
-            return KapaParamTypes.String;
+            return ParameterTypes.String;
 
         if (underlyingType == typeof(bool))
-            return KapaParamTypes.Boolean;
+            return ParameterTypes.Boolean;
 
         // Integer types (JSON integer)
         if (
@@ -94,7 +94,7 @@ public static class TypeExtensions
             || underlyingType == typeof(ushort)
             || underlyingType == typeof(sbyte)
         )
-            return KapaParamTypes.Integer;
+            return ParameterTypes.Integer;
 
         // Floating-point types (JSON number)
         if (
@@ -102,7 +102,7 @@ public static class TypeExtensions
             || underlyingType == typeof(double)
             || underlyingType == typeof(decimal)
         )
-            return KapaParamTypes.Number;
+            return ParameterTypes.Number;
 
         // Arrays and collections
         if (
@@ -115,10 +115,10 @@ public static class TypeExtensions
                 )
             )
         )
-            return KapaParamTypes.Array;
+            return ParameterTypes.Array;
 
         // Default to Object for complex types
-        return KapaParamTypes.Object;
+        return ParameterTypes.Object;
     }
 
     internal static IEnumerable<IRule> ToRules(this IReadOnlyCollection<Type> ruleTypes)

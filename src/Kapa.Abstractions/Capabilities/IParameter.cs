@@ -2,10 +2,10 @@
 
 namespace Kapa.Abstractions.Capabilities;
 
-public interface IKapaParam
+public interface IParameter
 {
     public string Name { get; }
     public string Description { get; }
     public IReadOnlyCollection<IRule> Rules { get; }
-    public KapaParamTypes KapaParamType { get; }
+    public ParameterTypes ParameterType { get; }
 }
