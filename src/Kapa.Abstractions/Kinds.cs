@@ -17,6 +17,8 @@ public class Kinds
 
     public override string ToString() => Name;
 
+    public static Kinds NoneKind => new(nameof(Kinds.NoneKind));
+
     public static Kinds StringKind => new(nameof(Kinds.StringKind));
 
     public static Kinds NumberKind => new(nameof(Kinds.NumberKind));

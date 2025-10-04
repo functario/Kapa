@@ -8,7 +8,7 @@ public sealed class OneCapabilityWithTypedOutcome
     [Capability(nameof(Handle))]
     public IOutcome Handle()
     {
-        return new TypedOutcome<Kinds>(
+        return new Outcome(
             nameof(OneCapabilityWithTypedOutcome),
             OutcomeStatus.Ok,
             Kinds.StringKind,
