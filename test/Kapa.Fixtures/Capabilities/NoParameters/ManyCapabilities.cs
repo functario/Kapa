@@ -1,4 +1,4 @@
-﻿namespace Kapa.Fixtures.Capabilities;
+﻿namespace Kapa.Fixtures.Capabilities.NoParameters;
 
 [CapabilityType]
 public sealed class ManyCapabilities

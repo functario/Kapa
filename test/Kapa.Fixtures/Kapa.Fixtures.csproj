@@ -22,6 +22,5 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Outcomes\" />
-        <Folder Include="Rules\" />
     </ItemGroup>
 </Project>

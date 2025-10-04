@@ -1,4 +1,6 @@
-﻿namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
+﻿using Kapa.Fixtures.Capabilities.NoParameters;
+
+namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
 
 [CapabilityType]
 public class StaticParentCapabitlity

@@ -1,14 +1,9 @@
-﻿namespace Kapa.Fixtures.Capabilities;
+﻿namespace Kapa.Fixtures.Capabilities.WithParameters;
 
 [CapabilityType]
 public sealed class CapabilityWithAllParemeterTypes
 {
     [Capability(nameof(Handle))]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage(
-        "Style",
-        "IDE0060:Remove unused parameter",
-        Justification = "For testing"
-    )]
     public IOutcome Handle(
         [Parameter("description str")] string str,
         [Parameter("description decimalNumber")] decimal decimalNumber,
