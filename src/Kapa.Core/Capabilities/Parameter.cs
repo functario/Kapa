@@ -3,6 +3,7 @@ using Kapa.Abstractions.Rules;
 
 namespace Kapa.Core.Capabilities;
 
+/// <inheritdoc/>
 public record Parameter : IParameter
 {
     public Parameter(

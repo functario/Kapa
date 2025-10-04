@@ -33,7 +33,4 @@
         <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
         <ProjectReference Include="..\Kapa.Fixtures\Kapa.Fixtures.csproj" />
     </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Workbench\" />
-    </ItemGroup>
 </Project>

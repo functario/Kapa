@@ -8,7 +8,7 @@ using Kapa.Fixtures.Rules;
 
 namespace Kapa.Core.UnitTests.Tests.Extensions;
 
-public class TypeExtensionsTests
+public class CapabilityTypeExtensionsTests
 {
     [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
@@ -150,7 +150,7 @@ public class TypeExtensionsTests
         Action sut = () => type.ToCapabilityType();
 
         // Assert
-        sut.Should().ThrowExactly<DuplicateCapabilityDescriptionsException>();
+        sut.Should().ThrowExactly<DuplicateDescriptionsException>();
     }
 
     [Fact(

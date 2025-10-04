@@ -4,15 +4,15 @@ using Kapa.Core.Capabilities;
 
 namespace Kapa.Core.Extensions;
 
-public static class MethodInfoExtensions
+internal static class MethodInfoExtensions
 {
-    internal static CapabilityAttribute? GetCapabilityAttribute(this MethodInfo method) =>
+    public static CapabilityAttribute? GetCapabilityAttribute(this MethodInfo method) =>
         method
             ?.GetCustomAttributes(typeof(CapabilityAttribute), inherit: true)
             .Cast<CapabilityAttribute>()
             .FirstOrDefault();
 
-    internal static ICapability? ToCapability(this MethodInfo method)
+    public static ICapability? ToCapability(this MethodInfo method)
     {
         ArgumentNullException.ThrowIfNull(method);
 
@@ -31,7 +31,7 @@ public static class MethodInfoExtensions
         return new Capability(method.Name, capabilityAttribute.Description);
     }
 
-    internal static ICollection<IParameter> GetParameters(this MethodInfo method)
+    public static ICollection<IParameter> GetParameters(this MethodInfo method)
     {
         ArgumentNullException.ThrowIfNull(method);
         var capabilityParameters = new List<IParameter>();
