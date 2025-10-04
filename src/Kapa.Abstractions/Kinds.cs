@@ -1,6 +1,5 @@
 ﻿namespace Kapa.Abstractions;
 
-/// <inheritdoc/>
 public enum Kinds
 {
     Undefined = 0,
