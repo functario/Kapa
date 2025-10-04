@@ -25,7 +25,7 @@ public sealed class ParameterAttribute : Attribute
         ArgumentNullException.ThrowIfNull(parameterInfo);
         ArgumentNullException.ThrowIfNull(parameterInfo.Name);
 
-        var paramType = parameterInfo.ParameterType.InferParamerType();
+        var paramType = parameterInfo.ParameterType.InferKind();
         var rules = Rules.ToRules();
         return new Parameter(parameterInfo.Name, Description, paramType, [.. rules]);
     }

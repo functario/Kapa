@@ -1,4 +1,5 @@
-﻿using Kapa.Abstractions.Rules;
+﻿using Kapa.Abstractions;
+using Kapa.Abstractions.Rules;
 using Kapa.Fixtures.Capabilities.Inheritances;
 using Kapa.Fixtures.Capabilities.Inheritances.Statics;
 using Kapa.Fixtures.Capabilities.NoParameters;
@@ -346,7 +347,7 @@ public class CapabilityTypeExtensionsTests
     [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
             + $"with a {nameof(ICapability)} having "
-            + $"all {nameof(ParameterTypes)} arguments"
+            + $"all {nameof(SupportedKinds)} arguments"
     )]
     public void Test16()
     {
@@ -358,12 +359,12 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+        var expectedParameterTypes = Enum.GetValues<SupportedKinds>();
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);
         sut.Capabilities.Single()
-            .Parameters.Select(x => x.ParameterType)
+            .Parameters.Select(x => x.Kind)
             .Should()
             .BeEquivalentTo(expectedParameterTypes, options => options.WithoutStrictOrdering());
     }
@@ -371,7 +372,7 @@ public class CapabilityTypeExtensionsTests
     [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
             + $"with a {nameof(ICapability)} having "
-            + $"all {nameof(ParameterTypes)} arguments "
+            + $"all {nameof(SupportedKinds)} arguments "
             + $"with one {nameof(IRule)}"
     )]
     public void Test17()
@@ -384,7 +385,7 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+        var expectedParameterTypes = Enum.GetValues<SupportedKinds>();
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);
@@ -407,7 +408,7 @@ public class CapabilityTypeExtensionsTests
     [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
             + $"with a {nameof(ICapability)} having "
-            + $"all {nameof(ParameterTypes)} arguments "
+            + $"all {nameof(SupportedKinds)} arguments "
             + $"with many {nameof(IRule)}s"
     )]
     public void Test18()
@@ -420,7 +421,7 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+        var expectedParameterTypes = Enum.GetValues<SupportedKinds>();
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);

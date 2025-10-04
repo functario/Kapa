@@ -1,15 +1,15 @@
-﻿using Kapa.Abstractions.Capabilities;
+﻿using Kapa.Abstractions;
 
 namespace Kapa.Core.Extensions;
 
 public static class ParameterTypeExtensions
 {
     /// <summary>
-    /// Infers the <see cref="ParameterTypes"/> from a CLR type.
+    /// Infers the <see cref="SupportedKinds"/> from a CLR type.
     /// </summary>
-    /// <param name="paramType">The CLR type to infer <see cref="ParameterTypes"/> from <paramref name="paramType"/>.</param>
-    /// <returns>The inferred <see cref="ParameterTypes"/>.</returns>
-    public static ParameterTypes InferParamerType(this Type paramType)
+    /// <param name="paramType">The CLR type to infer <see cref="SupportedKinds"/> from <paramref name="paramType"/>.</param>
+    /// <returns>The inferred <see cref="SupportedKinds"/>.</returns>
+    public static SupportedKinds InferKind(this Type paramType)
     {
         ArgumentNullException.ThrowIfNull(paramType);
 
@@ -17,10 +17,10 @@ public static class ParameterTypeExtensions
         var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
 
         if (underlyingType == typeof(string))
-            return ParameterTypes.String;
+            return SupportedKinds.String;
 
         if (underlyingType == typeof(bool))
-            return ParameterTypes.Boolean;
+            return SupportedKinds.Boolean;
 
         // Integer types (JSON integer)
         if (
@@ -33,7 +33,7 @@ public static class ParameterTypeExtensions
             || underlyingType == typeof(ushort)
             || underlyingType == typeof(sbyte)
         )
-            return ParameterTypes.Integer;
+            return SupportedKinds.Integer;
 
         // Floating-point types (JSON number)
         if (
@@ -41,7 +41,7 @@ public static class ParameterTypeExtensions
             || underlyingType == typeof(double)
             || underlyingType == typeof(decimal)
         )
-            return ParameterTypes.Number;
+            return SupportedKinds.Number;
 
         // Arrays and collections
         if (
@@ -54,9 +54,9 @@ public static class ParameterTypeExtensions
                 )
             )
         )
-            return ParameterTypes.Array;
+            return SupportedKinds.Array;
 
         // Default to Object for complex types
-        return ParameterTypes.Object;
+        return SupportedKinds.Object;
     }
 }
