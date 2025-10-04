@@ -1,7 +1,7 @@
 ﻿using Kapa.Abstractions;
-using Kapa.Abstractions.Outcomes;
+using Kapa.Abstractions.Results;
 
-namespace Kapa.Core.Outcomes;
+namespace Kapa.Core.Results;
 
 public sealed class Fail<TValue> : IOutcome
 {

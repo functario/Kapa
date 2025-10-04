@@ -1,4 +1,5 @@
-﻿using Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿using Kapa.Abstractions.Results;
+using Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 using Newtonsoft.Json;
 
 namespace Kapa.Core.UnitTests.Tests.Workbench;

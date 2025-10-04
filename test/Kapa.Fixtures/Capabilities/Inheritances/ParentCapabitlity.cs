@@ -1,4 +1,6 @@
-﻿namespace Kapa.Fixtures.Capabilities.Inheritances;
+﻿using Kapa.Abstractions.Results;
+
+namespace Kapa.Fixtures.Capabilities.Inheritances;
 
 [CapabilityType]
 public class ParentCapabitlity

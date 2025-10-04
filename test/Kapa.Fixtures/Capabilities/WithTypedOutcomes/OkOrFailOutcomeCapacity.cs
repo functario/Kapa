@@ -11,7 +11,7 @@ public sealed class OkOrFailOutcomeCapacity
     public bool IsOk { get; }
 
     [Capability(nameof(Handle))]
-    public Results<Ok<string>, Fail<string>> Handle()
+    public Outcomes<Ok<string>, Fail<string>> Handle()
     {
         if (IsOk)
         {

@@ -1,4 +1,6 @@
-﻿namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
+﻿using Kapa.Abstractions.Results;
+
+namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
 
 [CapabilityType]
 public class StaticChildLevel2CapabilityType : ChildLevel1CapabilityType

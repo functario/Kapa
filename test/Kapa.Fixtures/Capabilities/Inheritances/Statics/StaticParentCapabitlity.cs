@@ -1,4 +1,5 @@
-﻿using Kapa.Fixtures.Capabilities.NoParameters;
+﻿using Kapa.Abstractions.Results;
+using Kapa.Fixtures.Capabilities.NoParameters;
 
 namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
 

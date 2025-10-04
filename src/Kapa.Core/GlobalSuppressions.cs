@@ -10,5 +10,5 @@ using System.Diagnostics.CodeAnalysis;
     "CA2225:Operator overloads have named alternates",
     Justification = "Standard",
     Scope = "namespaceanddescendants",
-    Target = "~N:Kapa.Core.Outcomes"
+    Target = "~N:Kapa.Core.Results"
 )]

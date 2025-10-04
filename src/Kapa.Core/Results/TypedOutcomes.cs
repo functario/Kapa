@@ -1,6 +1,6 @@
-﻿using Kapa.Abstractions.Outcomes;
+﻿using Kapa.Abstractions.Results;
 
-namespace Kapa.Core.Outcomes;
+namespace Kapa.Core.Results;
 
 public static class TypedOutcomes
 {

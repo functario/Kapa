@@ -1,4 +1,7 @@
-﻿namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿using Kapa.Abstractions.Results;
+using Kapa.Core.Results;
+
+namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 [CapabilityType]
 public sealed class OkOrFailOrRulesFailOutcomeCapacity
@@ -11,7 +14,7 @@ public sealed class OkOrFailOrRulesFailOutcomeCapacity
     public OutcomeStatus OutcomeStatus { get; }
 
     [Capability(nameof(Handle))]
-    public Results<Ok<string>, Fail<string>, RulesFail<string>> Handle()
+    public Outcomes<Ok<string>, Fail<string>, RulesFail<string>> Handle()
     {
         return OutcomeStatus switch
         {

@@ -1,4 +1,6 @@
-﻿namespace Kapa.Fixtures.Capabilities.NoParameters;
+﻿using Kapa.Abstractions.Results;
+
+namespace Kapa.Fixtures.Capabilities.NoParameters;
 
 [CapabilityType]
 public sealed class DuplicatedCapabilityDescriptions

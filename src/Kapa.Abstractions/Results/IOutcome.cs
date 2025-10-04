@@ -1,4 +1,4 @@
-﻿namespace Kapa.Abstractions.Outcomes;
+﻿namespace Kapa.Abstractions.Results;
 
 /// <summary>
 /// The outcome of a function execution.

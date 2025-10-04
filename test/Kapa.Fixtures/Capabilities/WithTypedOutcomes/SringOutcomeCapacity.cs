@@ -1,4 +1,7 @@
-﻿namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿using Kapa.Abstractions.Results;
+using Kapa.Core.Results;
+
+namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 [CapabilityType]
 public sealed class SringOutcomeCapacity
