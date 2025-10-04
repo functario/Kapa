@@ -5,7 +5,7 @@ using Kapa.Abstractions.Outcomes;
 namespace Kapa.Core.Outcomes;
 
 public record TypedOutcome<TKind> : Outcome, ITypedOutcome<TKind>
-    where TKind : IKinds
+    where TKind : Kinds
 {
     public TypedOutcome(string source, OutcomeStatus status, TKind kind, object? value)
         : base(source, status)

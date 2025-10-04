@@ -15,5 +15,5 @@ public interface IParameter
     /// Usually set to define business rules.
     /// </summary>
     public IReadOnlyCollection<IRule> Rules { get; }
-    public SupportedKinds Kind { get; }
+    public Kinds Kind { get; }
 }

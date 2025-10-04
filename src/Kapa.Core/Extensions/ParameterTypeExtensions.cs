@@ -5,11 +5,11 @@ namespace Kapa.Core.Extensions;
 public static class ParameterTypeExtensions
 {
     /// <summary>
-    /// Infers the <see cref="SupportedKinds"/> from a CLR type.
+    /// Infers the <see cref="Kinds"/> from a CLR type.
     /// </summary>
-    /// <param name="paramType">The CLR type to infer <see cref="SupportedKinds"/> from <paramref name="paramType"/>.</param>
-    /// <returns>The inferred <see cref="SupportedKinds"/>.</returns>
-    public static SupportedKinds InferKind(this Type paramType)
+    /// <param name="paramType">The CLR type to infer <see cref="Kinds"/> from <paramref name="paramType"/>.</param>
+    /// <returns>The inferred <see cref="Kinds"/>.</returns>
+    public static Kinds InferKind(this Type paramType)
     {
         ArgumentNullException.ThrowIfNull(paramType);
 
@@ -17,10 +17,10 @@ public static class ParameterTypeExtensions
         var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
 
         if (underlyingType == typeof(string))
-            return SupportedKinds.String;
+            return Kinds.StringKind;
 
         if (underlyingType == typeof(bool))
-            return SupportedKinds.Boolean;
+            return Kinds.BooleanKind;
 
         // Integer types (JSON integer)
         if (
@@ -33,7 +33,7 @@ public static class ParameterTypeExtensions
             || underlyingType == typeof(ushort)
             || underlyingType == typeof(sbyte)
         )
-            return SupportedKinds.Integer;
+            return Kinds.IntegerKind;
 
         // Floating-point types (JSON number)
         if (
@@ -41,7 +41,7 @@ public static class ParameterTypeExtensions
             || underlyingType == typeof(double)
             || underlyingType == typeof(decimal)
         )
-            return SupportedKinds.Number;
+            return Kinds.NumberKind;
 
         // Arrays and collections
         if (
@@ -54,9 +54,9 @@ public static class ParameterTypeExtensions
                 )
             )
         )
-            return SupportedKinds.Array;
+            return Kinds.ArrayKind;
 
         // Default to Object for complex types
-        return SupportedKinds.Object;
+        return Kinds.ObjectKind;
     }
 }
