@@ -30,8 +30,10 @@
         <PackageReference Include="xunit.v3" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\examples\Nono\Nono.csproj" />
         <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
         <ProjectReference Include="..\Kapa.Fixtures\Kapa.Fixtures.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Workbench\" />
     </ItemGroup>
 </Project>
