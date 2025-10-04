@@ -16,6 +16,6 @@ public sealed class OneRuleOnAllParameterTypes
         [Parameter("description boolean", typeof(GenericRule))] bool boolean
     )
     {
-        return new Outcome(nameof(OneRuleOnAllParameterTypes), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(OneRuleOnAllParameterTypes));
     }
 }

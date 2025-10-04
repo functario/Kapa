@@ -1,0 +1,31 @@
+﻿using Kapa.Abstractions;
+using Kapa.Abstractions.Results;
+
+namespace Kapa.Core.Results;
+
+public record Fail : IOutcome
+{
+    internal Fail(string source)
+        : this(source, "") { }
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="Fail"/>
+    /// </summary>
+    /// <param name="source">The source that has generated the <see cref="Fail"/>.</param>
+    /// <param name="reason">The reason of the <see cref="OutcomeStatus"/>.</param>
+    internal Fail(string source, string reason)
+    {
+        Source = source;
+        Status = OutcomeStatus.Fail;
+        Reason = reason;
+        Kind = Kinds.NoneKind;
+    }
+
+    public OutcomeStatus Status { get; init; }
+
+    public string? Reason { get; init; }
+
+    public string Source { get; init; }
+
+    public Kinds Kind { get; init; }
+}

@@ -5,6 +5,6 @@ public sealed class NotCapabilityType
 {
     public IOutcome Handle()
     {
-        return new Outcome(nameof(NotCapabilityType), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(NotCapabilityType));
     }
 }

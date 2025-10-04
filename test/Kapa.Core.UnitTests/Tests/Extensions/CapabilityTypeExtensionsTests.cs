@@ -193,8 +193,7 @@ public class CapabilityTypeExtensionsTests
                     nameof(ChildLevel1CapabilityType.Handle1),
                     nameof(ChildLevel2CapabilityType.Handle2),
                     nameof(ChildLevel3CapabilityType.Handle3),
-                ],
-                options => options.WithoutStrictOrdering()
+                ]
             );
     }
 
@@ -222,8 +221,7 @@ public class CapabilityTypeExtensionsTests
                     nameof(ChildLevel1CapabilityType.Handle1),
                     nameof(ChildLevel2CapabilityType.Handle2),
                     nameof(ChildLevel3CapabilityType.Handle3),
-                ],
-                options => options.WithoutStrictOrdering()
+                ]
             );
     }
 
@@ -251,8 +249,7 @@ public class CapabilityTypeExtensionsTests
                     nameof(ChildLevel1CapabilityType.Handle1),
                     nameof(ChildLevel2CapabilityType.Handle2),
                     nameof(ChildLevel3CapabilityType.Handle3),
-                ],
-                options => options.WithoutStrictOrdering()
+                ]
             );
     }
 
@@ -280,8 +277,7 @@ public class CapabilityTypeExtensionsTests
                     nameof(StaticChildLevel1CapabilityType.Handle1),
                     nameof(StaticChildLevel2CapabilityType.Handle2),
                     nameof(StaticChildLevel3CapabilityType.Handle3),
-                ],
-                options => options.WithoutStrictOrdering()
+                ]
             );
     }
 
@@ -309,8 +305,7 @@ public class CapabilityTypeExtensionsTests
                     nameof(StaticChildLevel1CapabilityType.Handle1),
                     nameof(StaticChildLevel2CapabilityType.Handle2),
                     nameof(StaticChildLevel3CapabilityType.Handle3),
-                ],
-                options => options.WithoutStrictOrdering()
+                ]
             );
     }
 
@@ -338,15 +333,14 @@ public class CapabilityTypeExtensionsTests
                     nameof(StaticChildLevel1CapabilityType.Handle1),
                     nameof(StaticChildLevel2CapabilityType.Handle2),
                     nameof(StaticChildLevel3CapabilityType.Handle3),
-                ],
-                options => options.WithoutStrictOrdering()
+                ]
             );
     }
 
     [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
             + $"with a {nameof(ICapability)} having "
-            + $"all {nameof(ParameterTypes)} arguments"
+            + $"all {nameof(Kinds)} arguments"
     )]
     public void Test16()
     {
@@ -358,20 +352,23 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+
+        // Remove Kinds not used with parameters
+        var expectedParameterTypes = Enum.GetValues<Kinds>()
+            .Where(x => x != Kinds.NoneKind && x != Kinds.Undefined);
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);
         sut.Capabilities.Single()
-            .Parameters.Select(x => x.ParameterType)
+            .Parameters.Select(x => x.Kind)
             .Should()
-            .BeEquivalentTo(expectedParameterTypes, options => options.WithoutStrictOrdering());
+            .BeEquivalentTo(expectedParameterTypes);
     }
 
     [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
             + $"with a {nameof(ICapability)} having "
-            + $"all {nameof(ParameterTypes)} arguments "
+            + $"all {nameof(Kinds)} arguments "
             + $"with one {nameof(IRule)}"
     )]
     public void Test17()
@@ -384,7 +381,7 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+        var expectedParameterTypes = Enum.GetValues<Kinds>();
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);
@@ -407,7 +404,7 @@ public class CapabilityTypeExtensionsTests
     [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
             + $"with a {nameof(ICapability)} having "
-            + $"all {nameof(ParameterTypes)} arguments "
+            + $"all {nameof(Kinds)} arguments "
             + $"with many {nameof(IRule)}s"
     )]
     public void Test18()
@@ -420,7 +417,7 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+        var expectedParameterTypes = Enum.GetValues<Kinds>();
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);

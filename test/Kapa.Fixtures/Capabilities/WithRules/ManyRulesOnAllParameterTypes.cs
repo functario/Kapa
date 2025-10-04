@@ -51,6 +51,6 @@ public sealed class ManyRulesOnAllParameterTypes
             bool boolean
     )
     {
-        return new Outcome(nameof(ManyRulesOnAllParameterTypes), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(ManyRulesOnAllParameterTypes));
     }
 }

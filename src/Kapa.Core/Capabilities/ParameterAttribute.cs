@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Kapa.Abstractions.Capabilities;
+using Kapa.Abstractions.Extensions;
 using Kapa.Core.Extensions;
 
 namespace Kapa.Core.Capabilities;
@@ -25,7 +26,7 @@ public sealed class ParameterAttribute : Attribute
         ArgumentNullException.ThrowIfNull(parameterInfo);
         ArgumentNullException.ThrowIfNull(parameterInfo.Name);
 
-        var paramType = parameterInfo.ParameterType.InferParamerType();
+        var paramType = parameterInfo.ParameterType.InferKind();
         var rules = Rules.ToRules();
         return new Parameter(parameterInfo.Name, Description, paramType, [.. rules]);
     }

@@ -1,6 +1,6 @@
 ﻿namespace Kapa.Core.UnitTests.Tests.Extensions;
 
-public class ParameterTypeExtensionsTests
+public class TypedOutcomesTests
 {
     [Fact(DisplayName = "ToDo", Explicit = true)]
     public void Test1()

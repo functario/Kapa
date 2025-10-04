@@ -8,6 +8,6 @@ public sealed class GenericRule : IRule
 
     public IOutcome Validate()
     {
-        return new Outcome(Name, OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(Name);
     }
 }

@@ -8,18 +8,18 @@ public sealed class DuplicatedCapabilityDescriptions
     [Capability(nameof(SameDescription))]
     public IOutcome Handle1()
     {
-        return new Outcome(nameof(DuplicatedCapabilityDescriptions), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(DuplicatedCapabilityDescriptions));
     }
 
     [Capability(nameof(SameDescription))]
     public IOutcome Handle2()
     {
-        return new Outcome(nameof(DuplicatedCapabilityDescriptions), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(DuplicatedCapabilityDescriptions));
     }
 
     [Capability(nameof(SameDescription))]
     public IOutcome Handle3()
     {
-        return new Outcome(nameof(DuplicatedCapabilityDescriptions), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(DuplicatedCapabilityDescriptions));
     }
 }

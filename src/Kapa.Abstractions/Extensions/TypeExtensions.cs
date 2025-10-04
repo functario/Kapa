@@ -1,15 +1,13 @@
-﻿using Kapa.Abstractions.Capabilities;
+﻿namespace Kapa.Abstractions.Extensions;
 
-namespace Kapa.Core.Extensions;
-
-public static class ParameterTypeExtensions
+public static class TypeExtensions
 {
     /// <summary>
-    /// Infers the <see cref="ParameterTypes"/> from a CLR type.
+    /// Infers the <see cref="Kinds"/> from a CLR type.
     /// </summary>
-    /// <param name="paramType">The CLR type to infer <see cref="ParameterTypes"/> from <paramref name="paramType"/>.</param>
-    /// <returns>The inferred <see cref="ParameterTypes"/>.</returns>
-    public static ParameterTypes InferParamerType(this Type paramType)
+    /// <param name="paramType">The CLR type to infer <see cref="Kinds"/> from <paramref name="paramType"/>.</param>
+    /// <returns>The inferred <see cref="Kinds"/>.</returns>
+    public static Kinds InferKind(this Type paramType)
     {
         ArgumentNullException.ThrowIfNull(paramType);
 
@@ -17,10 +15,10 @@ public static class ParameterTypeExtensions
         var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
 
         if (underlyingType == typeof(string))
-            return ParameterTypes.String;
+            return Kinds.StringKind;
 
         if (underlyingType == typeof(bool))
-            return ParameterTypes.Boolean;
+            return Kinds.BooleanKind;
 
         // Integer types (JSON integer)
         if (
@@ -33,7 +31,7 @@ public static class ParameterTypeExtensions
             || underlyingType == typeof(ushort)
             || underlyingType == typeof(sbyte)
         )
-            return ParameterTypes.Integer;
+            return Kinds.IntegerKind;
 
         // Floating-point types (JSON number)
         if (
@@ -41,22 +39,20 @@ public static class ParameterTypeExtensions
             || underlyingType == typeof(double)
             || underlyingType == typeof(decimal)
         )
-            return ParameterTypes.Number;
+            return Kinds.NumberKind;
 
         // Arrays and collections
         if (
             underlyingType.IsArray
-            || (
-                underlyingType.IsGenericType
+            || underlyingType.IsGenericType
                 && (
                     typeof(System.Collections.IEnumerable).IsAssignableFrom(underlyingType)
                     || underlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                 )
-            )
         )
-            return ParameterTypes.Array;
+            return Kinds.ArrayKind;
 
         // Default to Object for complex types
-        return ParameterTypes.Object;
+        return Kinds.ObjectKind;
     }
 }

@@ -13,6 +13,6 @@ public sealed class CapabilityWithAllParemeterTypes
         [Parameter("description boolean")] bool boolean
     )
     {
-        return new Outcome(nameof(CapabilityWithAllParemeterTypes), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(CapabilityWithAllParemeterTypes));
     }
 }

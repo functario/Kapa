@@ -1,4 +1,4 @@
-﻿namespace Kapa.Abstractions.Outcomes;
+﻿namespace Kapa.Abstractions.Results;
 
 /// <summary>
 /// The <see cref="IOutcome"/> status.
@@ -8,4 +8,5 @@ public enum OutcomeStatus
     NotExecuted = 0,
     Ok,
     Fail,
+    RulesFail,
 }
