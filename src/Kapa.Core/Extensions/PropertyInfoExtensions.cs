@@ -10,11 +10,17 @@ namespace Kapa.Core.Extensions;
 
 internal static class PropertyInfoExtensions
 {
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="property"></param>
+    /// <returns></returns>
+    /// <exception cref="MultipleTraitConstructorsException"/>
+    /// <exception cref="UnreachableException"/>
     public static ConstructorInfo? GetTraitConstructor(this PropertyInfo property)
     {
         ArgumentNullException.ThrowIfNull(property.DeclaringType);
         var propertyType = property.PropertyType;
-        // If the property type is a record or class, check its constructor parameters
         var constructors = propertyType.GetConstructors();
 
         if (constructors.Length == 0)

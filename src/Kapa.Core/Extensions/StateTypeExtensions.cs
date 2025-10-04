@@ -7,6 +7,12 @@ namespace Kapa.Core.Extensions;
 
 public static class StateTypeExtensions
 {
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="stateType"></param>
+    /// <returns></returns>
+    /// <exception cref="TypeIsNotStateException"/>
     public static IState ToState(this Type stateType)
     {
         ArgumentNullException.ThrowIfNull(stateType);
@@ -19,6 +25,12 @@ public static class StateTypeExtensions
         return new State(stateType.Name, stateAttribute.Description, [.. traits]);
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="stateType"></param>
+    /// <returns></returns>
+    /// <exception cref="TypeIsNotStateException"/>
     public static StateAttribute GetStateAttribute(this Type stateType)
     {
         ArgumentNullException.ThrowIfNull(stateType);
