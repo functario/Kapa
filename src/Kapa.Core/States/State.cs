@@ -2,6 +2,7 @@
 
 namespace Kapa.Core.States;
 
+/// <inheritdoc/>
 public sealed class State : IState
 {
     public State(string name, string description, params ITrait[] traits)

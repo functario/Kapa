@@ -6,7 +6,8 @@ public sealed class TypeIsNotCapabilityException : Exception
 {
     private static string GetMessage(Type type, string hint)
     {
-        return $"{type.FullName} is not {nameof(ICapabilityType)}. Hint: '{hint}'";
+        var hintMessage = string.IsNullOrWhiteSpace(hint) ? string.Empty : $" Hint: '{hint}'.";
+        return $"'{type.FullName}' is not '{nameof(ICapabilityType)}'.{hintMessage}";
     }
 
     public TypeIsNotCapabilityException(Type type, string hint)

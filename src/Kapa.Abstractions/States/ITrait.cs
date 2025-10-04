@@ -3,7 +3,7 @@
 namespace Kapa.Abstractions.States;
 
 /// <summary>
-/// Property that can be mutated by <see cref="ICapability"/>.
+/// <see cref="IState"/>'s property that can be read or mutated by <see cref="ICapability"/>.
 /// </summary>
 public interface ITrait
 {

@@ -1,5 +1,8 @@
 ﻿namespace Kapa.Abstractions.Outcomes;
 
+/// <summary>
+/// The <see cref="IOutcome"/> status.
+/// </summary>
 public enum OutcomeStatus
 {
     NotExecuted = 0,

@@ -6,7 +6,8 @@ public sealed class TypeIsNotStateException : Exception
 {
     private static string GetMessage(Type type, string hint)
     {
-        return $"{type.FullName} is not {nameof(IState)}. Hint: '{hint}'";
+        var hintMessage = string.IsNullOrWhiteSpace(hint) ? string.Empty : $" Hint: '{hint}'.";
+        return $"{type.FullName} is not {nameof(IState)}.{hintMessage}";
     }
 
     public TypeIsNotStateException(Type type, string hint)

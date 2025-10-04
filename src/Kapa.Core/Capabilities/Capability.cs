@@ -2,6 +2,7 @@
 
 namespace Kapa.Core.Capabilities;
 
+/// <inheritdoc/>
 public record Capability : ICapability
 {
     public Capability(string name, string description)

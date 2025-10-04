@@ -1,6 +1,11 @@
-﻿namespace Kapa.Core.States;
+﻿using Kapa.Abstractions.States;
 
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Parameter)]
+namespace Kapa.Core.States;
+
+/// <summary>
+/// Indicates that the class is a <see cref="IState"/>.
+/// </summary>
+[AttributeUsage(AttributeTargets.Class)]
 public sealed class StateAttribute : Attribute
 {
     public StateAttribute(string description)

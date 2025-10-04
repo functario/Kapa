@@ -2,6 +2,7 @@
 
 namespace Kapa.Core.Capabilities;
 
+/// <inheritdoc/>
 public class CapabilityType : ICapabilityType
 {
     public CapabilityType(ICollection<ICapability> capabilities)

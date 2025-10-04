@@ -8,7 +8,7 @@ public class StateTypeExtensionsTests
     public void MyTestMethod()
     {
         // Arrange
-        var a = typeof(StateWithOneTrait).ToState();
+        var a = typeof(MultipleTraitsState).ToState();
         // Act
 
         // Assert
