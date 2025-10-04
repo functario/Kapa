@@ -1,4 +1,4 @@
-﻿namespace Kapa.Fixtures.Capabilities;
+﻿namespace Kapa.Fixtures.Capabilities.NoParameters;
 
 // Intentionally missing [CapabilityType] attribute for testing
 public sealed class NotCapabilityType

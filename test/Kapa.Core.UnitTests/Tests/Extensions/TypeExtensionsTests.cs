@@ -1,5 +1,10 @@
-﻿using Kapa.Fixtures.Capabilities.Inheritances;
+﻿using Kapa.Abstractions.Rules;
+using Kapa.Fixtures.Capabilities.Inheritances;
 using Kapa.Fixtures.Capabilities.Inheritances.Statics;
+using Kapa.Fixtures.Capabilities.NoParameters;
+using Kapa.Fixtures.Capabilities.WithParameters;
+using Kapa.Fixtures.Capabilities.WithRules;
+using Kapa.Fixtures.Rules;
 
 namespace Kapa.Core.UnitTests.Tests.Extensions;
 
@@ -361,5 +366,76 @@ public class TypeExtensionsTests
             .Parameters.Select(x => x.ParameterType)
             .Should()
             .BeEquivalentTo(expectedParameterTypes, options => options.WithoutStrictOrdering());
+    }
+
+    [Fact(
+        DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"with a {nameof(ICapability)} having "
+            + $"all {nameof(ParameterTypes)} arguments "
+            + $"with one {nameof(IRule)}"
+    )]
+    public void Test17()
+    {
+        // Arrange
+        var type = typeof(OneRuleOnAllParameterTypes);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Should().HaveCount(1);
+
+        var parameters = sut.Capabilities.Single().Parameters;
+        parameters.Should().HaveCount(6);
+        foreach (var rules in parameters.Select(x => x.Rules))
+        {
+            rules.Should().HaveCount(1);
+            rules
+                .Single()
+                .Name.Should()
+                .BeEquivalentTo(
+                    nameof(GenericRule),
+                    $"Because all {nameof(OneRuleOnAllParameterTypes)}'s parameters have the same rule"
+                );
+        }
+    }
+
+    [Fact(
+        DisplayName = $"Create {nameof(ICapabilityType)} from {nameof(Type)} "
+            + $"with a {nameof(ICapability)} having "
+            + $"all {nameof(ParameterTypes)} arguments "
+            + $"with many {nameof(IRule)}s"
+    )]
+    public void Test18()
+    {
+        // Arrange
+        var type = typeof(ManyRulesOnAllParameterTypes);
+
+        // Act
+        var sut = type.ToCapabilityType();
+
+        // Assert
+        using var scope = new AssertionScope();
+        var expectedParameterTypes = Enum.GetValues<ParameterTypes>();
+
+        sut.Should().BeAssignableTo<ICapabilityType>();
+        sut.Capabilities.Should().HaveCount(1);
+
+        var parameters = sut.Capabilities.Single().Parameters;
+        parameters.Should().HaveCount(6);
+        foreach (var rules in parameters.Select(x => x.Rules))
+        {
+            rules.Should().HaveCount(3);
+            rules
+                .Should()
+                .AllSatisfy(
+                    x => x.Name.Should().BeEquivalentTo(nameof(GenericRule)),
+                    $"Because all {nameof(ManyRulesOnAllParameterTypes)}'s parameters have the same rules"
+                );
+        }
     }
 }

@@ -6,23 +6,16 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
-    "Performance",
-    "CA1822:Mark members as static",
-    Justification = "Examples",
-    Scope = "namespaceanddescendants",
-    Target = "~N:Nono.Capabilities"
-)]
-[assembly: SuppressMessage(
     "Style",
     "IDE0060:Remove unused parameter",
-    Justification = "Examples",
+    Justification = "For testing clarity",
     Scope = "namespaceanddescendants",
-    Target = "~N:Nono.Capabilities"
+    Target = "~N:Kapa.Fixtures.Capabilities"
 )]
 [assembly: SuppressMessage(
-    "Design",
-    "CA1002:Do not expose generic lists",
-    Justification = "Examples",
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "For testing clarity",
     Scope = "namespaceanddescendants",
-    Target = "~N:Nono.Capabilities"
+    Target = "~N:Kapa.Fixtures.Capabilities"
 )]
