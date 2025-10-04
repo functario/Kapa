@@ -1,7 +1,4 @@
-﻿using Kapa.Abstractions.Results;
-using Kapa.Core.Results;
-
-namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 [CapabilityType]
 public sealed class OkOrFailOrRulesFailOutcomeCapacity
@@ -18,9 +15,15 @@ public sealed class OkOrFailOrRulesFailOutcomeCapacity
     {
         return OutcomeStatus switch
         {
-            OutcomeStatus.Ok => TypedOutcomes.Ok(nameof(SringOutcomeCapacity), ""),
-            OutcomeStatus.Fail => TypedOutcomes.Fail(nameof(SringOutcomeCapacity), ""),
-            OutcomeStatus.RulesFail => TypedOutcomes.RulesFail(nameof(SringOutcomeCapacity), ""),
+            OutcomeStatus.Ok => TypedOutcomes.Ok(nameof(OkOrFailOrRulesFailOutcomeCapacity), ""),
+            OutcomeStatus.Fail => TypedOutcomes.Fail(
+                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                ""
+            ),
+            OutcomeStatus.RulesFail => TypedOutcomes.RulesFail(
+                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                ""
+            ),
             _ => throw new InvalidOperationException($"Not supporting the case '{OutcomeStatus}'."),
         };
     }

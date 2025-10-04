@@ -8,13 +8,13 @@ public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
     where TOutcome2 : IOutcome
 {
     // Use implicit cast operators to create an instance
-    private Outcomes(IOutcome activeResult)
+    private Outcomes(IOutcome current)
     {
-        Source = activeResult.Source;
-        Status = activeResult.Status;
-        Kind = activeResult.Kind;
-        Reason = activeResult.Reason;
-        MyOutcome = activeResult;
+        Source = current.Source;
+        Status = current.Status;
+        Kind = current.Kind;
+        Reason = current.Reason;
+        Outcome = current;
     }
 
     public string Source { get; init; }
@@ -25,12 +25,13 @@ public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
 
     public Kinds Kind { get; init; }
 
-    public IOutcome? MyOutcome { get; init; }
-    public object? Value => MyOutcome;
+    public IOutcome? Outcome { get; init; }
 
-    public static implicit operator Outcomes<TOutcome1, TOutcome2>(TOutcome1 result) => new(result);
+    public static implicit operator Outcomes<TOutcome1, TOutcome2>(TOutcome1 outcome) =>
+        new(outcome);
 
-    public static implicit operator Outcomes<TOutcome1, TOutcome2>(TOutcome2 result) => new(result);
+    public static implicit operator Outcomes<TOutcome1, TOutcome2>(TOutcome2 outcome) =>
+        new(outcome);
 }
 
 public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
@@ -38,13 +39,13 @@ public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
     where TOutcome2 : IOutcome
     where TOutcome3 : IOutcome
 {
-    private Outcomes(IOutcome activeResult)
+    private Outcomes(IOutcome current)
     {
-        Source = activeResult.Source;
-        Status = activeResult.Status;
-        Kind = activeResult.Kind;
-        Reason = activeResult.Reason;
-        MyOutcome = activeResult;
+        Source = current.Source;
+        Status = current.Status;
+        Kind = current.Kind;
+        Reason = current.Reason;
+        Outcome = current;
     }
 
     public string Source { get; init; }
@@ -55,15 +56,14 @@ public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
 
     public Kinds Kind { get; init; }
 
-    public IOutcome? MyOutcome { get; init; }
-    public object? Value => MyOutcome;
+    public IOutcome? Outcome { get; init; }
 
-    public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome1 result) =>
-        new(result);
+    public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome1 outcome) =>
+        new(outcome);
 
-    public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome2 result) =>
-        new(result);
+    public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome2 outcome) =>
+        new(outcome);
 
-    public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome3 result) =>
-        new(result);
+    public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome3 outcome) =>
+        new(outcome);
 }

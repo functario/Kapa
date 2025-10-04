@@ -5,11 +5,10 @@ namespace Kapa.Core.Results;
 
 public sealed class Fail<TValue> : IOutcome
 {
-    internal Fail(string source, OutcomeStatus outcomeStatus, TValue? value)
+    internal Fail(string source, TValue? value)
     {
         Source = source;
-        Status = outcomeStatus;
-
+        Status = OutcomeStatus.Fail;
         Kind = value?.GetType().InferKind() ?? Kinds.NoneKind;
         if (value is not null && Kind == Kinds.NoneKind)
         {
@@ -18,7 +17,7 @@ public sealed class Fail<TValue> : IOutcome
             );
         }
 
-        MyValue = value;
+        Value = value;
     }
 
     public string Source { get; init; }
@@ -29,36 +28,5 @@ public sealed class Fail<TValue> : IOutcome
 
     public Kinds Kind { get; init; }
 
-    public TValue? MyValue { get; init; }
-    public object? Value => MyValue;
-}
-
-public sealed class RulesFail<TValue> : IOutcome
-{
-    internal RulesFail(string source, OutcomeStatus outcomeStatus, TValue? value)
-    {
-        Source = source;
-        Status = outcomeStatus;
-
-        Kind = value?.GetType().InferKind() ?? Kinds.NoneKind;
-        if (value is not null && Kind == Kinds.NoneKind)
-        {
-            throw new InvalidOperationException(
-                $"The {nameof(Kinds)} of the value typed '{value.GetType()}' was not infered."
-            );
-        }
-
-        MyValue = value;
-    }
-
-    public string Source { get; init; }
-
-    public OutcomeStatus Status { get; init; }
-
-    public string? Reason { get; init; }
-
-    public Kinds Kind { get; init; }
-
-    public TValue? MyValue { get; init; }
-    public object? Value => MyValue;
+    public TValue? Value { get; init; }
 }

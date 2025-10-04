@@ -3,13 +3,13 @@ using Kapa.Abstractions.Results;
 
 namespace Kapa.Core.Results;
 
-public sealed class Ok<TValue> : IOutcome
+public sealed class RulesFail<TValue> : IOutcome
 {
-    internal Ok(string source, TValue? value)
+    internal RulesFail(string source, TValue? value)
     {
         Source = source;
+        Status = OutcomeStatus.RulesFail;
         Kind = value?.GetType().InferKind() ?? Kinds.NoneKind;
-        Status = OutcomeStatus.Ok;
         if (value is not null && Kind == Kinds.NoneKind)
         {
             throw new InvalidOperationException(
