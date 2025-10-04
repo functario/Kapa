@@ -1,6 +1,4 @@
-﻿using Kapa.Abstractions.Results;
-
-namespace Kapa.Core.Results;
+﻿namespace Kapa.Core.Results;
 
 public static class TypedOutcomes
 {
@@ -11,7 +9,24 @@ public static class TypedOutcomes
     public static RulesFail<TValue> RulesFail<TValue>(string source, TValue value) =>
         new(source, value);
 
-    public static IOutcome Ok(string source) => new Outcome(source, OutcomeStatus.Ok);
+    public static Ok<TValue> Ok<TValue>(string source, TValue value, string reason) =>
+        new(source, value, reason);
 
-    public static IOutcome Fail(string source) => new Outcome(source, OutcomeStatus.Fail);
+    public static Fail<TValue> Fail<TValue>(string source, TValue value, string reason) =>
+        new(source, value, reason);
+
+    public static RulesFail<TValue> RulesFail<TValue>(string source, TValue value, string reason) =>
+        new(source, value, reason);
+
+    public static Ok Ok(string source) => new(source);
+
+    public static Fail Fail(string source) => new(source);
+
+    public static RulesFail RulesFail(string source) => new(source);
+
+    public static Ok Ok(string source, string reason) => new(source, reason);
+
+    public static Fail Fail(string source, string reason) => new(source, reason);
+
+    public static RulesFail RulesFail(string source, string reason) => new(source, reason);
 }

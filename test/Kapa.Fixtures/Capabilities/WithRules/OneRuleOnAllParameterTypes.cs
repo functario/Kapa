@@ -1,5 +1,4 @@
-﻿using Kapa.Abstractions.Results;
-using Kapa.Fixtures.Rules;
+﻿using Kapa.Fixtures.Rules;
 
 namespace Kapa.Fixtures.Capabilities.WithRules;
 
@@ -17,6 +16,6 @@ public sealed class OneRuleOnAllParameterTypes
         [Parameter("description boolean", typeof(GenericRule))] bool boolean
     )
     {
-        return new Outcome(nameof(OneRuleOnAllParameterTypes), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(OneRuleOnAllParameterTypes));
     }
 }

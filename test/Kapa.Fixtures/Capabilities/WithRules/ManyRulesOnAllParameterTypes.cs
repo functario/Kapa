@@ -1,5 +1,4 @@
-﻿using Kapa.Abstractions.Results;
-using Kapa.Fixtures.Rules;
+﻿using Kapa.Fixtures.Rules;
 
 namespace Kapa.Fixtures.Capabilities.WithRules;
 
@@ -52,6 +51,6 @@ public sealed class ManyRulesOnAllParameterTypes
             bool boolean
     )
     {
-        return new Outcome(nameof(ManyRulesOnAllParameterTypes), OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(nameof(ManyRulesOnAllParameterTypes));
     }
 }

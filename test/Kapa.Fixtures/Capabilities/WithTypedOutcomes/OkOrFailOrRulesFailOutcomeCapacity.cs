@@ -15,14 +15,20 @@ public sealed class OkOrFailOrRulesFailOutcomeCapacity
     {
         return OutcomeStatus switch
         {
-            OutcomeStatus.Ok => TypedOutcomes.Ok(nameof(OkOrFailOrRulesFailOutcomeCapacity), ""),
+            OutcomeStatus.Ok => TypedOutcomes.Ok(
+                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                "value",
+                "reason"
+            ),
             OutcomeStatus.Fail => TypedOutcomes.Fail(
                 nameof(OkOrFailOrRulesFailOutcomeCapacity),
-                ""
+                "value",
+                "reason"
             ),
             OutcomeStatus.RulesFail => TypedOutcomes.RulesFail(
                 nameof(OkOrFailOrRulesFailOutcomeCapacity),
-                ""
+                "value",
+                "reason"
             ),
             _ => throw new InvalidOperationException($"Not supporting the case '{OutcomeStatus}'."),
         };

@@ -15,9 +15,9 @@ public sealed class OkOrFailOutcomeCapacity
     {
         if (IsOk)
         {
-            return TypedOutcomes.Ok(nameof(OkOrFailOutcomeCapacity), "");
+            return TypedOutcomes.Ok(nameof(OkOrFailOutcomeCapacity), "value", "reason");
         }
 
-        return TypedOutcomes.Fail(nameof(OkOrFailOutcomeCapacity), "");
+        return TypedOutcomes.Fail(nameof(OkOrFailOutcomeCapacity), "value", "reason");
     }
 }

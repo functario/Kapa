@@ -1,5 +1,4 @@
-﻿using Kapa.Abstractions.Results;
-using Kapa.Abstractions.Rules;
+﻿using Kapa.Abstractions.Rules;
 
 namespace Kapa.Fixtures.Rules;
 
@@ -9,6 +8,6 @@ public sealed class GenericRule : IRule
 
     public IOutcome Validate()
     {
-        return new Outcome(Name, OutcomeStatus.Ok);
+        return TypedOutcomes.Ok(Name);
     }
 }

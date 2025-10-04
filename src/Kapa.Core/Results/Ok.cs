@@ -3,20 +3,20 @@ using Kapa.Abstractions.Results;
 
 namespace Kapa.Core.Results;
 
-public record RulesFail : IOutcome
+public sealed record Ok : IOutcome
 {
-    internal RulesFail(string source)
+    internal Ok(string source)
         : this(source, "") { }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="RulesFail"/>
+    /// Initializes a new instance of <see cref="Ok"/>
     /// </summary>
-    /// <param name="source">The source that has generated the <see cref="RulesFail"/>.</param>
+    /// <param name="source">The source that has generated the <see cref="Ok"/>.</param>
     /// <param name="reason">The reason of the <see cref="OutcomeStatus"/>.</param>
-    internal RulesFail(string source, string reason)
+    internal Ok(string source, string reason)
     {
         Source = source;
-        Status = OutcomeStatus.RulesFail;
+        Status = OutcomeStatus.Ok;
         Reason = reason;
         Kind = Kinds.NoneKind;
     }

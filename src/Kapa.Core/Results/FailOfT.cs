@@ -6,6 +6,9 @@ namespace Kapa.Core.Results;
 public sealed class Fail<TValue> : IOutcome
 {
     internal Fail(string source, TValue? value)
+        : this(source, value, "") { }
+
+    internal Fail(string source, TValue? value, string reason)
     {
         Source = source;
         Status = OutcomeStatus.Fail;
@@ -18,6 +21,7 @@ public sealed class Fail<TValue> : IOutcome
         }
 
         Value = value;
+        Reason = reason;
     }
 
     public string Source { get; init; }

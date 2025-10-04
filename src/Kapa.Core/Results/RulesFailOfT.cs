@@ -3,16 +3,16 @@ using Kapa.Abstractions.Results;
 
 namespace Kapa.Core.Results;
 
-public sealed class Ok<TValue> : IOutcome
+public sealed class RulesFail<TValue> : IOutcome
 {
-    internal Ok(string source, TValue? value)
+    internal RulesFail(string source, TValue? value)
         : this(source, value, "") { }
 
-    internal Ok(string source, TValue? value, string reason)
+    internal RulesFail(string source, TValue? value, string reason)
     {
         Source = source;
+        Status = OutcomeStatus.RulesFail;
         Kind = value?.GetType().InferKind() ?? Kinds.NoneKind;
-        Status = OutcomeStatus.Ok;
         Reason = reason;
         if (value is not null && Kind == Kinds.NoneKind)
         {
