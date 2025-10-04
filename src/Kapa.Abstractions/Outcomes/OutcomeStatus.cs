@@ -8,4 +8,5 @@ public enum OutcomeStatus
     NotExecuted = 0,
     Ok,
     Fail,
+    RulesFail,
 }

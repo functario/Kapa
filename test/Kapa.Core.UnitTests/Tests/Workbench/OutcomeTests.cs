@@ -25,7 +25,7 @@ public class OutcomeTests
     public void Test2()
     {
         // Arrange
-        var capa = new NoneOutcomeCapacity();
+        var capa = new OkOutcomeCapacity();
 
         // Act
         var sut = capa.Handle();
@@ -37,11 +37,14 @@ public class OutcomeTests
         sut.Value.Should().BeNull();
     }
 
-    [Fact]
-    public void Test3()
+    [Theory]
+    [InlineData(OutcomeStatus.Ok)]
+    [InlineData(OutcomeStatus.Fail)]
+    [InlineData(OutcomeStatus.RulesFail)]
+    public void Test3(OutcomeStatus outcomeStatus)
     {
         // Arrange
-        var capa = new SringOutcomeCapacity();
+        var capa = new OkOrFailOrRulesFailOutcomeCapacity(outcomeStatus);
         var outcome = capa.Handle();
 
         // Act
