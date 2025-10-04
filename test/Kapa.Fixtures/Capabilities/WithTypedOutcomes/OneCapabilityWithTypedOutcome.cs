@@ -1,4 +1,4 @@
-﻿using Kapa.Core.Extensions;
+﻿using Kapa.Abstractions;
 
 namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
@@ -8,7 +8,11 @@ public sealed class OneCapabilityWithTypedOutcome
     [Capability(nameof(Handle))]
     public IOutcome Handle()
     {
-        return nameof(OneCapabilityWithTypedOutcome)
-            .ToOkTypedOutcome(nameof(OneCapabilityWithTypedOutcome));
+        return new TypedOutcome<IKinds>(
+            nameof(OneCapabilityWithTypedOutcome),
+            OutcomeStatus.Ok,
+            Kinds.StringKind,
+            ""
+        );
     }
 }
