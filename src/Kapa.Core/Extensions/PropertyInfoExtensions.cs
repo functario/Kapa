@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Exceptions;
 using Kapa.Abstractions.States;
@@ -21,10 +22,9 @@ internal static class PropertyInfoExtensions
             return null;
         }
 
-        ConstructorInfo? constructor = null;
         if (constructors.Length == 1)
         {
-            constructor = constructors.First();
+            return constructors.First();
         }
 
         // In case of multiple constructors
@@ -45,18 +45,13 @@ internal static class PropertyInfoExtensions
                 );
             }
 
-            constructor = traitConstructors.First();
+            return traitConstructors.First();
         }
 
-        if (constructor is null)
-        {
-            throw new InvalidOperationException(
-                $"Could not defined the constructor "
-                    + $"used to document the parameters of the {nameof(ITrait)}."
-            );
-        }
-
-        return constructor;
+        throw new UnreachableException(
+            $"Could not defined the constructor "
+                + $"used to document the parameters of the {nameof(ITrait)}."
+        );
     }
 
     public static List<IParameter> GetParameters(this PropertyInfo property)

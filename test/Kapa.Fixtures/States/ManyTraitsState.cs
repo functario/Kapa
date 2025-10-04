@@ -1,10 +1,10 @@
 ﻿using Kapa.Core.States;
-using Kapa.Fixtures.States.Traits;
+using Kapa.Fixtures.Traits;
 
 namespace Kapa.Fixtures.States;
 
-[State(nameof(MultipleTraitsState))]
-public sealed class MultipleTraitsState
+[State(nameof(ManyTraitsState))]
+public sealed class ManyTraitsState
 {
     [Trait(nameof(BoolTrait))]
     public bool BoolTrait { get; set; }

@@ -39,7 +39,10 @@ public static class CapabilityTypeExtensions
 
         var capabilities = new List<ICapability>();
         var methods = capabilityType.GetMethods(
-            BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public
+            BindingFlags.Instance
+                | BindingFlags.Static
+                | BindingFlags.Public
+                | BindingFlags.NonPublic
         );
 
         foreach (var method in methods)

@@ -39,8 +39,8 @@ public static class StateTypeExtensions
         var properties = stateType.GetProperties(
             BindingFlags.Instance
                 | BindingFlags.Public
-                | BindingFlags.NonPublic
                 | BindingFlags.Static
+                | BindingFlags.NonPublic
         );
 
         foreach (var property in properties)

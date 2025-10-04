@@ -1,4 +1,4 @@
-﻿namespace Kapa.Fixtures.States.Traits;
+﻿namespace Kapa.Fixtures.Traits;
 
 public sealed class ClassPrimaryConstructorTrait(
     [Parameter(nameof(number))] int number,
