@@ -1,4 +1,4 @@
-﻿namespace Kapa.Abstractions;
+﻿namespace Kapa.Abstractions.Extensions;
 
 public static class TypeExtensions
 {

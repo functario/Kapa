@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Kapa.Abstractions;
 using Kapa.Abstractions.Capabilities;
+using Kapa.Abstractions.Extensions;
 using Kapa.Core.Extensions;
 
 namespace Kapa.Core.Capabilities;
