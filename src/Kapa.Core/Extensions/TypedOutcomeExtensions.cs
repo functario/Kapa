@@ -1,26 +1,17 @@
-﻿//using Kapa.Abstractions.Outcomes;
-//using Kapa.Core.Outcomes;
+﻿using Kapa.Abstractions.Outcomes;
+using Kapa.Core.Outcomes;
 
-//namespace Kapa.Core.Extensions;
+namespace Kapa.Core.Extensions;
 
-//public static class TypedOutcomeExtensions
-//{
-//    public static TypedOutcome<T> ToTypedOutcome<T>(
-//        this T value,
-//        string source,
-//        OutcomeStatus status
-//    )
-//    {
-//        new(source, status, value);
-//    }
+public static class TypedOutcomeExtensions
+{
+    public static IOutcome Ok(this string source, object? value) =>
+        new Outcome(source, OutcomeStatus.Ok, value);
 
-//    public static TypedOutcome<T> ToOkTypedOutcome<T>(this T value, string source)
-//    {
-//        new(source, OutcomeStatus.Ok, value);
-//    }
+    public static IOutcome Fail(this string source, object? value) =>
+        new Outcome(source, OutcomeStatus.Fail, value);
 
-//    public static TypedOutcome<T> ToFailTypedOutcome<T>(this T value, string source)
-//    {
-//        new(source, OutcomeStatus.Fail, value);
-//    }
-//}
+    public static IOutcome Ok(this string source) => new Outcome(source, OutcomeStatus.Ok);
+
+    public static IOutcome Fail(this string source) => new Outcome(source, OutcomeStatus.Fail);
+}

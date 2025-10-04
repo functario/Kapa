@@ -10,5 +10,6 @@ public interface IOutcome
     public string? Reason { get; }
 
     public Kinds Kind { get; }
+
     public object? Value { get; }
 }

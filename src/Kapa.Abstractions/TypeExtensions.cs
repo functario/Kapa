@@ -1,8 +1,6 @@
-﻿using Kapa.Abstractions;
+﻿namespace Kapa.Abstractions;
 
-namespace Kapa.Core.Extensions;
-
-public static class ParameterTypeExtensions
+public static class TypeExtensions
 {
     /// <summary>
     /// Infers the <see cref="Kinds"/> from a CLR type.
@@ -46,13 +44,11 @@ public static class ParameterTypeExtensions
         // Arrays and collections
         if (
             underlyingType.IsArray
-            || (
-                underlyingType.IsGenericType
+            || underlyingType.IsGenericType
                 && (
                     typeof(System.Collections.IEnumerable).IsAssignableFrom(underlyingType)
                     || underlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                 )
-            )
         )
             return Kinds.ArrayKind;
 

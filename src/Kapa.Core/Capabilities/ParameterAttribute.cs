@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Kapa.Abstractions;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Core.Extensions;
 

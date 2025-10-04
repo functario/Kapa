@@ -1,5 +1,4 @@
-﻿using Kapa.Abstractions;
-using Kapa.Abstractions.Rules;
+﻿using Kapa.Abstractions.Rules;
 using Kapa.Fixtures.Capabilities.Inheritances;
 using Kapa.Fixtures.Capabilities.Inheritances.Statics;
 using Kapa.Fixtures.Capabilities.NoParameters;
@@ -353,7 +352,10 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Kinds.GetKinds();
+
+        // Remove Kinds not used with parameters
+        var expectedParameterTypes = Enum.GetValues<Kinds>()
+            .Where(x => x != Kinds.NoneKind && x != Kinds.Undefined);
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);
@@ -379,7 +381,7 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Kinds.GetKinds();
+        var expectedParameterTypes = Enum.GetValues<Kinds>();
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);
@@ -415,7 +417,7 @@ public class CapabilityTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        var expectedParameterTypes = Kinds.GetKinds();
+        var expectedParameterTypes = Enum.GetValues<Kinds>();
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);

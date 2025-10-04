@@ -18,13 +18,20 @@ public record Outcome : IOutcome
     /// </summary>
     /// <param name="source">The source that has generated the <see cref="Outcome"/>.</param>
     /// <param name="outcomeStatus">The <see cref="OutcomeStatus"/>.</param>
-    /// <param name="kind">The <see cref="Kinds"/> of the <see cref="Outcome"/> value.</param>
     /// <param name="value">The <see cref="Outcome"/> value.</param>
-    public Outcome(string source, OutcomeStatus outcomeStatus, Kinds kind, object? value)
+    public Outcome(string source, OutcomeStatus outcomeStatus, object? value)
     {
         Source = source;
         Status = outcomeStatus;
-        Kind = kind;
+
+        Kind = value?.GetType().InferKind() ?? Kinds.NoneKind;
+        if (value is not null && Kind == Kinds.NoneKind)
+        {
+            throw new InvalidOperationException(
+                $"The {nameof(Kinds)} of the value typed '{value.GetType()}' was not infered."
+            );
+        }
+
         Value = value;
     }
 
