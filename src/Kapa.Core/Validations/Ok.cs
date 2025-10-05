@@ -1,12 +1,20 @@
-﻿using Kapa.Abstractions;
-using Kapa.Abstractions.Results;
+﻿using System.Reflection;
+using Kapa.Abstractions;
+using Kapa.Abstractions.Validations;
+using Kapa.Core.Extensions;
 
-namespace Kapa.Core.Results;
+namespace Kapa.Core.Validations;
 
-public sealed record Ok : IOutcome
+public sealed record Ok : IOk
 {
     internal Ok(string source)
         : this(source, "") { }
+
+    internal Ok(MethodBase? source)
+        : this(source, "") { }
+
+    internal Ok(MethodBase? source, string reason)
+        : this(source?.InferSourceName() ?? "", reason) { }
 
     /// <summary>
     /// Initializes a new instance of <see cref="Ok"/>
@@ -18,7 +26,7 @@ public sealed record Ok : IOutcome
         Source = source;
         Status = OutcomeStatus.Ok;
         Reason = reason;
-        Kind = Kinds.NoneKind;
+        ValueInfo = ValueInfos.None();
     }
 
     public OutcomeStatus Status { get; init; }
@@ -27,5 +35,6 @@ public sealed record Ok : IOutcome
 
     public string Source { get; init; }
 
-    public Kinds Kind { get; init; }
+    public IValueInfo ValueInfo { get; init; }
+    public OutcomeTypes OutcomeType => OutcomeTypes.Ok;
 }

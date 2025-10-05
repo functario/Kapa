@@ -1,4 +1,7 @@
-﻿namespace Kapa.Fixtures.Capabilities.NoParameters;
+﻿using Kapa.Abstractions.Validations;
+using Kapa.Core.Validations;
+
+namespace Kapa.Fixtures.Capabilities.NoParameters;
 
 [CapabilityType]
 public sealed class OneCapability

@@ -1,4 +1,4 @@
-﻿namespace Kapa.Abstractions.Results;
+﻿namespace Kapa.Abstractions.Validations;
 
 /// <summary>
 /// The <see cref="IOutcome"/> status.

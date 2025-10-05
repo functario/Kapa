@@ -10,12 +10,12 @@ using System.Diagnostics.CodeAnalysis;
     "CA2225:Operator overloads have named alternates",
     Justification = "Standard",
     Scope = "type",
-    Target = "~T:Kapa.Core.Results.Outcomes``2"
+    Target = "~T:Kapa.Core.Validations.Outcomes``2"
 )]
 [assembly: SuppressMessage(
     "Usage",
     "CA2225:Operator overloads have named alternates",
     Justification = "Standard",
     Scope = "type",
-    Target = "~T:Kapa.Core.Results.Outcomes``3"
+    Target = "~T:Kapa.Core.Validations.Outcomes``3"
 )]

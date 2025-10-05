@@ -1,9 +1,9 @@
 ﻿using Kapa.Abstractions;
-using Kapa.Abstractions.Results;
+using Kapa.Abstractions.Validations;
 
-namespace Kapa.Core.Results;
+namespace Kapa.Core.Validations;
 
-public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
+public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcomes<TOutcome1, TOutcome2>
     where TOutcome1 : IOutcome
     where TOutcome2 : IOutcome
 {
@@ -12,8 +12,9 @@ public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
     {
         Source = current.Source;
         Status = current.Status;
-        Kind = current.Kind;
         Reason = current.Reason;
+        ValueInfo = current.ValueInfo;
+        OutcomeType = current.OutcomeType;
         Outcome = current;
     }
 
@@ -23,9 +24,11 @@ public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
 
     public string? Reason { get; init; }
 
-    public Kinds Kind { get; init; }
-
     public IOutcome? Outcome { get; init; }
+
+    public IValueInfo? ValueInfo { get; init; }
+
+    public OutcomeTypes OutcomeType { get; init; }
 
     public static implicit operator Outcomes<TOutcome1, TOutcome2>(TOutcome1 outcome) =>
         new(outcome);
@@ -34,7 +37,8 @@ public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
         new(outcome);
 }
 
-public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
+public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3>
+    : IOutcomes<TOutcome1, TOutcome2, TOutcome3>
     where TOutcome1 : IOutcome
     where TOutcome2 : IOutcome
     where TOutcome3 : IOutcome
@@ -43,8 +47,9 @@ public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
     {
         Source = current.Source;
         Status = current.Status;
-        Kind = current.Kind;
         Reason = current.Reason;
+        ValueInfo = current.ValueInfo;
+        OutcomeType = current.OutcomeType;
         Outcome = current;
     }
 
@@ -54,9 +59,11 @@ public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
 
     public string? Reason { get; init; }
 
-    public Kinds Kind { get; init; }
-
     public IOutcome? Outcome { get; init; }
+
+    public IValueInfo? ValueInfo { get; init; }
+
+    public OutcomeTypes OutcomeType { get; init; }
 
     public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome1 outcome) =>
         new(outcome);

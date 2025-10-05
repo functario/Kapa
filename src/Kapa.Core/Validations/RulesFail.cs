@@ -1,12 +1,20 @@
-﻿using Kapa.Abstractions;
-using Kapa.Abstractions.Results;
+﻿using System.Reflection;
+using Kapa.Abstractions;
+using Kapa.Abstractions.Validations;
+using Kapa.Core.Extensions;
 
-namespace Kapa.Core.Results;
+namespace Kapa.Core.Validations;
 
-public record RulesFail : IOutcome
+public record RulesFail : IRulesFail
 {
     internal RulesFail(string source)
         : this(source, "") { }
+
+    internal RulesFail(MethodBase? source)
+        : this(source, "") { }
+
+    internal RulesFail(MethodBase? source, string reason)
+        : this(source?.InferSourceName() ?? "", reason) { }
 
     /// <summary>
     /// Initializes a new instance of <see cref="RulesFail"/>
@@ -18,7 +26,7 @@ public record RulesFail : IOutcome
         Source = source;
         Status = OutcomeStatus.RulesFail;
         Reason = reason;
-        Kind = Kinds.NoneKind;
+        ValueInfo = ValueInfos.None();
     }
 
     public OutcomeStatus Status { get; init; }
@@ -27,5 +35,7 @@ public record RulesFail : IOutcome
 
     public string Source { get; init; }
 
-    public Kinds Kind { get; init; }
+    public IValueInfo ValueInfo { get; init; }
+
+    public OutcomeTypes OutcomeType => OutcomeTypes.RulesFail;
 }

@@ -1,9 +1,11 @@
-﻿namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿using System.Reflection;
+
+namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 [CapabilityType]
-public sealed class OkOrFailOrRulesFailOutcomeCapacity
+public sealed class OkStrOrFailStrOrRulesFailStrOutcomeCapability
 {
-    public OkOrFailOrRulesFailOutcomeCapacity(OutcomeStatus outcomeStatus)
+    public OkStrOrFailStrOrRulesFailStrOutcomeCapability(OutcomeStatus outcomeStatus)
     {
         OutcomeStatus = outcomeStatus;
     }
@@ -15,18 +17,14 @@ public sealed class OkOrFailOrRulesFailOutcomeCapacity
     {
         return OutcomeStatus switch
         {
-            OutcomeStatus.Ok => TypedOutcomes.Ok(
-                nameof(OkOrFailOrRulesFailOutcomeCapacity),
-                "value",
-                "reason"
-            ),
+            OutcomeStatus.Ok => TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), "value", "reason"),
             OutcomeStatus.Fail => TypedOutcomes.Fail(
-                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                MethodInfo.GetCurrentMethod(),
                 "value",
                 "reason"
             ),
             OutcomeStatus.RulesFail => TypedOutcomes.RulesFail(
-                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                MethodInfo.GetCurrentMethod(),
                 "value",
                 "reason"
             ),
