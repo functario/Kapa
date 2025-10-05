@@ -49,8 +49,10 @@ internal static class MethodInfoExtensions
         // Handle non-generic types
         if (outcomeType == typeof(Ok))
             return OutcomeTypes.Ok;
+
         if (outcomeType == typeof(Fail))
             return OutcomeTypes.Fail;
+
         if (outcomeType == typeof(RulesFail))
             return OutcomeTypes.RulesFail;
 
@@ -60,10 +62,13 @@ internal static class MethodInfoExtensions
             var genericDef = outcomeType.GetGenericTypeDefinition();
             if (genericDef == typeof(Ok<>))
                 return OutcomeTypes.Generic | OutcomeTypes.Ok;
+
             if (genericDef == typeof(Fail<>))
                 return OutcomeTypes.Generic | OutcomeTypes.Fail;
+
             if (genericDef == typeof(RulesFail<>))
                 return OutcomeTypes.Generic | OutcomeTypes.RulesFail;
+
             if (genericDef == typeof(Outcomes<,>) || genericDef == typeof(Outcomes<,,>))
             {
                 var args = outcomeType.GetGenericArguments();
@@ -72,6 +77,7 @@ internal static class MethodInfoExtensions
                 {
                     if (typeof(IOutcome).IsAssignableFrom(arg))
                     {
+                        // TODO:  To improve since as any recursive call, this could stack overflow
                         result |= arg.InferOutcomeTypes();
                     }
                 }
@@ -80,7 +86,6 @@ internal static class MethodInfoExtensions
             }
         }
 
-        // Default case
         return OutcomeTypes.None;
     }
 

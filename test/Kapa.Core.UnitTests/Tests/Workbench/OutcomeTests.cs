@@ -43,7 +43,7 @@ public class OutcomeTests
     public void Test3(OutcomeStatus outcomeStatus, Type innerType)
     {
         // Arrange
-        var capa = new OkOrFailOrRulesFailOutcomeCapability(outcomeStatus);
+        var capa = new OkStrOrFailStrOrRulesFailStrOutcomeCapability(outcomeStatus);
 
         // Act
         var sut = capa.Handle();
@@ -68,15 +68,18 @@ public class OutcomeTests
         sut.Status.Should().Be(OutcomeStatus.Ok);
     }
 
-    [Fact(DisplayName = $"Infer {nameof(IOutcomeMetadata)} from {nameof(ICapability)} creation.")]
+    [Fact(
+        DisplayName = $"Infer {nameof(IOutcomeMetadata)} from {nameof(ICapability)} creation "
+            + $"{nameof(OkStrOrFailStrOrRulesFailStrOutcomeCapability)}"
+    )]
     public void Test5()
     {
         // Arrange
-        var capabilityType = new OkOrFailOrRulesFailOutcomeCapability(OutcomeStatus.Ok);
-        var type = typeof(OkOrFailOrRulesFailOutcomeCapability);
+        var capabilityType = new OkStrOrFailStrOrRulesFailStrOutcomeCapability(OutcomeStatus.Ok);
+        var type = typeof(OkStrOrFailStrOrRulesFailStrOutcomeCapability);
 
         // Act
-        //var capability = type.GetCapabilities();
+        var capability = type.GetCapabilities();
         var outcome = capabilityType.Handle();
 
         // Assert
@@ -87,7 +90,33 @@ public class OutcomeTests
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
         };
 #pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
-        //var a = JsonSerializer.Serialize(capability, options);
+        var a = JsonSerializer.Serialize(capability, options);
+        var b = JsonSerializer.Serialize(outcome, options);
+    }
+
+    [Fact(
+        DisplayName = $"Infer {nameof(IOutcomeMetadata)} from {nameof(ICapability)} creation. "
+            + $"{nameof(OkOrFailOutcomeCapability)}"
+    )]
+    public void Test6()
+    {
+        // Arrange
+        var capabilityType = new OkOrFailOutcomeCapability(true);
+        var type = typeof(OkOrFailOutcomeCapability);
+
+        // Act
+        var capability = type.GetCapabilities();
+        var outcome = capabilityType.Handle();
+
+        // Assert
+#pragma warning disable CA1869 // Cache and reuse 'JsonSerializerOptions' instances
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+        };
+#pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
+        var a = JsonSerializer.Serialize(capability, options);
         var b = JsonSerializer.Serialize(outcome, options);
     }
 }

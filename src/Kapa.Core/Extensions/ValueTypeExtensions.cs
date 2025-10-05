@@ -5,18 +5,8 @@ namespace Kapa.Core.Extensions;
 
 public static class ValueTypeExtensions
 {
-    private const int RecursivityDepth = 10;
-
-    public static IValueInfo GetValueInfo(this Type valueType, int counter = 0)
+    public static IValueInfo GetValueInfo(this Type valueType)
     {
-        if (counter > RecursivityDepth)
-        {
-            throw new InvalidOperationException(
-                $"'{nameof(GetValueInfo)}' "
-                    + $"has a limit of '{RecursivityDepth}' recursivity depth."
-            );
-        }
-
         ArgumentNullException.ThrowIfNull(valueType);
         var fullName = valueType.FullName ?? "";
         var kind = valueType.InferKind();
@@ -27,17 +17,21 @@ public static class ValueTypeExtensions
 
             foreach (var arg in genericArguments)
             {
-                var typeName = arg.Name;
                 var innerTypeArguments = arg.IsGenericType
                     ? arg.GetGenericArguments()
                     : Type.EmptyTypes;
 
-                // Add exception to stop before stackoverflow
+                List<IValueInfo> innerArgumentsValueInfos = [];
+
+                // TODO:  To improve since as any recursive call, this could stack overflow
                 foreach (var innerType in innerTypeArguments)
                 {
-                    var innerTypeValueInfo = innerType.GetValueInfo(counter + 1);
-                    argumentsValueInfos.Add(innerTypeValueInfo);
+                    var innerTypeValueInfo = innerType.GetValueInfo();
+                    innerArgumentsValueInfos.Add(innerTypeValueInfo);
                 }
+
+                var a = arg.GetValueInfo();
+                argumentsValueInfos.Add(a);
             }
 
             return new ValueInfo(kind, fullName, true, argumentsValueInfos);
