@@ -20,7 +20,4 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
     </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Outcomes\" />
-    </ItemGroup>
 </Project>

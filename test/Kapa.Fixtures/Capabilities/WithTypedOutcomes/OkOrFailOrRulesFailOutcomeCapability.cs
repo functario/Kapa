@@ -1,12 +1,9 @@
-﻿using Kapa.Abstractions.Validations;
-using Kapa.Core.Validations;
-
-namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 [CapabilityType]
-public sealed class OkOrFailOrRulesFailOutcomeCapacity
+public sealed class OkOrFailOrRulesFailOutcomeCapability
 {
-    public OkOrFailOrRulesFailOutcomeCapacity(OutcomeStatus outcomeStatus)
+    public OkOrFailOrRulesFailOutcomeCapability(OutcomeStatus outcomeStatus)
     {
         OutcomeStatus = outcomeStatus;
     }
@@ -19,17 +16,17 @@ public sealed class OkOrFailOrRulesFailOutcomeCapacity
         return OutcomeStatus switch
         {
             OutcomeStatus.Ok => TypedOutcomes.Ok(
-                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                nameof(OkOrFailOrRulesFailOutcomeCapability),
                 "value",
                 "reason"
             ),
             OutcomeStatus.Fail => TypedOutcomes.Fail(
-                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                nameof(OkOrFailOrRulesFailOutcomeCapability),
                 "value",
                 "reason"
             ),
             OutcomeStatus.RulesFail => TypedOutcomes.RulesFail(
-                nameof(OkOrFailOrRulesFailOutcomeCapacity),
+                nameof(OkOrFailOrRulesFailOutcomeCapability),
                 "value",
                 "reason"
             ),

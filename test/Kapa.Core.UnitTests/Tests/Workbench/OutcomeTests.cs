@@ -12,7 +12,7 @@ public class OutcomeTests
     public void Test1()
     {
         // Arrange
-        var capa = new OkOutcomeCapacity();
+        var capa = new OkOutcomeCapability();
 
         // Act
         var sut = capa.Handle();
@@ -26,7 +26,7 @@ public class OutcomeTests
     public void Test2()
     {
         // Arrange
-        var capa = new OkOutcomeCapacity();
+        var capa = new OkOutcomeCapability();
 
         // Act
         var sut = capa.Handle();
@@ -43,7 +43,7 @@ public class OutcomeTests
     public void Test3(OutcomeStatus outcomeStatus, Type innerType)
     {
         // Arrange
-        var capa = new OkOrFailOrRulesFailOutcomeCapacity(outcomeStatus);
+        var capa = new OkOrFailOrRulesFailOutcomeCapability(outcomeStatus);
 
         // Act
         var sut = capa.Handle();
@@ -58,7 +58,7 @@ public class OutcomeTests
     public void Test4()
     {
         // Arrange
-        var capa = new OkOfTCapacity();
+        var capa = new OkOfTCapability();
 
         // Act
         var sut = capa.Handle();
@@ -72,8 +72,8 @@ public class OutcomeTests
     public void Test5()
     {
         // Arrange
-        var capabilityType = new OkOrFailOrRulesFailOutcomeCapacity(OutcomeStatus.Ok);
-        var type = typeof(OkOrFailOrRulesFailOutcomeCapacity);
+        var capabilityType = new OkOrFailOrRulesFailOutcomeCapability(OutcomeStatus.Ok);
+        var type = typeof(OkOrFailOrRulesFailOutcomeCapability);
 
         // Act
         var capability = type.GetCapabilities();
