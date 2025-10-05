@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Kapa.Abstractions.Validations;
 using Kapa.Core.Validations;
+using Kapa.Fixtures.Capabilities.WithParameters;
 using Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 namespace Kapa.Core.UnitTests.Tests.Workbench;
@@ -76,7 +77,7 @@ public class OutcomeTests
     {
         // Arrange
         var capabilityType = new OkStrOrFailStrOrRulesFailStrOutcomeCapability(OutcomeStatus.Ok);
-        var type = typeof(OkStrOrFailStrOrRulesFailStrOutcomeCapability);
+        var type = typeof(CapabilityWithAllParemeterTypes);
 
         // Act
         var capability = type.GetCapabilities();
@@ -87,6 +88,8 @@ public class OutcomeTests
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
+            // Allow to transform \u003E to <> for generic source
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
         };
 #pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
@@ -113,6 +116,8 @@ public class OutcomeTests
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
+            // Allow to transform \u003E to <> for generic source
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
         };
 #pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances

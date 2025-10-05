@@ -127,8 +127,10 @@ public static class TypeExtensions
         // Handle non-generic types (after checking generic to avoid false positives)
         if (outcomeType.IsAssignableTo(typeof(IOk)))
             return Kinds.Ok;
+
         if (outcomeType.IsAssignableTo(typeof(IFail)))
             return Kinds.Fail;
+
         if (outcomeType.IsAssignableTo(typeof(IRulesFail)))
             return Kinds.RulesFail;
 
