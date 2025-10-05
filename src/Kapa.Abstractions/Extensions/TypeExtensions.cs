@@ -2,7 +2,7 @@
 
 public static class TypeExtensions
 {
-    private static readonly Dictionary<string, Kinds> TypeFullNameToKind = new()
+    private static readonly Dictionary<string, Kinds> s_typeFullNameToKind = new()
     {
         { typeof(string).FullName!, Kinds.StringKind },
         { typeof(bool).FullName!, Kinds.BooleanKind },
@@ -29,7 +29,7 @@ public static class TypeExtensions
         ArgumentNullException.ThrowIfNull(type);
 
         var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
-        if (TypeFullNameToKind.TryGetValue(underlyingType.FullName!, out var kind))
+        if (s_typeFullNameToKind.TryGetValue(underlyingType.FullName!, out var kind))
             return kind;
 
         if (underlyingType == typeof(string))
@@ -70,33 +70,6 @@ public static class TypeExtensions
             return Kinds.ArrayKind;
 
         // Default to Object for complex types
-        return Kinds.ObjectKind;
-    }
-
-    /// <summary>
-    /// Infers the <see cref="Kinds"/> from a type full name string.
-    /// </summary>
-    /// <param name="typeFullName">The full name of the CLR type.</param>
-    /// <returns>The inferred <see cref="Kinds"/>.</returns>
-    public static Kinds InferKind(this string typeFullName)
-    {
-        ArgumentNullException.ThrowIfNull(typeFullName);
-
-        if (TypeFullNameToKind.TryGetValue(typeFullName, out var kind))
-            return kind;
-
-        // Array
-        if (typeFullName.EndsWith("[]", StringComparison.OrdinalIgnoreCase))
-            return Kinds.ArrayKind;
-
-        // IEnumerable<>
-        var ienumerableFullName = typeof(IEnumerable<>).FullName;
-        if (
-            ienumerableFullName != null
-            && typeFullName.StartsWith(ienumerableFullName, StringComparison.OrdinalIgnoreCase)
-        )
-            return Kinds.ArrayKind;
-
         return Kinds.ObjectKind;
     }
 }

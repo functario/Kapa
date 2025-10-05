@@ -28,4 +28,6 @@ public record RulesFail : IOutcome
     public string Source { get; init; }
 
     public IValueInfo ValueInfo { get; init; }
+
+    public OutcomeTypes OutcomeType => OutcomeTypes.RulesFail;
 }

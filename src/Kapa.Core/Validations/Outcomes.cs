@@ -14,6 +14,7 @@ public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
         Status = current.Status;
         Reason = current.Reason;
         ValueInfo = current.ValueInfo;
+        OutcomeType = current.OutcomeType;
         Outcome = current;
     }
 
@@ -24,7 +25,10 @@ public sealed class Outcomes<TOutcome1, TOutcome2> : IOutcome
     public string? Reason { get; init; }
 
     public IOutcome? Outcome { get; init; }
+
     public IValueInfo? ValueInfo { get; init; }
+
+    public OutcomeTypes OutcomeType { get; init; }
 
     public static implicit operator Outcomes<TOutcome1, TOutcome2>(TOutcome1 outcome) =>
         new(outcome);
@@ -44,6 +48,7 @@ public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
         Status = current.Status;
         Reason = current.Reason;
         ValueInfo = current.ValueInfo;
+        OutcomeType = current.OutcomeType;
         Outcome = current;
     }
 
@@ -56,6 +61,8 @@ public sealed class Outcomes<TOutcome1, TOutcome2, TOutcome3> : IOutcome
     public IOutcome? Outcome { get; init; }
 
     public IValueInfo? ValueInfo { get; init; }
+
+    public OutcomeTypes OutcomeType { get; init; }
 
     public static implicit operator Outcomes<TOutcome1, TOutcome2, TOutcome3>(TOutcome1 outcome) =>
         new(outcome);

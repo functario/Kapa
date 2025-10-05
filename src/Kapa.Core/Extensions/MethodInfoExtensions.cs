@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Kapa.Abstractions;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Core.Capabilities;
 using Kapa.Core.Validations;
@@ -25,7 +26,8 @@ internal static class MethodInfoExtensions
 
         var parameters = GetParameters(method);
         var valueInfo = method.ReturnParameter.ParameterType.GetValueInfo();
-        var outcomeMetadata = new OutcomeMetadata(method.Name, valueInfo);
+        var outcomeTypes = OutcomeTypes.None;
+        var outcomeMetadata = new OutcomeMetadata(method.Name, valueInfo, outcomeTypes);
 
         if (parameters.Count > 0)
         {

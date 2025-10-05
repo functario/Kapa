@@ -26,4 +26,6 @@ public sealed class RulesFail<TValue> : IOutcome
 
     public TValue? Value { get; init; }
     public IValueInfo? ValueInfo { get; init; }
+
+    public OutcomeTypes OutcomeType => OutcomeTypes.Union | OutcomeTypes.RulesFail;
 }

@@ -11,4 +11,6 @@ public interface IOutcomeMetadata
     /// Information about the returned value.
     /// </summary>
     public IValueInfo? ValueInfo { get; }
+
+    public OutcomeTypes OutcomeType { get; }
 }
