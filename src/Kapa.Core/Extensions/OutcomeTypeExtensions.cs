@@ -31,15 +31,15 @@ internal static class OutcomeTypeExtensions
             if (genericDef == typeof(RulesFail<>))
                 return OutcomeTypes.Generic | OutcomeTypes.RulesFail;
 
-            if (genericDef == typeof(Outcomes<,>) || genericDef == typeof(Outcomes<,,>))
+            // Check if the type implements IOutcomes
+            if (typeof(IOutcomes).IsAssignableFrom(outcomeType))
             {
                 var args = outcomeType.GetGenericArguments();
-                var result = OutcomeTypes.None;
+                var result = OutcomeTypes.Generic | OutcomeTypes.Union;
                 foreach (var arg in args)
                 {
                     if (typeof(IOutcome).IsAssignableFrom(arg))
                     {
-                        // TODO:  To improve since as any recursive call, this could stack overflow
                         result |= arg.InferOutcomeTypes();
                     }
                 }

@@ -90,8 +90,6 @@ public static class TypeExtensions
         // Handle generic types
         if (outcomeType.IsGenericType)
         {
-            var genericDef = outcomeType.GetGenericTypeDefinition();
-
             // Check if the concrete type implements the generic outcome interfaces
             var interfaces = outcomeType.GetInterfaces();
             foreach (var iface in interfaces)
@@ -101,8 +99,10 @@ public static class TypeExtensions
                     var ifaceGenericDef = iface.GetGenericTypeDefinition();
                     if (ifaceGenericDef == typeof(IOk<>))
                         return Kinds.Ok | Kinds.Generic;
+
                     if (ifaceGenericDef == typeof(IFail<>))
                         return Kinds.Fail | Kinds.Generic;
+
                     if (ifaceGenericDef == typeof(IRulesFail<>))
                         return Kinds.RulesFail | Kinds.Generic;
                 }
@@ -112,7 +112,7 @@ public static class TypeExtensions
             if (typeof(IOutcomes).IsAssignableFrom(outcomeType))
             {
                 var args = outcomeType.GetGenericArguments();
-                var result = Kinds.Generic;
+                var result = Kinds.Generic | Kinds.Union;
                 foreach (var arg in args)
                 {
                     if (typeof(IOutcome).IsAssignableFrom(arg))
