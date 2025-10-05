@@ -13,7 +13,7 @@ public sealed class Fail<TValue> : IOutcome
     {
         Source = source;
         Status = OutcomeStatus.Fail;
-        ValueInfo = value?.GetType().GetOutcomeValueInfo();
+        ValueInfo = value?.GetType().GetValueInfo();
         Value = value;
         Reason = reason;
     }

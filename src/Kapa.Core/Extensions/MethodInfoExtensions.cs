@@ -24,7 +24,7 @@ internal static class MethodInfoExtensions
         }
 
         var parameters = GetParameters(method);
-        var valueInfo = method.ReturnParameter.ParameterType.GetOutcomeValueInfo();
+        var valueInfo = method.ReturnParameter.ParameterType.GetValueInfo();
         var outcomeMetadata = new OutcomeMetadata(method.Name, valueInfo);
 
         if (parameters.Count > 0)

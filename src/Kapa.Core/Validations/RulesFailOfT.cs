@@ -14,7 +14,7 @@ public sealed class RulesFail<TValue> : IOutcome
         Source = source;
         Status = OutcomeStatus.RulesFail;
         Reason = reason;
-        ValueInfo = value?.GetType().GetOutcomeValueInfo();
+        ValueInfo = value?.GetType().GetValueInfo();
         Value = value;
     }
 

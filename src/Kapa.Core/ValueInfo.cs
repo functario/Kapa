@@ -4,7 +4,7 @@ namespace Kapa.Core;
 
 public record ValueInfo(
     Kinds Kinds,
-    string TypeFullPath,
+    string FullName,
     bool IsGeneric,
     ICollection<IValueInfo> GenericArguments
 ) : IValueInfo

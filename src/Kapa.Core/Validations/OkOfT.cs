@@ -14,7 +14,7 @@ public sealed class Ok<TValue> : IOutcome
         Source = source;
         Status = OutcomeStatus.Ok;
         Reason = reason;
-        ValueInfo = value?.GetType().GetOutcomeValueInfo();
+        ValueInfo = value?.GetType().GetValueInfo();
         Value = value;
     }
 

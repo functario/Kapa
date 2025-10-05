@@ -1,4 +1,6 @@
-﻿using Kapa.Abstractions.Validations;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Kapa.Abstractions.Validations;
 using Kapa.Core.Validations;
 using Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
@@ -70,11 +72,22 @@ public class OutcomeTests
     public void Test5()
     {
         // Arrange
+        var capabilityType = new OkOrFailOrRulesFailOutcomeCapacity(OutcomeStatus.Ok);
         var type = typeof(OkOrFailOrRulesFailOutcomeCapacity);
 
         // Act
-        var sut = type.GetCapabilities();
+        var capability = type.GetCapabilities();
+        var outcome = capabilityType.Handle();
 
         // Assert
+#pragma warning disable CA1869 // Cache and reuse 'JsonSerializerOptions' instances
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+        };
+#pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
+        var a = JsonSerializer.Serialize(capability, options);
+        var b = JsonSerializer.Serialize(outcome, options);
     }
 }

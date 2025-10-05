@@ -2,17 +2,35 @@
 
 public static class TypeExtensions
 {
+    private static readonly Dictionary<string, Kinds> TypeFullNameToKind = new()
+    {
+        { typeof(string).FullName!, Kinds.StringKind },
+        { typeof(bool).FullName!, Kinds.BooleanKind },
+        { typeof(int).FullName!, Kinds.IntegerKind },
+        { typeof(long).FullName!, Kinds.IntegerKind },
+        { typeof(short).FullName!, Kinds.IntegerKind },
+        { typeof(byte).FullName!, Kinds.IntegerKind },
+        { typeof(uint).FullName!, Kinds.IntegerKind },
+        { typeof(ulong).FullName!, Kinds.IntegerKind },
+        { typeof(ushort).FullName!, Kinds.IntegerKind },
+        { typeof(sbyte).FullName!, Kinds.IntegerKind },
+        { typeof(float).FullName!, Kinds.NumberKind },
+        { typeof(double).FullName!, Kinds.NumberKind },
+        { typeof(decimal).FullName!, Kinds.NumberKind },
+    };
+
     /// <summary>
     /// Infers the <see cref="Kinds"/> from a CLR type.
     /// </summary>
-    /// <param name="paramType">The CLR type to infer <see cref="Kinds"/> from <paramref name="paramType"/>.</param>
+    /// <param name="type">The CLR type to infer <see cref="Kinds"/> from <paramref name="type"/>.</param>
     /// <returns>The inferred <see cref="Kinds"/>.</returns>
-    public static Kinds InferKind(this Type paramType)
+    public static Kinds InferKind(this Type type)
     {
-        ArgumentNullException.ThrowIfNull(paramType);
+        ArgumentNullException.ThrowIfNull(type);
 
-        // Handle nullable types
-        var underlyingType = Nullable.GetUnderlyingType(paramType) ?? paramType;
+        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+        if (TypeFullNameToKind.TryGetValue(underlyingType.FullName!, out var kind))
+            return kind;
 
         if (underlyingType == typeof(string))
             return Kinds.StringKind;
@@ -20,7 +38,6 @@ public static class TypeExtensions
         if (underlyingType == typeof(bool))
             return Kinds.BooleanKind;
 
-        // Integer types (JSON integer)
         if (
             underlyingType == typeof(int)
             || underlyingType == typeof(long)
@@ -53,6 +70,33 @@ public static class TypeExtensions
             return Kinds.ArrayKind;
 
         // Default to Object for complex types
+        return Kinds.ObjectKind;
+    }
+
+    /// <summary>
+    /// Infers the <see cref="Kinds"/> from a type full name string.
+    /// </summary>
+    /// <param name="typeFullName">The full name of the CLR type.</param>
+    /// <returns>The inferred <see cref="Kinds"/>.</returns>
+    public static Kinds InferKind(this string typeFullName)
+    {
+        ArgumentNullException.ThrowIfNull(typeFullName);
+
+        if (TypeFullNameToKind.TryGetValue(typeFullName, out var kind))
+            return kind;
+
+        // Array
+        if (typeFullName.EndsWith("[]", StringComparison.OrdinalIgnoreCase))
+            return Kinds.ArrayKind;
+
+        // IEnumerable<>
+        var ienumerableFullName = typeof(IEnumerable<>).FullName;
+        if (
+            ienumerableFullName != null
+            && typeFullName.StartsWith(ienumerableFullName, StringComparison.OrdinalIgnoreCase)
+        )
+            return Kinds.ArrayKind;
+
         return Kinds.ObjectKind;
     }
 }
