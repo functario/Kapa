@@ -4,21 +4,21 @@ namespace Kapa.Abstractions.Extensions;
 
 public static class TypeExtensions
 {
-    private static readonly Dictionary<string, Kinds> s_typeFullNameToKind = new()
+    private static readonly Dictionary<Type, Kinds> s_typeToKind = new()
     {
-        { typeof(string).FullName!, Kinds.StringKind },
-        { typeof(bool).FullName!, Kinds.BooleanKind },
-        { typeof(int).FullName!, Kinds.IntegerKind },
-        { typeof(long).FullName!, Kinds.IntegerKind },
-        { typeof(short).FullName!, Kinds.IntegerKind },
-        { typeof(byte).FullName!, Kinds.IntegerKind },
-        { typeof(uint).FullName!, Kinds.IntegerKind },
-        { typeof(ulong).FullName!, Kinds.IntegerKind },
-        { typeof(ushort).FullName!, Kinds.IntegerKind },
-        { typeof(sbyte).FullName!, Kinds.IntegerKind },
-        { typeof(float).FullName!, Kinds.NumberKind },
-        { typeof(double).FullName!, Kinds.NumberKind },
-        { typeof(decimal).FullName!, Kinds.NumberKind },
+        { typeof(string), Kinds.StringKind },
+        { typeof(bool), Kinds.BooleanKind },
+        { typeof(int), Kinds.IntegerKind },
+        { typeof(long), Kinds.IntegerKind },
+        { typeof(short), Kinds.IntegerKind },
+        { typeof(byte), Kinds.IntegerKind },
+        { typeof(uint), Kinds.IntegerKind },
+        { typeof(ulong), Kinds.IntegerKind },
+        { typeof(ushort), Kinds.IntegerKind },
+        { typeof(sbyte), Kinds.IntegerKind },
+        { typeof(float), Kinds.NumberKind },
+        { typeof(double), Kinds.NumberKind },
+        { typeof(decimal), Kinds.NumberKind },
     };
 
     /// <summary>
@@ -31,7 +31,7 @@ public static class TypeExtensions
         ArgumentNullException.ThrowIfNull(type);
 
         var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
-        if (s_typeFullNameToKind.TryGetValue(underlyingType.FullName!, out var kind))
+        if (s_typeToKind.TryGetValue(underlyingType, out var kind))
             return kind;
 
         if (underlyingType == typeof(string))

@@ -114,7 +114,7 @@ internal static class MethodInfoExtensions
             var tickIndex = baseName.IndexOf('`', StringComparison.Ordinal);
             if (tickIndex > 0)
             {
-                baseName = baseName.Substring(0, tickIndex);
+                baseName = baseName[..tickIndex];
             }
 
             return $"{baseName}<{genericArgIdentifiers}>";
