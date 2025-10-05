@@ -8,4 +8,5 @@ public enum OutcomeTypes
     Fail = 2,
     RulesFail = 4,
     Union = 8,
+    Generic = 16,
 }

@@ -27,5 +27,5 @@ public sealed class Ok<TValue> : IOutcome
     public TValue? Value { get; init; }
     public IValueInfo? ValueInfo { get; init; }
 
-    public OutcomeTypes OutcomeType => OutcomeTypes.Union | OutcomeTypes.Ok;
+    public OutcomeTypes OutcomeType => OutcomeTypes.Ok | OutcomeTypes.Generic;
 }

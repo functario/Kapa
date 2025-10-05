@@ -28,5 +28,5 @@ public sealed class Fail<TValue> : IOutcome
 
     public IValueInfo? ValueInfo { get; init; }
 
-    public OutcomeTypes OutcomeType => OutcomeTypes.Union | OutcomeTypes.Fail;
+    public OutcomeTypes OutcomeType => OutcomeTypes.Fail | OutcomeTypes.Generic;
 }

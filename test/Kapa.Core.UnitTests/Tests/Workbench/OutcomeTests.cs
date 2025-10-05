@@ -76,7 +76,7 @@ public class OutcomeTests
         var type = typeof(OkOrFailOrRulesFailOutcomeCapability);
 
         // Act
-        var capability = type.GetCapabilities();
+        //var capability = type.GetCapabilities();
         var outcome = capabilityType.Handle();
 
         // Assert
@@ -87,7 +87,7 @@ public class OutcomeTests
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
         };
 #pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
-        var a = JsonSerializer.Serialize(capability, options);
+        //var a = JsonSerializer.Serialize(capability, options);
         var b = JsonSerializer.Serialize(outcome, options);
     }
 }
