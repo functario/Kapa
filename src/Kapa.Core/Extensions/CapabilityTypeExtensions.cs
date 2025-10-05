@@ -55,8 +55,6 @@ public static class CapabilityTypeExtensions
 
         ThrowIfMissingCapabilityException(capabilityType, capabilities.Count);
 
-        ThrowIfDuplicatedDescriptions(capabilities, capabilityType);
-
         return capabilities;
     }
 
@@ -68,27 +66,6 @@ public static class CapabilityTypeExtensions
         if (count == 0)
         {
             throw new MissingCapabilityException(capabilityType);
-        }
-    }
-
-    private static void ThrowIfDuplicatedDescriptions(
-        ICollection<ICapability> capabilities,
-        Type capabilityType
-    )
-    {
-        var duplicateStrings = capabilities
-            .GroupBy(x => x.Description) // Group elements by their value
-            .Where(g => g.Count() > 1) // Filter groups that have more than one element (duplicates)
-            .Select(g => g.Key) // Select the key (the string itself) from these groups
-            .ToArray(); // Convert the result to a List<string>
-
-        if (duplicateStrings.Length > 0)
-        {
-            throw new DuplicateDescriptionsException(
-                capabilityType,
-                typeof(ICapabilityType),
-                duplicateStrings
-            );
         }
     }
 
