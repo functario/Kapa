@@ -1,4 +1,6 @@
-﻿namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿using System.Reflection;
+
+namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 [CapabilityType]
 public sealed class OkOrFailOutcomeCapability
@@ -15,9 +17,9 @@ public sealed class OkOrFailOutcomeCapability
     {
         if (IsOk)
         {
-            return TypedOutcomes.Ok(nameof(OkOrFailOutcomeCapability), "reason");
+            return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), "reason");
         }
 
-        return TypedOutcomes.Fail(nameof(OkOrFailOutcomeCapability), "reason");
+        return TypedOutcomes.Fail(MethodInfo.GetCurrentMethod(), "reason");
     }
 }

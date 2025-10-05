@@ -1,4 +1,5 @@
-﻿using Kapa.Abstractions;
+﻿using System.Reflection;
+using Kapa.Abstractions;
 using Kapa.Abstractions.Validations;
 using Kapa.Core.Extensions;
 
@@ -8,6 +9,12 @@ public sealed class RulesFail<TValue> : IRulesFail<TValue>
 {
     internal RulesFail(string source, TValue? value)
         : this(source, value, "") { }
+
+    internal RulesFail(MethodBase? source, TValue? value)
+        : this(source, value, "") { }
+
+    internal RulesFail(MethodBase? source, TValue? value, string reason)
+        : this(source?.InferSourceName() ?? "", value, reason) { }
 
     internal RulesFail(string source, TValue? value, string reason)
     {

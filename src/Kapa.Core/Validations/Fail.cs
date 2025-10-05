@@ -1,5 +1,7 @@
-﻿using Kapa.Abstractions;
+﻿using System.Reflection;
+using Kapa.Abstractions;
 using Kapa.Abstractions.Validations;
+using Kapa.Core.Extensions;
 
 namespace Kapa.Core.Validations;
 
@@ -7,6 +9,12 @@ public record Fail : IFail
 {
     internal Fail(string source)
         : this(source, "") { }
+
+    internal Fail(MethodBase? source)
+        : this(source, "") { }
+
+    internal Fail(MethodBase? source, string reason)
+        : this(source?.InferSourceName() ?? "", reason) { }
 
     /// <summary>
     /// Initializes a new instance of <see cref="Fail"/>
