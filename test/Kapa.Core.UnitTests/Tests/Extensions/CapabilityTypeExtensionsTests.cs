@@ -57,7 +57,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().ContainSingle();
-        sut.First().Name.Should().Be(nameof(OneCapability.Handle));
+        sut.First().Description.Should().Be(nameof(OneCapability.Handle));
     }
 
     [Fact(
@@ -75,7 +75,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().HaveCount(3);
-        sut.Select(x => x.Name)
+        sut.Select(x => x.Description)
             .Should()
             .BeEquivalentTo(
                 [
@@ -138,22 +138,6 @@ public class CapabilityTypeExtensionsTests
     }
 
     [Fact(
-        DisplayName = $"Cannot create {nameof(ICapabilityType)} "
-            + $"with ${nameof(ICapability)} duplicated descriptions"
-    )]
-    public void Test8()
-    {
-        // Arrange
-        var type = typeof(DuplicatedCapabilityDescriptions);
-
-        // Act
-        Action sut = () => type.ToCapabilityType();
-
-        // Assert
-        sut.Should().ThrowExactly<DuplicateDescriptionsException>();
-    }
-
-    [Fact(
         DisplayName = $"Create {nameof(ICapabilityType)} from static {nameof(Type)} "
             + $"decorated with {nameof(CapabilityTypeAttribute)}"
     )]
@@ -185,7 +169,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<ICapabilityType>();
-        sut.Capabilities.Select(x => x.Name)
+        sut.Capabilities.Select(x => x.Description)
             .Should()
             .BeEquivalentTo(
                 [
@@ -213,7 +197,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<ICapabilityType>();
-        sut.Capabilities.Select(x => x.Name)
+        sut.Capabilities.Select(x => x.Description)
             .Should()
             .BeEquivalentTo(
                 [
@@ -241,7 +225,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<ICapabilityType>();
-        sut.Capabilities.Select(x => x.Name)
+        sut.Capabilities.Select(x => x.Description)
             .Should()
             .BeEquivalentTo(
                 [
@@ -269,7 +253,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<ICapabilityType>();
-        sut.Capabilities.Select(x => x.Name)
+        sut.Capabilities.Select(x => x.Description)
             .Should()
             .BeEquivalentTo(
                 [
@@ -297,7 +281,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<ICapabilityType>();
-        sut.Capabilities.Select(x => x.Name)
+        sut.Capabilities.Select(x => x.Description)
             .Should()
             .BeEquivalentTo(
                 [
@@ -325,7 +309,7 @@ public class CapabilityTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<ICapabilityType>();
-        sut.Capabilities.Select(x => x.Name)
+        sut.Capabilities.Select(x => x.Description)
             .Should()
             .BeEquivalentTo(
                 [

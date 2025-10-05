@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Kapa.Abstractions.Capabilities;
+using Kapa.Abstractions.Validations;
 using Kapa.Core.Capabilities;
 using Kapa.Core.Validations;
 
@@ -27,9 +29,11 @@ internal static class MethodInfoExtensions
         var returnValueType = method.ReturnParameter.ParameterType;
         var valueInfo = returnValueType.GetValueInfo();
         var outcomeTypes = returnValueType.InferOutcomeTypes();
-        var source = capabilityAttribute.Source is not null
+        var source = !string.IsNullOrWhiteSpace(capabilityAttribute.Source)
             ? capabilityAttribute.Source
             : method.InferSourceName();
+
+        ThrowIfSourceNotFound(source, method);
 
         var outcomeMetadata = new OutcomeMetadata(source, valueInfo, outcomeTypes);
 
@@ -65,5 +69,19 @@ internal static class MethodInfoExtensions
         }
 
         return capabilityParameters;
+    }
+
+    private static void ThrowIfSourceNotFound(string? source, MethodInfo method)
+    {
+        if (string.IsNullOrWhiteSpace(source))
+        {
+            // This should not happen since the source is actually resolve by reflection.
+            // But the source is the discriminant to identify ICapability,
+            // Therefor, the validation is kept in place to reduce risk of silent breaking change.
+            throw new UnreachableException(
+                $"{nameof(IOutcomeMetadata.Source)} not found for method '{method.Name}'"
+                    + $" from type '{method.DeclaringType?.FullName}'."
+            );
+        }
     }
 }
