@@ -1,7 +1,7 @@
 ﻿using Kapa.Abstractions;
-using Kapa.Abstractions.Results;
+using Kapa.Abstractions.Validations;
 
-namespace Kapa.Core.Results;
+namespace Kapa.Core.Validations;
 
 public record RulesFail : IOutcome
 {
@@ -18,7 +18,7 @@ public record RulesFail : IOutcome
         Source = source;
         Status = OutcomeStatus.RulesFail;
         Reason = reason;
-        Kind = Kinds.NoneKind;
+        ValueInfo = ValueInfos.None();
     }
 
     public OutcomeStatus Status { get; init; }
@@ -27,5 +27,5 @@ public record RulesFail : IOutcome
 
     public string Source { get; init; }
 
-    public Kinds Kind { get; init; }
+    public IValueInfo ValueInfo { get; init; }
 }

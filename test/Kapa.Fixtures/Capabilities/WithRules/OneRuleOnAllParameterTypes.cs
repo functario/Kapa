@@ -1,4 +1,6 @@
-﻿using Kapa.Fixtures.Rules;
+﻿using Kapa.Abstractions.Validations;
+using Kapa.Core.Validations;
+using Kapa.Fixtures.Rules;
 
 namespace Kapa.Fixtures.Capabilities.WithRules;
 

@@ -1,5 +1,5 @@
-﻿using Kapa.Abstractions.Results;
-using Kapa.Core.Results;
+﻿using Kapa.Abstractions.Validations;
+using Kapa.Core.Validations;
 using Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 namespace Kapa.Core.UnitTests.Tests.Workbench;
@@ -18,7 +18,6 @@ public class OutcomeTests
         // Assert
         sut.Should().BeAssignableTo<IOutcome>();
         sut.Status.Should().Be(OutcomeStatus.Ok);
-        sut.Kind.Should().Be(Kinds.NoneKind);
     }
 
     [Fact]
@@ -33,7 +32,6 @@ public class OutcomeTests
         // Assert
         sut.Should().BeAssignableTo<IOutcome>();
         sut.Status.Should().Be(OutcomeStatus.Ok);
-        sut.Kind.Should().Be(Kinds.NoneKind);
     }
 
     [Theory]
@@ -66,6 +64,17 @@ public class OutcomeTests
         // Assert
         sut.Should().BeAssignableTo<IOutcome>();
         sut.Status.Should().Be(OutcomeStatus.Ok);
-        sut.Kind.Should().Be(Kinds.StringKind);
+    }
+
+    [Fact(DisplayName = $"Infer {nameof(IOutcomeMetadata)} from {nameof(ICapability)} creation.")]
+    public void Test5()
+    {
+        // Arrange
+        var type = typeof(OkOrFailOrRulesFailOutcomeCapacity);
+
+        // Act
+        var sut = type.GetCapabilities();
+
+        // Assert
     }
 }

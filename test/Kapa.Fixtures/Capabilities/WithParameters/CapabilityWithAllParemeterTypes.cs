@@ -1,4 +1,7 @@
-﻿namespace Kapa.Fixtures.Capabilities.WithParameters;
+﻿using Kapa.Abstractions.Validations;
+using Kapa.Core.Validations;
+
+namespace Kapa.Fixtures.Capabilities.WithParameters;
 
 [CapabilityType]
 public sealed class CapabilityWithAllParemeterTypes

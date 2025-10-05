@@ -1,4 +1,4 @@
-﻿using Kapa.Abstractions.Results;
+﻿using Kapa.Abstractions.Validations;
 
 namespace Kapa.Abstractions.Rules;
 

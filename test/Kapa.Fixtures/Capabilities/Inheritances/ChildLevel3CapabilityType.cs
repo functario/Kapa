@@ -1,4 +1,7 @@
-﻿namespace Kapa.Fixtures.Capabilities.Inheritances;
+﻿using Kapa.Abstractions.Validations;
+using Kapa.Core.Validations;
+
+namespace Kapa.Fixtures.Capabilities.Inheritances;
 
 [CapabilityType]
 public class ChildLevel3CapabilityType : ChildLevel2CapabilityType

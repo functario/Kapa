@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Core.Capabilities;
+using Kapa.Core.Validations;
 
 namespace Kapa.Core.Extensions;
 
@@ -23,12 +24,20 @@ internal static class MethodInfoExtensions
         }
 
         var parameters = GetParameters(method);
+        var valueInfo = method.ReturnParameter.ParameterType.GetOutcomeValueInfo();
+        var outcomeMetadata = new OutcomeMetadata(method.Name, valueInfo);
+
         if (parameters.Count > 0)
         {
-            return new Capability(method.Name, capabilityAttribute.Description, [.. parameters]);
+            return new Capability(
+                method.Name,
+                capabilityAttribute.Description,
+                outcomeMetadata,
+                [.. parameters]
+            );
         }
 
-        return new Capability(method.Name, capabilityAttribute.Description);
+        return new Capability(method.Name, capabilityAttribute.Description, outcomeMetadata);
     }
 
     public static ICollection<IParameter> GetParameters(this MethodInfo method)

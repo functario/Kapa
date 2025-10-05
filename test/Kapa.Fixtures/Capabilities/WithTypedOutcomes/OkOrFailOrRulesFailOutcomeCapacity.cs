@@ -1,4 +1,7 @@
-﻿namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
+﻿using Kapa.Abstractions.Validations;
+using Kapa.Core.Validations;
+
+namespace Kapa.Fixtures.Capabilities.WithTypedOutcomes;
 
 [CapabilityType]
 public sealed class OkOrFailOrRulesFailOutcomeCapacity

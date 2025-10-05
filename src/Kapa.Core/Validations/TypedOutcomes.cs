@@ -1,4 +1,4 @@
-﻿namespace Kapa.Core.Results;
+﻿namespace Kapa.Core.Validations;
 
 public static class TypedOutcomes
 {
