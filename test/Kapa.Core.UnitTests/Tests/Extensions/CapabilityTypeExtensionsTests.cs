@@ -354,8 +354,7 @@ public class CapabilityTypeExtensionsTests
         using var scope = new AssertionScope();
 
         // Remove Kinds not used with parameters
-        var expectedParameterTypes = Enum.GetValues<Kinds>()
-            .Where(x => x != Kinds.NoneKind && x != Kinds.Undefined);
+        var expectedParameterTypes = Enum.GetValues<Kinds>().Where(x => x != Kinds.None);
 
         sut.Should().BeAssignableTo<ICapabilityType>();
         sut.Capabilities.Should().HaveCount(1);

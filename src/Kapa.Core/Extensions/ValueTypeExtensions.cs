@@ -30,8 +30,8 @@ public static class ValueTypeExtensions
                     innerArgumentsValueInfos.Add(innerTypeValueInfo);
                 }
 
-                var a = arg.GetValueInfo();
-                argumentsValueInfos.Add(a);
+                var argValueInfo = arg.GetValueInfo();
+                argumentsValueInfos.Add(argValueInfo);
             }
 
             return new ValueInfo(kind, fullName, true, argumentsValueInfos);

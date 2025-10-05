@@ -1,4 +1,6 @@
-﻿namespace Kapa.Abstractions.Extensions;
+﻿using Kapa.Abstractions.Validations;
+
+namespace Kapa.Abstractions.Extensions;
 
 public static class TypeExtensions
 {
@@ -69,7 +71,67 @@ public static class TypeExtensions
         )
             return Kinds.ArrayKind;
 
+        // Outcomes
+        if (underlyingType.IsAssignableTo(typeof(IOutcome)))
+            return underlyingType.InferOutcomeKind();
+
         // Default to Object for complex types
         return Kinds.ObjectKind;
+    }
+
+    public static Kinds InferOutcomeKind(this Type outcomeType)
+    {
+        ArgumentNullException.ThrowIfNull(outcomeType);
+        if (!outcomeType.IsAssignableTo(typeof(IOutcome)))
+        {
+            return outcomeType.InferKind();
+        }
+
+        // Handle generic types
+        if (outcomeType.IsGenericType)
+        {
+            var genericDef = outcomeType.GetGenericTypeDefinition();
+
+            // Check if the concrete type implements the generic outcome interfaces
+            var interfaces = outcomeType.GetInterfaces();
+            foreach (var iface in interfaces)
+            {
+                if (iface.IsGenericType)
+                {
+                    var ifaceGenericDef = iface.GetGenericTypeDefinition();
+                    if (ifaceGenericDef == typeof(IOk<>))
+                        return Kinds.Ok | Kinds.Generic;
+                    if (ifaceGenericDef == typeof(IFail<>))
+                        return Kinds.Fail | Kinds.Generic;
+                    if (ifaceGenericDef == typeof(IRulesFail<>))
+                        return Kinds.RulesFail | Kinds.Generic;
+                }
+            }
+
+            // Check if the type implements IOutcomes
+            if (typeof(IOutcomes).IsAssignableFrom(outcomeType))
+            {
+                var args = outcomeType.GetGenericArguments();
+                var result = Kinds.Generic;
+                foreach (var arg in args)
+                {
+                    if (typeof(IOutcome).IsAssignableFrom(arg))
+                    {
+                        result |= arg.InferOutcomeKind();
+                    }
+                }
+                return result;
+            }
+        }
+
+        // Handle non-generic types (after checking generic to avoid false positives)
+        if (outcomeType.IsAssignableTo(typeof(IOk)))
+            return Kinds.Ok;
+        if (outcomeType.IsAssignableTo(typeof(IFail)))
+            return Kinds.Fail;
+        if (outcomeType.IsAssignableTo(typeof(IRulesFail)))
+            return Kinds.RulesFail;
+
+        return Kinds.None;
     }
 }

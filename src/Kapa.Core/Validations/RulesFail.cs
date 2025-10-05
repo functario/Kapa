@@ -3,7 +3,7 @@ using Kapa.Abstractions.Validations;
 
 namespace Kapa.Core.Validations;
 
-public record RulesFail : IOutcome
+public record RulesFail : IRulesFail
 {
     internal RulesFail(string source)
         : this(source, "") { }

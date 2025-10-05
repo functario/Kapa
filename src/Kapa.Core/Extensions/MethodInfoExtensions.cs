@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
-using Kapa.Abstractions;
 using Kapa.Abstractions.Capabilities;
-using Kapa.Abstractions.Validations;
 using Kapa.Core.Capabilities;
 using Kapa.Core.Validations;
 
@@ -42,51 +40,6 @@ internal static class MethodInfoExtensions
         }
 
         return new Capability(method.Name, capabilityAttribute.Description, outcomeMetadata);
-    }
-
-    private static OutcomeTypes InferOutcomeTypes(this Type outcomeType)
-    {
-        // Handle non-generic types
-        if (outcomeType == typeof(Ok))
-            return OutcomeTypes.Ok;
-
-        if (outcomeType == typeof(Fail))
-            return OutcomeTypes.Fail;
-
-        if (outcomeType == typeof(RulesFail))
-            return OutcomeTypes.RulesFail;
-
-        // Handle generic types
-        if (outcomeType.IsGenericType)
-        {
-            var genericDef = outcomeType.GetGenericTypeDefinition();
-            if (genericDef == typeof(Ok<>))
-                return OutcomeTypes.Generic | OutcomeTypes.Ok;
-
-            if (genericDef == typeof(Fail<>))
-                return OutcomeTypes.Generic | OutcomeTypes.Fail;
-
-            if (genericDef == typeof(RulesFail<>))
-                return OutcomeTypes.Generic | OutcomeTypes.RulesFail;
-
-            if (genericDef == typeof(Outcomes<,>) || genericDef == typeof(Outcomes<,,>))
-            {
-                var args = outcomeType.GetGenericArguments();
-                var result = OutcomeTypes.None;
-                foreach (var arg in args)
-                {
-                    if (typeof(IOutcome).IsAssignableFrom(arg))
-                    {
-                        // TODO:  To improve since as any recursive call, this could stack overflow
-                        result |= arg.InferOutcomeTypes();
-                    }
-                }
-
-                return result;
-            }
-        }
-
-        return OutcomeTypes.None;
     }
 
     public static ICollection<IParameter> GetParameters(this MethodInfo method)

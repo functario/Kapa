@@ -3,7 +3,7 @@ using Kapa.Abstractions.Validations;
 
 namespace Kapa.Core.Validations;
 
-public sealed record Ok : IOutcome
+public sealed record Ok : IOk
 {
     internal Ok(string source)
         : this(source, "") { }

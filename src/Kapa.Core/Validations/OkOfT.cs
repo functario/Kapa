@@ -4,7 +4,7 @@ using Kapa.Core.Extensions;
 
 namespace Kapa.Core.Validations;
 
-public sealed class Ok<TValue> : IOutcome
+public sealed class Ok<TValue> : IOk<TValue>
 {
     internal Ok(string source, TValue? value)
         : this(source, value, "") { }

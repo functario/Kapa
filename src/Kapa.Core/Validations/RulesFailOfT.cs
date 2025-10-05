@@ -4,7 +4,7 @@ using Kapa.Core.Extensions;
 
 namespace Kapa.Core.Validations;
 
-public sealed class RulesFail<TValue> : IOutcome
+public sealed class RulesFail<TValue> : IRulesFail<TValue>
 {
     internal RulesFail(string source, TValue? value)
         : this(source, value, "") { }
