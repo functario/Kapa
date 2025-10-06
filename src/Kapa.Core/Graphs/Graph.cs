@@ -1,4 +1,4 @@
-﻿namespace Kapa.Core.Prototypes.Graphs;
+﻿namespace Kapa.Core.Graphs;
 
 public sealed class Graph
 {
