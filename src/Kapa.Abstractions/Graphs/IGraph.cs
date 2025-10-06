@@ -10,4 +10,6 @@ public interface IGraph
         ICollection<INode> excludedNodes,
         int maxRoutes = 50
     );
+
+    IGraph FocusGraph(ICollection<INode> orderedWaypoints, ICollection<INode> excludedNodes);
 }

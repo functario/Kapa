@@ -11,6 +11,6 @@ public static class CapabilityExtensions
         ArgumentNullException.ThrowIfNull(capability);
         var mutations = capability.Relations?.Mutations ?? [];
         var requirements = capability.Relations?.Requirements ?? [];
-        return new Node(capability.GetType(), mutations, requirements);
+        return new Node(capability, mutations, requirements);
     }
 }

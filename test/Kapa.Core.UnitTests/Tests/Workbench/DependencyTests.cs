@@ -24,20 +24,37 @@ public class DependencyTests
             .ToCapabilityType()
             .Capabilities.Single()
             .ToNode();
-        var capabilityNode3 = typeof(CapabilityType3)
-            .ToCapabilityType()
-            .Capabilities.Single()
-            .ToNode();
 
-        INode[] nodes = [capabilityNode1, capabilityNode2, capabilityNode3];
+        // CapabilityType3 has 3 methods with CapabilityAttribute
+        var capabilitiesNode3 = typeof(CapabilityType3)
+            .ToCapabilityType()
+            .Capabilities.Select(x => x.ToNode())
+            .ToArray();
+
+        var capabilityNode3 = capabilitiesNode3[0];
+        var capabilityNode4 = capabilitiesNode3[1];
+        var capabilityNode5 = capabilitiesNode3[2];
+
+        INode[] nodes =
+        [
+            capabilityNode1,
+            capabilityNode2,
+            capabilityNode3,
+            capabilityNode4,
+            capabilityNode5,
+        ];
         var graph = new Graph(nodes);
 
-        var routes = graph.Resolve([capabilityNode3]);
+        var focusedGraph = graph.FocusGraph(
+            [capabilityNode4, capabilityNode1, capabilityNode5],
+            [capabilityNode3]
+        );
 
-        routes.Count.Should().Be(2);
-        // Example: Capability3 requires IsTraitTrue and TraitAsInt
-        // Route 1: Capability1 → Capability2 → Capability3
-        // Route 2: Capability2 → Capability1 → Capability3
+        // Should include all three nodes: Capability3 (waypoint) + Capability1 & Capability2 (dependencies)
+        focusedGraph.Nodes.Count.Should().Be(3);
+        focusedGraph.Nodes.Should().Contain(capabilityNode1);
+        focusedGraph.Nodes.Should().Contain(capabilityNode2);
+        focusedGraph.Nodes.Should().Contain(capabilityNode3);
     }
 }
 
@@ -66,9 +83,23 @@ internal sealed class CapabilityType2
 [CapabilityType]
 internal sealed class CapabilityType3
 {
-    [Capability(nameof(Capabilit3))]
+    [Capability(nameof(Capability3))]
     [Relations<Relations3>()]
-    public IOutcome Capabilit3()
+    public IOutcome Capability3()
+    {
+        return TypedOutcomes.Ok(nameof(CapabilityType3));
+    }
+
+    // No relations
+    [Capability(nameof(Capability4))]
+    public IOutcome Capability4()
+    {
+        return TypedOutcomes.Ok(nameof(CapabilityType3));
+    }
+
+    [Capability(nameof(Capability5))]
+    [Relations<Relations4>()]
+    public IOutcome Capability5()
     {
         return TypedOutcomes.Ok(nameof(CapabilityType3));
     }
@@ -106,5 +137,16 @@ internal sealed class Relations3 : IPrototypeRelations<IGeneratedPrototype>
     public ICollection<IMutation<IGeneratedPrototype>> Mutations => [];
 
     public ICollection<IRequirement<IGeneratedPrototype>> Requirements =>
-        [RequirementFactory.Create<PrototypeA>(p => p.TraitAsInt > 2 && p.IsTraitTrue == true)];
+        [
+            RequirementFactory.Create<PrototypeA>(p => p.TraitAsInt > 2),
+            RequirementFactory.Create<PrototypeA>(p => p.IsTraitTrue == true),
+        ];
+}
+
+internal sealed class Relations4 : IPrototypeRelations<IGeneratedPrototype>
+{
+    public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
+        [MutationFactory.Create<PrototypeA>(p => p.TraitAsDouble > 2)];
+
+    public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
 }
