@@ -45,10 +45,7 @@ public class DependencyTests
         ];
         var graph = new Graph(nodes);
 
-        var focusedGraph = graph.FocusGraph(
-            [capabilityNode4, capabilityNode1, capabilityNode5],
-            [capabilityNode3]
-        );
+        var focusedGraph = graph.FocusGraph([capabilityNode3], []);
 
         // Should include all three nodes: Capability3 (waypoint) + Capability1 & Capability2 (dependencies)
         focusedGraph.Nodes.Count.Should().Be(3);

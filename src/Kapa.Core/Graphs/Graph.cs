@@ -65,7 +65,7 @@ public sealed class Graph : IGraph
         }
 
         // If no requirements, nothing to resolve
-        if (node.Requirements.Count == 0)
+        if (node.Capability.Relations?.Requirements.Count == 0)
         {
             return;
         }
@@ -76,7 +76,8 @@ public sealed class Graph : IGraph
         {
             // Parse all requirements and extract atomic conditions
             var atomicConditions = new List<AtomicCondition>();
-            foreach (var requirement in node.Requirements)
+            var requirements = node.Capability.Relations?.Requirements ?? [];
+            foreach (var requirement in requirements)
             {
                 var conditions = ExtractAtomicConditions(requirement.ConditionExpression);
                 atomicConditions.AddRange(conditions);
@@ -137,7 +138,8 @@ public sealed class Graph : IGraph
 
         foreach (var node in availableNodes)
         {
-            foreach (var mutation in node.Mutations)
+            var mutations = node.Capability.Relations?.Mutations ?? [];
+            foreach (var mutation in mutations)
             {
                 if (DoesMutationSatisfyCondition(mutation, condition))
                 {
