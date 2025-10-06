@@ -3,7 +3,7 @@
 namespace Kapa.Abstractions.Prototypes;
 
 public interface IMutation<THasTrait>
-    where THasTrait : IHasTrait
+    where THasTrait : IGeneratedPrototype
 {
     public Expression<Func<THasTrait, bool>> MutationExpression { get; }
     Func<THasTrait, bool> CompiledMutation { get; }

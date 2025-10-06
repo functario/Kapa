@@ -2,7 +2,7 @@
 
 namespace Kapa.Core.Capabilities;
 
-public class PrototypeRelations : IPrototypeRelations<IHasTrait>
+public class PrototypeRelations : IPrototypeRelations<IGeneratedPrototype>
 {
     public PrototypeRelations()
     {
@@ -11,14 +11,14 @@ public class PrototypeRelations : IPrototypeRelations<IHasTrait>
     }
 
     public PrototypeRelations(
-        ICollection<IMutation<IHasTrait>> mutations,
-        ICollection<IRequirement<IHasTrait>> requirements
+        ICollection<IMutation<IGeneratedPrototype>> mutations,
+        ICollection<IRequirement<IGeneratedPrototype>> requirements
     )
     {
         Mutations = mutations;
         Requirements = requirements;
     }
 
-    public ICollection<IMutation<IHasTrait>> Mutations { get; }
-    public ICollection<IRequirement<IHasTrait>> Requirements { get; }
+    public ICollection<IMutation<IGeneratedPrototype>> Mutations { get; }
+    public ICollection<IRequirement<IGeneratedPrototype>> Requirements { get; }
 }

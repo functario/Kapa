@@ -59,7 +59,9 @@ public static class CapabilityTypeExtensions
         return capabilities;
     }
 
-    public static IPrototypeRelations<IHasTrait>? GetPrototypeRelations(this Type capabilityType)
+    public static IPrototypeRelations<IGeneratedPrototype>? GetPrototypeRelations(
+        this Type capabilityType
+    )
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
         ThrowIfNotCapabilityType(capabilityType);

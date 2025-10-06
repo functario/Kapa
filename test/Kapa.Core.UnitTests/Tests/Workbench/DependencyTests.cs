@@ -75,7 +75,7 @@ internal sealed class CapabilityType3
 }
 
 [Prototype(nameof(PrototypeA))]
-internal sealed class PrototypeA : IHasTrait
+internal sealed class PrototypeA : IGeneratedPrototype
 {
     public bool IsTraitTrue { get; set; }
     public string? TraitAsString { get; set; }
@@ -85,26 +85,26 @@ internal sealed class PrototypeA : IHasTrait
     public long TraitAsLong { get; set; }
 }
 
-internal sealed class Relations1 : IPrototypeRelations<IHasTrait>
+internal sealed class Relations1 : IPrototypeRelations<IGeneratedPrototype>
 {
-    public ICollection<IMutation<IHasTrait>> Mutations =>
+    public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
         [MutationFactory.Create<PrototypeA>(p => p.IsTraitTrue == true)];
 
-    public ICollection<IRequirement<IHasTrait>> Requirements => [];
+    public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
 }
 
-internal sealed class Relations2 : IPrototypeRelations<IHasTrait>
+internal sealed class Relations2 : IPrototypeRelations<IGeneratedPrototype>
 {
-    public ICollection<IMutation<IHasTrait>> Mutations =>
+    public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
         [MutationFactory.Create<PrototypeA>(p => p.TraitAsInt > 2)];
 
-    public ICollection<IRequirement<IHasTrait>> Requirements => [];
+    public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
 }
 
-internal sealed class Relations3 : IPrototypeRelations<IHasTrait>
+internal sealed class Relations3 : IPrototypeRelations<IGeneratedPrototype>
 {
-    public ICollection<IMutation<IHasTrait>> Mutations => [];
+    public ICollection<IMutation<IGeneratedPrototype>> Mutations => [];
 
-    public ICollection<IRequirement<IHasTrait>> Requirements =>
-        [RequirementFactory.Create<PrototypeA>(p => p.TraitAsInt > 2)];
+    public ICollection<IRequirement<IGeneratedPrototype>> Requirements =>
+        [RequirementFactory.Create<PrototypeA>(p => p.TraitAsInt > 2 && p.IsTraitTrue == true)];
 }

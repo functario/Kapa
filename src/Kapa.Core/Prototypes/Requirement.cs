@@ -5,7 +5,7 @@ namespace Kapa.Core.Prototypes;
 
 public sealed record Requirement<THasTrait>(Expression<Func<THasTrait, bool>> ConditionExpression)
     : IRequirement<THasTrait>
-    where THasTrait : IHasTrait
+    where THasTrait : IGeneratedPrototype
 {
     public Func<THasTrait, bool> CompiledCondition => ConditionExpression.Compile();
 

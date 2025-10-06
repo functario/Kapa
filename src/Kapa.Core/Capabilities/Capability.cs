@@ -19,7 +19,7 @@ public record Capability : ICapability
         string name,
         string description,
         IOutcomeMetadata outcomeMetadata,
-        IPrototypeRelations<IHasTrait>? relations
+        IPrototypeRelations<IGeneratedPrototype>? relations
     )
         : this(name, description, outcomeMetadata, relations, []) { }
 
@@ -30,7 +30,7 @@ public record Capability : ICapability
         string name,
         string description,
         IOutcomeMetadata outcomeMetadata,
-        IPrototypeRelations<IHasTrait>? relations,
+        IPrototypeRelations<IGeneratedPrototype>? relations,
         IParameter[] parameters
     )
     {
@@ -49,5 +49,5 @@ public record Capability : ICapability
 
     public IOutcomeMetadata OutcomeMetadata { get; init; }
 
-    public IPrototypeRelations<IHasTrait>? Relations { get; init; }
+    public IPrototypeRelations<IGeneratedPrototype>? Relations { get; init; }
 }

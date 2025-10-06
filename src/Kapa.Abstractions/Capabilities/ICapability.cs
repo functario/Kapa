@@ -8,5 +8,5 @@ public interface ICapability
     public string Description { get; }
     public IReadOnlyCollection<IParameter> Parameters { get; }
     public IOutcomeMetadata OutcomeMetadata { get; }
-    public IPrototypeRelations<IHasTrait>? Relations { get; }
+    public IPrototypeRelations<IGeneratedPrototype>? Relations { get; }
 }

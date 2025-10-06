@@ -6,6 +6,6 @@ namespace Kapa.Core.Factories;
 
 public static class RequirementFactory
 {
-    public static Requirement<IHasTrait> Create<T>(this Expression<Func<T, bool>> expr)
-        where T : IHasTrait => new(p => expr.Compile()((T)p));
+    public static Requirement<IGeneratedPrototype> Create<T>(this Expression<Func<T, bool>> expr)
+        where T : IGeneratedPrototype => new(p => expr.Compile()((T)p));
 }

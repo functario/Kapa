@@ -13,7 +13,7 @@ namespace Kapa.Core.Graphs;
 /// <param name="Requirements">The <see cref="IRequirement{THasTrait}"/> that must be satisfied for this <see cref="ICapability"/>.</param>
 public sealed record Node(
     Type Type,
-    ICollection<IMutation<IHasTrait>> Mutations,
-    ICollection<IRequirement<IHasTrait>> Requirements
+    ICollection<IMutation<IGeneratedPrototype>> Mutations,
+    ICollection<IRequirement<IGeneratedPrototype>> Requirements
 ) : INode
 { }

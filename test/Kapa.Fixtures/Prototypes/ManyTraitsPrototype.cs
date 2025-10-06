@@ -4,7 +4,7 @@ using Kapa.Fixtures.Traits;
 namespace Kapa.Fixtures.Prototypes;
 
 [Prototype(nameof(ManyTraitsPrototype))]
-public sealed class ManyTraitsPrototype : IHasTrait
+public sealed class ManyTraitsPrototype : IGeneratedPrototype
 {
     [Trait(nameof(BoolTrait))]
     public bool BoolTrait { get; set; }

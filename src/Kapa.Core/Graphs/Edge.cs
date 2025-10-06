@@ -17,6 +17,6 @@ namespace Kapa.Core.Graphs;
 public sealed record Edge(
     INode FromCapacity,
     INode ToCapacity,
-    ICollection<IMutation<IHasTrait>> ResolvingMutations
+    ICollection<IMutation<IGeneratedPrototype>> ResolvingMutations
 ) : IEdge
 { }

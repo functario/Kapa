@@ -4,7 +4,7 @@ namespace Kapa.Abstractions.Graphs;
 
 public interface INode
 {
-    ICollection<IMutation<IHasTrait>> Mutations { get; init; }
-    ICollection<IRequirement<IHasTrait>> Requirements { get; init; }
+    ICollection<IMutation<IGeneratedPrototype>> Mutations { get; init; }
+    ICollection<IRequirement<IGeneratedPrototype>> Requirements { get; init; }
     Type Type { get; init; }
 }

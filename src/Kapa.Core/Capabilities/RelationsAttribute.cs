@@ -4,7 +4,7 @@ namespace Kapa.Core.Capabilities;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 public sealed class RelationsAttribute<TPrototypeRelations> : Attribute
-    where TPrototypeRelations : IPrototypeRelations<IHasTrait>, new()
+    where TPrototypeRelations : IPrototypeRelations<IGeneratedPrototype>, new()
 {
     public RelationsAttribute()
     {

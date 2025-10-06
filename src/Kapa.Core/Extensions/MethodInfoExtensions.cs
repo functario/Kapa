@@ -78,7 +78,7 @@ internal static class MethodInfoExtensions
         return attr;
     }
 
-    public static IPrototypeRelations<IHasTrait>? GetRelations(this MethodInfo method)
+    public static IPrototypeRelations<IGeneratedPrototype>? GetRelations(this MethodInfo method)
     {
         ArgumentNullException.ThrowIfNull(method);
         var relationsAttributes = method.GetRelationsAttribute();
@@ -94,7 +94,7 @@ internal static class MethodInfoExtensions
 
         if (
             relationsProperty.GetValue(relationsAttributes)
-            is not IPrototypeRelations<IHasTrait> relations
+            is not IPrototypeRelations<IGeneratedPrototype> relations
         )
         {
             return null;
