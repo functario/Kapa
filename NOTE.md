@@ -11,6 +11,7 @@
 
 ## Todo
 
+- Change `Outcome.Source` to be object with DeclaringType and Method signature, instead of string.
 - Add `hints[]` for Outcome in case of failure.
 - Add `Priority` on Capability to set a score on the scenarios.
 - Add `Options` type to configure the dependency resolution of `Requirement` (by value or statement).
