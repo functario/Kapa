@@ -1,15 +1,24 @@
-﻿namespace Kapa.Abstractions.Graphs;
+﻿using Kapa.Abstractions.Capabilities;
+
+namespace Kapa.Abstractions.Graphs;
 
 public interface IGraph
 {
-    IReadOnlyCollection<INode> Nodes { get; }
+    public IReadOnlyCollection<INode> Nodes { get; }
 
-    ICollection<IRoute> Resolve(ICollection<INode> orderedWaypoints, int maxRoutes = 50);
-    ICollection<IRoute> Resolve(
-        ICollection<INode> orderedWaypoints,
+    public ICollection<IRoute> Resolve(ICollection<INode> includedNodes, int maxRoutes = 50);
+
+    public ICollection<IRoute> Resolve(
+        ICollection<INode> includedNodes,
         ICollection<INode> excludedNodes,
         int maxRoutes = 50
     );
 
-    IGraph FocusGraph(ICollection<INode> orderedWaypoints, ICollection<INode> excludedNodes);
+    /// <summary>
+    /// Reduce the <see cref="IGraph"/> to <see cref="ICapability"/> resolving the dependencies of <paramref name="includedNodes"/>
+    /// </summary>
+    /// <param name="includedNodes"></param>
+    /// <param name="excludedNodes"></param>
+    /// <returns></returns>
+    public IGraph Reduce(ICollection<INode> includedNodes, ICollection<INode> excludedNodes);
 }

@@ -44,12 +44,10 @@ public class DependencyTests
             capabilityNode4,
             capabilityNode5,
         ];
+
         var graph = new Graph(nodes);
 
-        var focusedGraph = graph.FocusGraph(
-            [capabilityNode4, capabilityNode5, capabilityNode3],
-            []
-        );
+        var focusedGraph = graph.Reduce([capabilityNode4, capabilityNode5, capabilityNode3], []);
 
         var a = focusedGraph.ToMermaidGraph();
 

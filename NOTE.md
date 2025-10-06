@@ -9,6 +9,11 @@
    resolved by `Requirement` and `Mutation`.
 
 
+## User worflow
+
+1. Get the full `Graph`.
+1. Reduce the `Graph` with `IncludedNodes` and `ExcludedNodes`.
+
 ## Todo
 
 - Change `Outcome.Source` to be object with DeclaringType and Method signature, instead of string.
