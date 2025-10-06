@@ -1,4 +1,5 @@
 ﻿using Kapa.Abstractions.Capabilities;
+using Kapa.Abstractions.Graphs;
 using Kapa.Abstractions.Prototypes;
 
 namespace Kapa.Core.Graphs;
@@ -14,8 +15,8 @@ namespace Kapa.Core.Graphs;
 /// <paramref name="FromCapacity"/> that help satisfy <paramref name="ToCapacity"/>'s
 /// <see cref="IRequirement{THasTrait}"/>.</param>
 public sealed record Edge(
-    Node FromCapacity,
-    Node ToCapacity,
+    INode FromCapacity,
+    INode ToCapacity,
     ICollection<IMutation<IHasTrait>> ResolvingMutations
-)
+) : IEdge
 { }

@@ -1,15 +1,17 @@
-﻿namespace Kapa.Core.Graphs;
+﻿using Kapa.Abstractions.Graphs;
 
-public sealed class Graph
+namespace Kapa.Core.Graphs;
+
+public sealed class Graph : IGraph
 {
-    public Graph(IReadOnlyCollection<Node> nodes)
+    public Graph(IReadOnlyCollection<INode> nodes)
     {
         Nodes = nodes;
     }
 
-    public IReadOnlyCollection<Node> Nodes { get; }
+    public IReadOnlyCollection<INode> Nodes { get; }
 
-    public ICollection<Route> Resolve(ICollection<Node> orderedWaypoints, int maxRoutes = 50) =>
+    public ICollection<IRoute> Resolve(ICollection<INode> orderedWaypoints, int maxRoutes = 50) =>
         Resolve(orderedWaypoints, [], maxRoutes);
 
     /// <summary>
@@ -20,10 +22,10 @@ public sealed class Graph
     /// <param name="maxRoutes">Maximum number of routes to return.</param>
     /// <returns>Collection of valid routes.</returns>
 #pragma warning disable CA1822 // Mark members as static
-    public ICollection<Route> Resolve(
+    public ICollection<IRoute> Resolve(
 #pragma warning restore CA1822 // Mark members as static
-        ICollection<Node> orderedWaypoints,
-        ICollection<Node> excludedNodes,
+        ICollection<INode> orderedWaypoints,
+        ICollection<INode> excludedNodes,
 #pragma warning disable IDE0060 // Remove unused parameter
         int maxRoutes = 50
 #pragma warning restore IDE0060 // Remove unused parameter

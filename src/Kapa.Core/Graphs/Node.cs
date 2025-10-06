@@ -1,4 +1,5 @@
 ﻿using Kapa.Abstractions.Capabilities;
+using Kapa.Abstractions.Graphs;
 using Kapa.Abstractions.Prototypes;
 
 namespace Kapa.Core.Graphs;
@@ -14,5 +15,5 @@ public sealed record Node(
     Type Type,
     ICollection<IMutation<IHasTrait>> Mutations,
     ICollection<IRequirement<IHasTrait>> Requirements
-)
+) : INode
 { }
