@@ -5,12 +5,12 @@ namespace Kapa.Core.Prototypes;
 
 public sealed record Requirement<TPrototype>(Expression<Func<TPrototype, bool>> ConditionExpression)
     : IRequirement<TPrototype>
-    where TPrototype : IPrototype, new()
+    where TPrototype : IPrototype
 {
     public Func<TPrototype, bool> CompiledCondition => ConditionExpression.Compile();
 
-    // Extract all property names referenced in the condition
-    public HashSet<string> ReferencedProperties => ExtractPropertyNames(ConditionExpression);
+    // Extract all property names referenced in the condition (computed once)
+    public HashSet<string> ReferencedProperties { get; } = ExtractPropertyNames(ConditionExpression);
 
     private static HashSet<string> ExtractPropertyNames(Expression expression)
     {
@@ -26,8 +26,11 @@ public sealed record Requirement<TPrototype>(Expression<Func<TPrototype, bool>> 
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Member.DeclaringType != null)
+            // Only add properties from the declaring type (not nested types)
+            if (node.Member.DeclaringType != null && node.Expression?.NodeType == ExpressionType.Parameter)
+            {
                 Properties.Add(node.Member.Name);
+            }
             return base.VisitMember(node);
         }
     }

@@ -5,7 +5,7 @@ namespace Kapa.Core.Prototypes;
 
 public sealed record Mutation<TPrototype>(Expression<Func<TPrototype, object?>> MutationExpression)
     : IMutation<TPrototype>
-    where TPrototype : IPrototype, new()
+    where TPrototype : IPrototype
 {
     public Func<TPrototype, object?> CompiledMutation => MutationExpression.Compile();
 }
