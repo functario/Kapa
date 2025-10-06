@@ -47,3 +47,6 @@ StrykerOutput/
 
 # Kiota
 *.kiota.log
+
+# Code samples
+code-samples/
