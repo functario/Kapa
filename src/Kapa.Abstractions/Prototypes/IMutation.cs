@@ -5,7 +5,6 @@ namespace Kapa.Abstractions.Prototypes;
 public interface IMutation<TPrototype>
     where TPrototype : IPrototype, new()
 {
-    public Expression<Func<TPrototype, object?>> PropertyExpression { get; }
-    public Expression<Action<TPrototype>> MutationExpression { get; }
-    public string MutatedProperty { get; }
+    public Expression<Func<TPrototype, object?>> MutationExpression { get; }
+    Func<TPrototype, object?> CompiledMutation { get; }
 }
