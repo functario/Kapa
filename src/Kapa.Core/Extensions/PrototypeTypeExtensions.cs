@@ -16,13 +16,13 @@ public static class PrototypeTypeExtensions
     public static IPrototype ToPrototype(this Type prototypeType)
     {
         ArgumentNullException.ThrowIfNull(prototypeType);
-        ThrowIfNotStateType(prototypeType);
+        ThrowIfNotPrototypeType(prototypeType);
 
         var traits = prototypeType.GetTraits();
 
-        var stateAttribute = prototypeType.GetStateAttribute();
+        var prototypeAttribute = prototypeType.GetPrototypeAttribute();
 
-        return new Prototype(prototypeType.Name, stateAttribute.Description, [.. traits]);
+        return new Prototype(prototypeType.Name, prototypeAttribute.Description, [.. traits]);
     }
 
     /// <summary>
@@ -31,10 +31,10 @@ public static class PrototypeTypeExtensions
     /// <param name="prototypeType"></param>
     /// <returns></returns>
     /// <exception cref="TypeIsNotPrototypeException"/>
-    public static PrototypeAttribute GetStateAttribute(this Type prototypeType)
+    public static PrototypeAttribute GetPrototypeAttribute(this Type prototypeType)
     {
         ArgumentNullException.ThrowIfNull(prototypeType);
-        ThrowIfNotStateType(prototypeType);
+        ThrowIfNotPrototypeType(prototypeType);
         return prototypeType
             .GetCustomAttributes(typeof(PrototypeAttribute), inherit: true)
             .Cast<PrototypeAttribute>()
@@ -44,7 +44,7 @@ public static class PrototypeTypeExtensions
     public static ICollection<ITrait> GetTraits(this Type prototypeType)
     {
         ArgumentNullException.ThrowIfNull(prototypeType);
-        ThrowIfNotStateType(prototypeType);
+        ThrowIfNotPrototypeType(prototypeType);
 
         var traits = new List<ITrait>();
 
@@ -67,7 +67,7 @@ public static class PrototypeTypeExtensions
         return traits;
     }
 
-    public static bool IsStateType(this Type type) =>
+    public static bool IsPrototypeType(this Type type) =>
         type?.IsDefined(typeof(PrototypeAttribute), inherit: true) ?? false;
 
     private static Trait CreateTrait(TraitAttribute traitAttribute, PropertyInfo property)
@@ -78,9 +78,9 @@ public static class PrototypeTypeExtensions
         return new Trait(property.Name, traitAttribute.Description, [.. parameters]);
     }
 
-    private static void ThrowIfNotStateType(this Type type)
+    private static void ThrowIfNotPrototypeType(this Type type)
     {
-        if (!type.IsStateType())
+        if (!type.IsPrototypeType())
         {
             throw new TypeIsNotPrototypeException(
                 type,

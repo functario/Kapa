@@ -1,9 +1,9 @@
 ﻿using Kapa.Fixtures.Traits;
 
-namespace Kapa.Fixtures.States;
+namespace Kapa.Fixtures.Prototypes;
 
-[Prototype(nameof(ManyTraitsState))]
-public sealed class ManyTraitsState
+[Prototype(nameof(ManyTraitsPrototype))]
+public sealed class ManyTraitsPrototype
 {
     [Trait(nameof(BoolTrait))]
     public bool BoolTrait { get; set; }

@@ -1,9 +1,9 @@
 ﻿using Kapa.Fixtures.Traits;
 
-namespace Kapa.Fixtures.States;
+namespace Kapa.Fixtures.Prototypes;
 
-[Prototype(nameof(RecordPositionalState))]
-public class TraitWithManyConstructorWithoutAttributeState
+[Prototype(nameof(RecordPositionalPrototype))]
+public class TraitWithManyConstructorWithoutAttributePrototype
 {
     [Trait(nameof(ManyConstructorsWithoutTraitConstructorAttributeTrait))]
     public ManyConstructorsWithoutTraitConstructorAttributeTrait? Trait1 { get; set; }

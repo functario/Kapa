@@ -1,10 +1,10 @@
 ﻿using Kapa.Abstractions.Prototypes;
 using Kapa.Core.Prototypes;
-using Kapa.Fixtures.States;
+using Kapa.Fixtures.Prototypes;
 
 namespace Kapa.Core.UnitTests.Tests.Extensions;
 
-public class StateTypeExtensionsTests
+public class PrototypeTypeExtensionsTests
 {
     [Fact(
         DisplayName = $"Create {nameof(IPrototype)} with one {nameof(ITrait)} "
@@ -14,7 +14,7 @@ public class StateTypeExtensionsTests
     public void Test1()
     {
         // Arrange
-        var type = typeof(OneTraitState);
+        var type = typeof(OneTraitPrototype);
 
         // Act
         var sut = type.ToPrototype();
@@ -23,7 +23,7 @@ public class StateTypeExtensionsTests
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<IPrototype>();
         sut.Traits.Should().HaveCount(1);
-        sut.Traits.First().Name.Should().Be(nameof(OneTraitState.BoolTrait));
+        sut.Traits.First().Name.Should().Be(nameof(OneTraitPrototype.BoolTrait));
     }
 
     [Fact(
@@ -34,7 +34,7 @@ public class StateTypeExtensionsTests
     public void Test2()
     {
         // Arrange
-        var type = typeof(ManyTraitsState);
+        var type = typeof(ManyTraitsPrototype);
 
         // Act
         var sut = type.ToPrototype();
@@ -47,10 +47,10 @@ public class StateTypeExtensionsTests
             .Should()
             .BeEquivalentTo(
                 [
-                    nameof(ManyTraitsState.BoolTrait),
-                    nameof(ManyTraitsState.RecordTrait),
-                    nameof(ManyTraitsState.ClassPrimaryConstructorTrait),
-                    nameof(ManyTraitsState.ClassMultiConstructorsTrait),
+                    nameof(ManyTraitsPrototype.BoolTrait),
+                    nameof(ManyTraitsPrototype.RecordTrait),
+                    nameof(ManyTraitsPrototype.ClassPrimaryConstructorTrait),
+                    nameof(ManyTraitsPrototype.ClassMultiConstructorsTrait),
                 ]
             );
     }
@@ -63,7 +63,7 @@ public class StateTypeExtensionsTests
     public void Test3()
     {
         // Arrange
-        var type = typeof(NoTraitState);
+        var type = typeof(NoTraitPrototype);
 
         // Act
         var sut = type.ToPrototype();
@@ -82,7 +82,7 @@ public class StateTypeExtensionsTests
     public void Test4()
     {
         // Arrange
-        var type = typeof(TraitWithManyConstructorWithoutAttributeState);
+        var type = typeof(TraitWithManyConstructorWithoutAttributePrototype);
 
         // Act
         Action sut = () => type.ToPrototype();
@@ -100,7 +100,7 @@ public class StateTypeExtensionsTests
     public void Test5()
     {
         // Arrange
-        var type = typeof(TraitWithManyConstructorWithAttributeState);
+        var type = typeof(TraitWithManyConstructorWithAttributePrototype);
 
         // Act
         Action sut = () => type.ToPrototype();
