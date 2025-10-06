@@ -1,6 +1,4 @@
-﻿using Kapa.Core.States;
+﻿namespace Kapa.Fixtures.States;
 
-namespace Kapa.Fixtures.States;
-
-[State(nameof(NoTraitState))]
+[Prototype(nameof(NoTraitState))]
 public sealed class NoTraitState { }

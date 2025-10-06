@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Kapa.Core.States;
+using Kapa.Core.Prototypes;
 
 namespace Kapa.Core.Extensions;
 

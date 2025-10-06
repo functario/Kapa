@@ -2,9 +2,9 @@
 using System.Reflection;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Exceptions;
-using Kapa.Abstractions.States;
+using Kapa.Abstractions.Prototypes;
 using Kapa.Core.Capabilities;
-using Kapa.Core.States;
+using Kapa.Core.Prototypes;
 
 namespace Kapa.Core.Extensions;
 

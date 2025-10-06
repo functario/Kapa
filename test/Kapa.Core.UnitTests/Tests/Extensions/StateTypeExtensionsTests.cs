@@ -1,5 +1,5 @@
-﻿using Kapa.Abstractions.States;
-using Kapa.Core.States;
+﻿using Kapa.Abstractions.Prototypes;
+using Kapa.Core.Prototypes;
 using Kapa.Fixtures.States;
 
 namespace Kapa.Core.UnitTests.Tests.Extensions;
@@ -7,9 +7,9 @@ namespace Kapa.Core.UnitTests.Tests.Extensions;
 public class StateTypeExtensionsTests
 {
     [Fact(
-        DisplayName = $"Create {nameof(IState)} with one {nameof(ITrait)} "
+        DisplayName = $"Create {nameof(IPrototype)} with one {nameof(ITrait)} "
             + $"from {nameof(Type)} "
-            + $"decorated with {nameof(StateAttribute)}"
+            + $"decorated with {nameof(PrototypeAttribute)}"
     )]
     public void Test1()
     {
@@ -17,19 +17,19 @@ public class StateTypeExtensionsTests
         var type = typeof(OneTraitState);
 
         // Act
-        var sut = type.ToState();
+        var sut = type.ToPrototype();
 
         // Assert
         using var scope = new AssertionScope();
-        sut.Should().BeAssignableTo<IState>();
+        sut.Should().BeAssignableTo<IPrototype>();
         sut.Traits.Should().HaveCount(1);
         sut.Traits.First().Name.Should().Be(nameof(OneTraitState.BoolTrait));
     }
 
     [Fact(
-        DisplayName = $"Create {nameof(IState)} with many {nameof(ITrait)} "
+        DisplayName = $"Create {nameof(IPrototype)} with many {nameof(ITrait)} "
             + $"from {nameof(Type)} "
-            + $"decorated with {nameof(StateAttribute)}"
+            + $"decorated with {nameof(PrototypeAttribute)}"
     )]
     public void Test2()
     {
@@ -37,11 +37,11 @@ public class StateTypeExtensionsTests
         var type = typeof(ManyTraitsState);
 
         // Act
-        var sut = type.ToState();
+        var sut = type.ToPrototype();
 
         // Assert
         using var scope = new AssertionScope();
-        sut.Should().BeAssignableTo<IState>();
+        sut.Should().BeAssignableTo<IPrototype>();
         sut.Traits.Should().HaveCount(4);
         sut.Traits.Select(x => x.Name)
             .Should()
@@ -56,9 +56,9 @@ public class StateTypeExtensionsTests
     }
 
     [Fact(
-        DisplayName = $"Create {nameof(IState)} without {nameof(ITrait)} "
+        DisplayName = $"Create {nameof(IPrototype)} without {nameof(ITrait)} "
             + $"from {nameof(Type)} "
-            + $"decorated with {nameof(StateAttribute)}"
+            + $"decorated with {nameof(PrototypeAttribute)}"
     )]
     public void Test3()
     {
@@ -66,16 +66,16 @@ public class StateTypeExtensionsTests
         var type = typeof(NoTraitState);
 
         // Act
-        var sut = type.ToState();
+        var sut = type.ToPrototype();
 
         // Assert
         using var scope = new AssertionScope();
-        sut.Should().BeAssignableTo<IState>();
+        sut.Should().BeAssignableTo<IPrototype>();
         sut.Traits.Should().HaveCount(0);
     }
 
     [Fact(
-        DisplayName = $"Cannot create {nameof(IState)} "
+        DisplayName = $"Cannot create {nameof(IPrototype)} "
             + $"with {nameof(ITrait)} having multiple constructors "
             + $"but not decorated with {nameof(TraitConstructorAttribute)}"
     )]
@@ -85,7 +85,7 @@ public class StateTypeExtensionsTests
         var type = typeof(TraitWithManyConstructorWithoutAttributeState);
 
         // Act
-        Action sut = () => type.ToState();
+        Action sut = () => type.ToPrototype();
 
         // Assert
         using var scope = new AssertionScope();
@@ -93,7 +93,7 @@ public class StateTypeExtensionsTests
     }
 
     [Fact(
-        DisplayName = $"Cannot create {nameof(IState)} "
+        DisplayName = $"Cannot create {nameof(IPrototype)} "
             + $"with {nameof(ITrait)} having multiple constructors "
             + $"decorated with {nameof(TraitConstructorAttribute)}"
     )]
@@ -103,7 +103,7 @@ public class StateTypeExtensionsTests
         var type = typeof(TraitWithManyConstructorWithAttributeState);
 
         // Act
-        Action sut = () => type.ToState();
+        Action sut = () => type.ToPrototype();
 
         // Assert
         using var scope = new AssertionScope();
@@ -111,7 +111,7 @@ public class StateTypeExtensionsTests
     }
 
     [Fact(
-        DisplayName = $"Cannot create {nameof(IState)} "
+        DisplayName = $"Cannot create {nameof(IPrototype)} "
             + $"not decorated with {nameof(TraitConstructorAttribute)}"
     )]
     public void Test6()
@@ -120,10 +120,10 @@ public class StateTypeExtensionsTests
         var type = typeof(object);
 
         // Act
-        Action sut = () => type.ToState();
+        Action sut = () => type.ToPrototype();
 
         // Assert
         using var scope = new AssertionScope();
-        sut.Should().ThrowExactly<TypeIsNotStateException>();
+        sut.Should().ThrowExactly<TypeIsNotPrototypeException>();
     }
 }

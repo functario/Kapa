@@ -1,6 +1,6 @@
-﻿using Kapa.Abstractions.States;
+﻿using Kapa.Abstractions.Prototypes;
 
-namespace Kapa.Core.States;
+namespace Kapa.Core.Prototypes;
 
 /// <summary>
 /// Indicates that the property is a <see cref="ITrait"/>.

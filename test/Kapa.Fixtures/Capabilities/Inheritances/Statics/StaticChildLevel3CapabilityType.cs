@@ -1,7 +1,4 @@
-﻿using Kapa.Abstractions.Validations;
-using Kapa.Core.Validations;
-
-namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
+﻿namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
 
 [CapabilityType]
 public class StaticChildLevel3CapabilityType : StaticChildLevel2CapabilityType

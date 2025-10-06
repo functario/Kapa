@@ -1,8 +1,6 @@
-﻿using Kapa.Core.States;
+﻿namespace Kapa.Fixtures.States;
 
-namespace Kapa.Fixtures.States;
-
-[State(nameof(OneTraitState))]
+[Prototype(nameof(OneTraitState))]
 public sealed class OneTraitState
 {
     [Trait(nameof(BoolTrait))]

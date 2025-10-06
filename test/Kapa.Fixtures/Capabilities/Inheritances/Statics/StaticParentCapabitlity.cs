@@ -1,6 +1,4 @@
-﻿using Kapa.Abstractions.Validations;
-using Kapa.Core.Validations;
-using Kapa.Fixtures.Capabilities.NoParameters;
+﻿using Kapa.Fixtures.Capabilities.NoParameters;
 
 namespace Kapa.Fixtures.Capabilities.Inheritances.Statics;
 
