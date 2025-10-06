@@ -20,6 +20,7 @@ public class DependencyTests
             .ToCapabilityType()
             .Capabilities.Single()
             .ToNode();
+
         var capabilityNode2 = typeof(CapabilityType2)
             .ToCapabilityType()
             .Capabilities.Single()
@@ -45,10 +46,15 @@ public class DependencyTests
         ];
         var graph = new Graph(nodes);
 
-        var focusedGraph = graph.FocusGraph([capabilityNode3], []);
+        var focusedGraph = graph.FocusGraph(
+            [capabilityNode4, capabilityNode5, capabilityNode3],
+            []
+        );
+
+        var a = focusedGraph.ToMermaidGraph();
 
         // Should include all three nodes: Capability3 (waypoint) + Capability1 & Capability2 (dependencies)
-        focusedGraph.Nodes.Count.Should().Be(3);
+        focusedGraph.Nodes.Count.Should().Be(5);
         focusedGraph.Nodes.Should().Contain(capabilityNode1);
         focusedGraph.Nodes.Should().Contain(capabilityNode2);
         focusedGraph.Nodes.Should().Contain(capabilityNode3);
