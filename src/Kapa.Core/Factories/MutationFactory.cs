@@ -6,6 +6,6 @@ namespace Kapa.Core.Factories;
 
 public static class MutationFactory
 {
-    public static Mutation<IHasTrait> Create<T>(this Expression<Func<T, object?>> expr)
+    public static Mutation<IHasTrait> Create<T>(this Expression<Func<T, bool>> expr)
         where T : IHasTrait => new(p => expr.Compile()((T)p));
 }

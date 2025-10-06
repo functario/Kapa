@@ -5,6 +5,6 @@ namespace Kapa.Abstractions.Prototypes;
 public interface IMutation<THasTrait>
     where THasTrait : IHasTrait
 {
-    public Expression<Func<THasTrait, object?>> MutationExpression { get; }
-    Func<THasTrait, object?> CompiledMutation { get; }
+    public Expression<Func<THasTrait, bool>> MutationExpression { get; }
+    Func<THasTrait, bool> CompiledMutation { get; }
 }
