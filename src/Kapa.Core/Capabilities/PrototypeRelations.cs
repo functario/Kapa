@@ -4,6 +4,12 @@ namespace Kapa.Core.Capabilities;
 
 public class PrototypeRelations : IPrototypeRelations<IHasTrait>
 {
+    public PrototypeRelations()
+    {
+        Mutations = [];
+        Requirements = [];
+    }
+
     public PrototypeRelations(
         ICollection<IMutation<IHasTrait>> mutations,
         ICollection<IRequirement<IHasTrait>> requirements

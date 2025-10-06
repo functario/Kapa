@@ -59,21 +59,20 @@ public static class CapabilityTypeExtensions
         return capabilities;
     }
 
-    public static IPrototypeRelations<IHasTrait> GetPrototypeRelations(this Type capabilityType)
+    public static IPrototypeRelations<IHasTrait>? GetPrototypeRelations(this Type capabilityType)
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
         ThrowIfNotCapabilityType(capabilityType);
 
         var method = FindRelationsMethod(capabilityType);
-        var attr = GetRelationsAttribute(method);
-        var relations = GetRelationsInstance(attr);
+        var relations = method?.GetRelations();
         return relations;
     }
 
     public static bool IsCapabilityType(this Type type) =>
         type?.IsDefined(typeof(CapabilityTypeAttribute), inherit: true) ?? false;
 
-    private static MethodInfo FindRelationsMethod(Type type)
+    private static MethodInfo? FindRelationsMethod(Type type)
     {
         var method = type.GetMethods(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
@@ -82,49 +81,11 @@ public static class CapabilityTypeExtensions
                 m.GetCustomAttributes(false)
                     .Any(attr =>
                         attr.GetType().IsGenericType
-                        && attr.GetType().GetGenericTypeDefinition()
-                            == typeof(Kapa.Core.Capabilities.RelationsAttribute<>)
+                        && attr.GetType().GetGenericTypeDefinition() == typeof(RelationsAttribute<>)
                     )
             );
 
-        return method
-            ?? throw new InvalidOperationException(
-                $"No method with RelationsAttribute found on type {type.FullName}."
-            );
-    }
-
-    private static Attribute GetRelationsAttribute(System.Reflection.MethodInfo method)
-    {
-        if (
-            method
-                .GetCustomAttributes(false)
-                .FirstOrDefault(a =>
-                    a.GetType().IsGenericType
-                    && a.GetType().GetGenericTypeDefinition()
-                        == typeof(Capabilities.RelationsAttribute<>)
-                )
-            is not Attribute attr
-        )
-            throw new InvalidOperationException(
-                $"RelationsAttribute not found on method {method.Name} of type {method.DeclaringType?.FullName}."
-            );
-
-        return attr;
-    }
-
-    private static IPrototypeRelations<IHasTrait> GetRelationsInstance(Attribute attr)
-    {
-        var relationsProp =
-            attr.GetType().GetProperty("Relations") ?? throw new InvalidOperationException(
-                $"Relations property not found on RelationsAttribute of type {attr.GetType().FullName}."
-            );
-
-        if (relationsProp.GetValue(attr) is not IPrototypeRelations<IHasTrait> relations)
-            throw new InvalidCastException(
-                $"Relations property is not IPrototypeRelations<IHasTrait> on attribute {attr.GetType().FullName}."
-            );
-
-        return relations;
+        return method;
     }
 
     private static void ThrowIfMissingCapabilityException(Type capabilityType, int count)
