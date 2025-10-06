@@ -14,6 +14,9 @@
 - Add `hints[]` for Outcome in case of failure.
 - Add `Priority` on Capability to set a score on the scenarios.
 - Add `Options` type to configure the dependency resolution of `Requirement` (by value or statement).
+  Given `x => x.A == 2 && x.B == true`:
+  * option 1 (default) - check `left = true` when `x.A = 2` and check `right = true` when `x.B = true`
+  * option 2 - check `x.A == 2` and `x.B == true`
 
 
 ## Features
