@@ -2,9 +2,9 @@
 
 namespace Kapa.Abstractions.Prototypes;
 
-public interface IRequirement<TPrototype>
-    where TPrototype : IPrototype
+public interface IRequirement<THasTrait>
+    where THasTrait : IHasTrait
 {
-    public Expression<Func<TPrototype, bool>> ConditionExpression { get; }
+    public Expression<Func<THasTrait, bool>> ConditionExpression { get; }
     public HashSet<string> ReferencedProperties { get; }
 }

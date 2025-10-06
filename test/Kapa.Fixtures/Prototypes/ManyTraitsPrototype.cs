@@ -1,9 +1,10 @@
-﻿using Kapa.Fixtures.Traits;
+﻿using Kapa.Abstractions.Prototypes;
+using Kapa.Fixtures.Traits;
 
 namespace Kapa.Fixtures.Prototypes;
 
 [Prototype(nameof(ManyTraitsPrototype))]
-public sealed class ManyTraitsPrototype
+public sealed class ManyTraitsPrototype : IHasTrait
 {
     [Trait(nameof(BoolTrait))]
     public bool BoolTrait { get; set; }

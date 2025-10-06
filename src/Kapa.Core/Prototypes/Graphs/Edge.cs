@@ -11,6 +11,6 @@ namespace Kapa.Core.Prototypes.Graphs;
 public sealed record Edge(
     Node FromNode,
     Node ToNode,
-    ICollection<IMutation<IPrototype>> ResolvingMutations
+    ICollection<IMutation<IHasTrait>> ResolvingMutations
 )
 { }

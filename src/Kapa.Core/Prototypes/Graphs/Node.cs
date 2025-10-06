@@ -10,7 +10,7 @@ namespace Kapa.Core.Prototypes.Graphs;
 /// <param name="Requirements">The requirements that must be satisfied for this node.</param>
 public sealed record Node(
     Type Type,
-    ICollection<IMutation<IPrototype>> Mutations,
-    ICollection<IRequirement<IPrototype>> Requirements
+    ICollection<IMutation<IHasTrait>> Mutations,
+    ICollection<IRequirement<IHasTrait>> Requirements
 )
 { }

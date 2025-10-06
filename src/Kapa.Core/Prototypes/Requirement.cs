@@ -3,14 +3,15 @@ using Kapa.Abstractions.Prototypes;
 
 namespace Kapa.Core.Prototypes;
 
-public sealed record Requirement<TPrototype>(Expression<Func<TPrototype, bool>> ConditionExpression)
-    : IRequirement<TPrototype>
-    where TPrototype : IPrototype
+public sealed record Requirement<THasTrait>(Expression<Func<THasTrait, bool>> ConditionExpression)
+    : IRequirement<THasTrait>
+    where THasTrait : IHasTrait
 {
-    public Func<TPrototype, bool> CompiledCondition => ConditionExpression.Compile();
+    public Func<THasTrait, bool> CompiledCondition => ConditionExpression.Compile();
 
     // Extract all property names referenced in the condition (computed once)
-    public HashSet<string> ReferencedProperties { get; } = ExtractPropertyNames(ConditionExpression);
+    public HashSet<string> ReferencedProperties { get; } =
+        ExtractPropertyNames(ConditionExpression);
 
     private static HashSet<string> ExtractPropertyNames(Expression expression)
     {

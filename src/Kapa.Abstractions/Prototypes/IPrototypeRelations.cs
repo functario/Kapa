@@ -1,8 +1,8 @@
 ﻿namespace Kapa.Abstractions.Prototypes;
 
-public interface IPrototypeRelations<TPrototype>
-    where TPrototype : IPrototype
+public interface IPrototypeRelations<THasTrait>
+    where THasTrait : IHasTrait
 {
-    public ICollection<IMutation<TPrototype>> Mutations { get; }
-    public ICollection<IRequirement<TPrototype>> Requirements { get; }
+    public ICollection<IMutation<THasTrait>> Mutations { get; }
+    public ICollection<IRequirement<THasTrait>> Requirements { get; }
 }
