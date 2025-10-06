@@ -26,10 +26,25 @@ public sealed record Requirement<TPrototype>(Expression<Func<TPrototype, bool>> 
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            // Only add properties from the declaring type (not nested types)
-            if (node.Member.DeclaringType != null && node.Expression?.NodeType == ExpressionType.Parameter)
+            // Check if this is accessing a member from the parameter
+            // It could be: p.Property or ((CastType)p).Property
+            var current = node.Expression;
+            while (current != null)
             {
-                Properties.Add(node.Member.Name);
+                if (current.NodeType == ExpressionType.Parameter)
+                {
+                    Properties.Add(node.Member.Name);
+                    break;
+                }
+                // Handle casts: ((Type)p).Property
+                if (current is UnaryExpression unary && unary.NodeType == ExpressionType.Convert)
+                {
+                    current = unary.Operand;
+                }
+                else
+                {
+                    break;
+                }
             }
             return base.VisitMember(node);
         }

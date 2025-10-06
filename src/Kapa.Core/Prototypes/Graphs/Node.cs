@@ -8,10 +8,9 @@ namespace Kapa.Core.Prototypes.Graphs;
 /// <param name="Type">The class type this node represents.</param>
 /// <param name="Mutations">The mutations provided by this node.</param>
 /// <param name="Requirements">The requirements that must be satisfied for this node.</param>
-public sealed record Node<TPrototype>(
+public sealed record Node(
     Type Type,
-    ICollection<IMutation<TPrototype>> Mutations,
-    ICollection<IRequirement<TPrototype>> Requirements
+    ICollection<IMutation<IPrototype>> Mutations,
+    ICollection<IRequirement<IPrototype>> Requirements
 )
-    where TPrototype : IPrototype
 { }

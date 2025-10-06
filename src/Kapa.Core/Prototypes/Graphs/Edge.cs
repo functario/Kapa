@@ -8,10 +8,9 @@ namespace Kapa.Core.Prototypes.Graphs;
 /// <param name="FromNode">The node that provides mutations.</param>
 /// <param name="ToNode">The node that has requirements.</param>
 /// <param name="ResolvingMutations">The mutations from FromNode that help satisfy ToNode's requirements.</param>
-public sealed record Edge<TPrototype>(
-    Node<TPrototype> FromNode,
-    Node<TPrototype> ToNode,
-    ICollection<IMutation<TPrototype>> ResolvingMutations
+public sealed record Edge(
+    Node FromNode,
+    Node ToNode,
+    ICollection<IMutation<IPrototype>> ResolvingMutations
 )
-    where TPrototype : IPrototype
 { }

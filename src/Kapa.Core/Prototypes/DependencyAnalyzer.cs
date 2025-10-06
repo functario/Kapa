@@ -62,7 +62,7 @@ public class DependencyAnalyzer<TPrototype>
                         new ComposedResolution<TPrototype>(
                             targetClass,
                             requirement,
-                            resolvingMutations.ToArray()
+                            [.. resolvingMutations]
                         )
                     );
                 }
