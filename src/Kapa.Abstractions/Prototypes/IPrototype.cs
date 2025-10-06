@@ -6,7 +6,7 @@ namespace Kapa.Abstractions.Prototypes;
 /// A <see cref="IPrototype"/> with <see cref="ITrait"/>
 /// that can be read or mutated by <see cref="ICapability"/>.
 /// </summary>
-public interface IPrototype
+public interface IPrototype : IHasTrait
 {
     string Name { get; }
     public string Description { get; }
