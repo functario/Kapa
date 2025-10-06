@@ -1,10 +1,9 @@
-﻿using Kapa.Core.States;
-using Kapa.Fixtures.Traits;
+﻿using Kapa.Fixtures.Traits;
 
-namespace Kapa.Fixtures.States;
+namespace Kapa.Fixtures.Prototypes;
 
-[State(nameof(ManyTraitsState))]
-public sealed class ManyTraitsState
+[Prototype(nameof(ManyTraitsPrototype))]
+public sealed class ManyTraitsPrototype
 {
     [Trait(nameof(BoolTrait))]
     public bool BoolTrait { get; set; }

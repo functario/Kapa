@@ -1,6 +1,4 @@
-﻿using Kapa.Core.States;
-
-namespace Kapa.Fixtures.Traits;
+﻿namespace Kapa.Fixtures.Traits;
 
 public sealed class ClassMultiConstructorsTrait
 {

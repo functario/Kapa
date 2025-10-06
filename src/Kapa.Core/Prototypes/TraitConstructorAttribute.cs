@@ -1,6 +1,6 @@
-﻿using Kapa.Abstractions.States;
+﻿using Kapa.Abstractions.Prototypes;
 
-namespace Kapa.Core.States;
+namespace Kapa.Core.Prototypes;
 
 /// <summary>
 /// Indicates that the constructor should be used to document the parameters of the <see cref="ITrait"/>.

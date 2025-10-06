@@ -1,11 +1,12 @@
 ﻿using Kapa.Abstractions.Capabilities;
 
-namespace Kapa.Abstractions.States;
+namespace Kapa.Abstractions.Prototypes;
 
 /// <summary>
-/// A state with properties that can be read or mutated by <see cref="ICapability"/>.
+/// A <see cref="IPrototype"/> with <see cref="ITrait"/>
+/// that can be read or mutated by <see cref="ICapability"/>.
 /// </summary>
-public interface IState
+public interface IPrototype
 {
     string Name { get; }
     public string Description { get; }

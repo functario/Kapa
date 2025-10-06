@@ -1,11 +1,11 @@
-﻿using Kapa.Abstractions.States;
+﻿using Kapa.Abstractions.Prototypes;
 
-namespace Kapa.Core.States;
+namespace Kapa.Core.Prototypes;
 
 /// <inheritdoc/>
-public sealed class State : IState
+public sealed class Prototype : IPrototype
 {
-    public State(string name, string description, params ITrait[] traits)
+    public Prototype(string name, string description, params ITrait[] traits)
     {
         Name = name;
         Description = description;

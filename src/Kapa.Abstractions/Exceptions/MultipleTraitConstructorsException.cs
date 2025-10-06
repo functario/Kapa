@@ -1,4 +1,4 @@
-﻿using Kapa.Abstractions.States;
+﻿using Kapa.Abstractions.Prototypes;
 
 namespace Kapa.Abstractions.Exceptions;
 

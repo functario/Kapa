@@ -1,7 +1,4 @@
-﻿using Kapa.Abstractions.Validations;
-using Kapa.Core.Validations;
-
-namespace Kapa.Fixtures.Capabilities.NoParameters;
+﻿namespace Kapa.Fixtures.Capabilities.NoParameters;
 
 [CapabilityType]
 public static class StaticCapabilityType

@@ -1,7 +1,7 @@
 ﻿using Kapa.Abstractions.Capabilities;
-using Kapa.Abstractions.States;
+using Kapa.Abstractions.Prototypes;
 
-namespace Kapa.Core.States;
+namespace Kapa.Core.Prototypes;
 
 /// <inheritdoc/>
 public sealed record Trait : ITrait
