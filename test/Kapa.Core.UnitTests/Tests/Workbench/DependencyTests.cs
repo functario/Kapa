@@ -1,6 +1,8 @@
-﻿using Kapa.Abstractions.Prototypes;
+﻿using Kapa.Abstractions.Graphs;
+using Kapa.Abstractions.Prototypes;
 using Kapa.Abstractions.Validations;
 using Kapa.Core.Factories;
+using Kapa.Core.Graphs;
 using Kapa.Core.Prototypes;
 using Kapa.Core.Validations;
 
@@ -10,14 +12,29 @@ public class DependencyTests
 {
     [Fact]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303")]
-    public void MyTestMethod()
+    public void ResolveCapabilitiesDependenciesWithGraphTheory()
     {
         // Arrange - Create nodes from relations
 
-        var capability1 = typeof(CapabilityType1).ToCapabilityType().Capabilities.Single();
-        var capability2 = typeof(CapabilityType2).ToCapabilityType().Capabilities.Single();
-        var capability3 = typeof(CapabilityType3).ToCapabilityType().Capabilities.Single();
+        var capabilityNode1 = typeof(CapabilityType1)
+            .ToCapabilityType()
+            .Capabilities.Single()
+            .ToNode();
+        var capabilityNode2 = typeof(CapabilityType2)
+            .ToCapabilityType()
+            .Capabilities.Single()
+            .ToNode();
+        var capabilityNode3 = typeof(CapabilityType3)
+            .ToCapabilityType()
+            .Capabilities.Single()
+            .ToNode();
 
+        INode[] nodes = [capabilityNode1, capabilityNode2, capabilityNode3];
+        var graph = new Graph(nodes);
+
+        var routes = graph.Resolve([capabilityNode3]);
+
+        routes.Count.Should().Be(2);
         // Example: Capability3 requires IsTraitTrue and TraitAsInt
         // Route 1: Capability1 → Capability2 → Capability3
         // Route 2: Capability2 → Capability1 → Capability3
@@ -79,7 +96,7 @@ internal sealed class Relations1 : IPrototypeRelations<IHasTrait>
 internal sealed class Relations2 : IPrototypeRelations<IHasTrait>
 {
     public ICollection<IMutation<IHasTrait>> Mutations =>
-        [new Mutation<IHasTrait>(p => ((PrototypeA)p).TraitAsInt > 2)];
+        [MutationFactory.Create<PrototypeA>(p => p.TraitAsInt > 2)];
 
     public ICollection<IRequirement<IHasTrait>> Requirements => [];
 }
@@ -89,9 +106,5 @@ internal sealed class Relations3 : IPrototypeRelations<IHasTrait>
     public ICollection<IMutation<IHasTrait>> Mutations => [];
 
     public ICollection<IRequirement<IHasTrait>> Requirements =>
-        [
-            new Requirement<IHasTrait>(p =>
-                ((PrototypeA)p).IsTraitTrue == true && ((PrototypeA)p).TraitAsInt > 2
-            ),
-        ];
+        [RequirementFactory.Create<PrototypeA>(p => p.TraitAsInt > 2)];
 }
