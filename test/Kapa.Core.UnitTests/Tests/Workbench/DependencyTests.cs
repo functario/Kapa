@@ -1,4 +1,5 @@
-﻿using Kapa.Abstractions.Graphs;
+﻿using System.Reflection;
+using Kapa.Abstractions.Graphs;
 using Kapa.Abstractions.Prototypes;
 using Kapa.Abstractions.Validations;
 using Kapa.Core.Factories;
@@ -15,7 +16,6 @@ public class DependencyTests
     public void ResolveCapabilitiesDependenciesWithGraphTheory()
     {
         // Arrange - Create nodes from relations
-
         var capabilityNode1 = typeof(CapabilityType1)
             .ToCapabilityType()
             .Capabilities.Single()
@@ -51,6 +51,17 @@ public class DependencyTests
 
         var a = focusedGraph.ToMermaidGraph();
 
+        /*
+         
+         Pour le graph, ajouter Grid position dependant du niveau de dependance et mutation
+Plus de dependence une Capabilities a plus elle sera dans le coin bas/gauche
+Les Capabilities sans dependance et sans mutation seront sur la premiere ligne, en sans allant vers la droite
+         
+         
+         
+         
+         */
+
         // Should include all three nodes: Capability3 (waypoint) + Capability1 & Capability2 (dependencies)
         focusedGraph.Nodes.Count.Should().Be(5);
         focusedGraph.Nodes.Should().Contain(capabilityNode1);
@@ -66,7 +77,7 @@ internal sealed class CapabilityType1
     [Relations<Relations1>()]
     public IOutcome Capability1()
     {
-        return TypedOutcomes.Ok(nameof(CapabilityType1));
+        return TypedOutcomes.Ok(MethodBase.GetCurrentMethod());
     }
 }
 
@@ -77,7 +88,7 @@ internal sealed class CapabilityType2
     [Relations<Relations2>()]
     public IOutcome Capability2()
     {
-        return TypedOutcomes.Ok(nameof(CapabilityType2));
+        return TypedOutcomes.Ok(MethodBase.GetCurrentMethod());
     }
 }
 
@@ -88,21 +99,21 @@ internal sealed class CapabilityType3
     [Relations<Relations3>()]
     public IOutcome Capability3()
     {
-        return TypedOutcomes.Ok(nameof(CapabilityType3));
+        return TypedOutcomes.Ok(MethodBase.GetCurrentMethod());
     }
 
     // No relations
     [Capability(nameof(Capability4))]
     public IOutcome Capability4()
     {
-        return TypedOutcomes.Ok(nameof(CapabilityType3));
+        return TypedOutcomes.Ok(MethodBase.GetCurrentMethod());
     }
 
     [Capability(nameof(Capability5))]
     [Relations<Relations4>()]
     public IOutcome Capability5()
     {
-        return TypedOutcomes.Ok(nameof(CapabilityType3));
+        return TypedOutcomes.Ok(MethodBase.GetCurrentMethod());
     }
 }
 
