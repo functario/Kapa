@@ -1,6 +1,6 @@
-﻿namespace Kapa.Fixtures.Traits;
+﻿namespace Kapa.Fixtures.States;
 
-public sealed class ClassPrimaryConstructorTrait(
+public sealed class ClassPrimaryConstructorState(
     [Parameter(nameof(number))] int number,
     [Parameter(nameof(boolean))] bool boolean
 )

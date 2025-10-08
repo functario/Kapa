@@ -3,9 +3,9 @@ using Kapa.Abstractions.Prototypes;
 
 namespace Kapa.Core.Prototypes;
 
-public sealed record Mutation<THasTrait>(Expression<Func<THasTrait, bool>> MutationExpression)
-    : IMutation<THasTrait>
-    where THasTrait : IGeneratedPrototype
+public sealed record Mutation<TGeneratedPrototype>(Expression<Func<TGeneratedPrototype, bool>> MutationExpression)
+    : IMutation<TGeneratedPrototype>
+    where TGeneratedPrototype : IGeneratedPrototype
 {
-    public Func<THasTrait, bool> CompiledMutation => MutationExpression.Compile();
+    public Func<TGeneratedPrototype, bool> CompiledMutation => MutationExpression.Compile();
 }

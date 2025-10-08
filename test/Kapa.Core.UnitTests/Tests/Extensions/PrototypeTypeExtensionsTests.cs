@@ -14,7 +14,7 @@ public class PrototypeTypeExtensionsTests
     public void Test1()
     {
         // Arrange
-        var type = typeof(OneTraitPrototype);
+        var type = typeof(OneStatePrototype);
 
         // Act
         var sut = type.ToPrototype();
@@ -23,7 +23,7 @@ public class PrototypeTypeExtensionsTests
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<IPrototype>();
         sut.States.Should().HaveCount(1);
-        sut.States.First().Name.Should().Be(nameof(OneTraitPrototype.BoolTrait));
+        sut.States.First().Name.Should().Be(nameof(OneStatePrototype.BoolState));
     }
 
     [Fact(
@@ -34,7 +34,7 @@ public class PrototypeTypeExtensionsTests
     public void Test2()
     {
         // Arrange
-        var type = typeof(ManyTraitsPrototype);
+        var type = typeof(ManyStatesPrototype);
 
         // Act
         var sut = type.ToPrototype();
@@ -47,10 +47,10 @@ public class PrototypeTypeExtensionsTests
             .Should()
             .BeEquivalentTo(
                 [
-                    nameof(ManyTraitsPrototype.BoolTrait),
-                    nameof(ManyTraitsPrototype.RecordTrait),
-                    nameof(ManyTraitsPrototype.ClassPrimaryConstructorTrait),
-                    nameof(ManyTraitsPrototype.ClassMultiConstructorsTrait),
+                    nameof(ManyStatesPrototype.BoolState),
+                    nameof(ManyStatesPrototype.RecordState),
+                    nameof(ManyStatesPrototype.ClassPrimaryConstructorState),
+                    nameof(ManyStatesPrototype.ClassMultiConstructorsState),
                 ]
             );
     }
@@ -63,7 +63,7 @@ public class PrototypeTypeExtensionsTests
     public void Test3()
     {
         // Arrange
-        var type = typeof(NoTraitPrototype);
+        var type = typeof(NoStatePrototype);
 
         // Act
         var sut = type.ToPrototype();
@@ -82,7 +82,7 @@ public class PrototypeTypeExtensionsTests
     public void Test4()
     {
         // Arrange
-        var type = typeof(TraitWithManyConstructorWithoutAttributePrototype);
+        var type = typeof(StateWithManyConstructorWithoutAttributePrototype);
 
         // Act
         Action sut = () => type.ToPrototype();
@@ -100,7 +100,7 @@ public class PrototypeTypeExtensionsTests
     public void Test5()
     {
         // Arrange
-        var type = typeof(TraitWithManyConstructorWithAttributePrototype);
+        var type = typeof(StateWithManyConstructorWithAttributePrototype);
 
         // Act
         Action sut = () => type.ToPrototype();

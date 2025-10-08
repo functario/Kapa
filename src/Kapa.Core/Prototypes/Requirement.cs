@@ -3,11 +3,11 @@ using Kapa.Abstractions.Prototypes;
 
 namespace Kapa.Core.Prototypes;
 
-public sealed record Requirement<THasTrait>(Expression<Func<THasTrait, bool>> ConditionExpression)
-    : IRequirement<THasTrait>
-    where THasTrait : IGeneratedPrototype
+public sealed record Requirement<TGeneratedPrototype>(Expression<Func<TGeneratedPrototype, bool>> ConditionExpression)
+    : IRequirement<TGeneratedPrototype>
+    where TGeneratedPrototype : IGeneratedPrototype
 {
-    public Func<THasTrait, bool> CompiledCondition => ConditionExpression.Compile();
+    public Func<TGeneratedPrototype, bool> CompiledCondition => ConditionExpression.Compile();
 
     // Extract all property names referenced in the condition (computed once)
     public HashSet<string> ReferencedProperties { get; } =

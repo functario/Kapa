@@ -120,18 +120,18 @@ internal sealed class CapabilityType3
 [Prototype(nameof(PrototypeA))]
 internal sealed class PrototypeA : IGeneratedPrototype
 {
-    public bool IsTraitTrue { get; set; }
-    public string? TraitAsString { get; set; }
+    public bool IsStateTrue { get; set; }
+    public string? StateAsString { get; set; }
 
-    public int TraitAsInt { get; set; }
-    public double TraitAsDouble { get; set; }
-    public long TraitAsLong { get; set; }
+    public int StateAsInt { get; set; }
+    public double StateAsDouble { get; set; }
+    public long StateAsLong { get; set; }
 }
 
 internal sealed class Relations1 : IPrototypeRelations<IGeneratedPrototype>
 {
     public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
-        [MutationFactory.Create<PrototypeA>(p => p.IsTraitTrue == true)];
+        [MutationFactory.Create<PrototypeA>(p => p.IsStateTrue == true)];
 
     public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
 }
@@ -139,7 +139,7 @@ internal sealed class Relations1 : IPrototypeRelations<IGeneratedPrototype>
 internal sealed class Relations2 : IPrototypeRelations<IGeneratedPrototype>
 {
     public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
-        [MutationFactory.Create<PrototypeA>(p => p.TraitAsInt > 2)];
+        [MutationFactory.Create<PrototypeA>(p => p.StateAsInt > 2)];
 
     public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
 }
@@ -150,15 +150,15 @@ internal sealed class Relations3 : IPrototypeRelations<IGeneratedPrototype>
 
     public ICollection<IRequirement<IGeneratedPrototype>> Requirements =>
         [
-            RequirementFactory.Create<PrototypeA>(p => p.TraitAsInt > 2),
-            RequirementFactory.Create<PrototypeA>(p => p.IsTraitTrue == true),
+            RequirementFactory.Create<PrototypeA>(p => p.StateAsInt > 2),
+            RequirementFactory.Create<PrototypeA>(p => p.IsStateTrue == true),
         ];
 }
 
 internal sealed class Relations4 : IPrototypeRelations<IGeneratedPrototype>
 {
     public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
-        [MutationFactory.Create<PrototypeA>(p => p.TraitAsDouble > 2)];
+        [MutationFactory.Create<PrototypeA>(p => p.StateAsDouble > 2)];
 
     public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
 }

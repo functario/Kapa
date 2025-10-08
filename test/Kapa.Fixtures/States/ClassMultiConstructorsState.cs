@@ -1,10 +1,10 @@
-﻿namespace Kapa.Fixtures.Traits;
+﻿namespace Kapa.Fixtures.States;
 
-public sealed class ClassMultiConstructorsTrait
+public sealed class ClassMultiConstructorsState
 {
-    // This constructor should be ignored since it does not have TraitConstructor.
+    // This constructor should be ignored since it does not have StateConstructor.
     // Which is required if multiple constructors with ParameterAttribute.
-    public ClassMultiConstructorsTrait(
+    public ClassMultiConstructorsState(
         [Parameter(nameof(number))] int number,
         [Parameter(nameof(boolean))] bool boolean
     )
@@ -14,7 +14,7 @@ public sealed class ClassMultiConstructorsTrait
     }
 
     [StateConstructor]
-    public ClassMultiConstructorsTrait(
+    public ClassMultiConstructorsState(
         [Parameter(nameof(number))] int number,
         [Parameter(nameof(boolean))] bool boolean,
         [Parameter(nameof(nullObject))] object? nullObject
