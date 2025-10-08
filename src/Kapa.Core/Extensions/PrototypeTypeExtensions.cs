@@ -18,11 +18,11 @@ public static class PrototypeTypeExtensions
         ArgumentNullException.ThrowIfNull(prototypeType);
         ThrowIfNotPrototypeType(prototypeType);
 
-        var traits = prototypeType.GetTraits();
+        var states = prototypeType.GetStates();
 
         var prototypeAttribute = prototypeType.GetPrototypeAttribute();
 
-        return new Prototype(prototypeType.Name, prototypeAttribute.Description, [.. traits]);
+        return new Prototype(prototypeType.Name, prototypeAttribute.Description, [.. states]);
     }
 
     /// <summary>
@@ -41,12 +41,12 @@ public static class PrototypeTypeExtensions
             .Single();
     }
 
-    public static ICollection<ITrait> GetTraits(this Type prototypeType)
+    public static ICollection<IState> GetStates(this Type prototypeType)
     {
         ArgumentNullException.ThrowIfNull(prototypeType);
         ThrowIfNotPrototypeType(prototypeType);
 
-        var traits = new List<ITrait>();
+        var states = new List<IState>();
 
         var properties = prototypeType.GetProperties(
             BindingFlags.Instance
@@ -57,25 +57,25 @@ public static class PrototypeTypeExtensions
 
         foreach (var property in properties)
         {
-            var traitAttribute = property.GetTraitAttribute();
-            if (traitAttribute is not null)
+            var stateAttribute = property.GetStateAttribute();
+            if (stateAttribute is not null)
             {
-                traits.Add(CreateTrait(traitAttribute, property));
+                states.Add(CreateState(stateAttribute, property));
             }
         }
 
-        return traits;
+        return states;
     }
 
     public static bool IsPrototypeType(this Type type) =>
         type?.IsDefined(typeof(PrototypeAttribute), inherit: true) ?? false;
 
-    private static Trait CreateTrait(TraitAttribute traitAttribute, PropertyInfo property)
+    private static State CreateState(StateAttribute stateAttribute, PropertyInfo property)
     {
-        ArgumentNullException.ThrowIfNull(traitAttribute);
+        ArgumentNullException.ThrowIfNull(stateAttribute);
         ArgumentNullException.ThrowIfNull(property);
         var parameters = property.GetParameters();
-        return new Trait(property.Name, traitAttribute.Description, [.. parameters]);
+        return new State(property.Name, stateAttribute.Description, [.. parameters]);
     }
 
     private static void ThrowIfNotPrototypeType(this Type type)

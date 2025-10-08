@@ -15,9 +15,9 @@ internal static class PropertyInfoExtensions
     /// </summary>
     /// <param name="property"></param>
     /// <returns></returns>
-    /// <exception cref="MultipleTraitConstructorsException"/>
+    /// <exception cref="MultipleStateConstructorsException"/>
     /// <exception cref="UnreachableException"/>
-    public static ConstructorInfo? GetTraitConstructor(this PropertyInfo property)
+    public static ConstructorInfo? GetStateConstructor(this PropertyInfo property)
     {
         ArgumentNullException.ThrowIfNull(property.DeclaringType);
         var propertyType = property.PropertyType;
@@ -34,35 +34,35 @@ internal static class PropertyInfoExtensions
         }
 
         // In case of multiple constructors
-        // find the single one with TraitConstructorAttribute.
+        // find the single one with StateConstructorAttribute.
         // Throw if many or none.
         if (constructors.Length > 1)
         {
-            var traitConstructors = constructors
-                .Where(constructor => constructor.IsTraitConstructor())
+            var stateConstructors = constructors
+                .Where(constructor => constructor.IsStateConstructor())
                 .ToArray();
 
-            if (traitConstructors.Length != 1)
+            if (stateConstructors.Length != 1)
             {
-                throw new MultipleTraitConstructorsException(
+                throw new MultipleStateConstructorsException(
                     property.DeclaringType,
-                    $"Add the attribute '{nameof(TraitConstructorAttribute)}' to the constructor"
-                        + $" used to document the parameters of the {nameof(ITrait)}."
+                    $"Add the attribute '{nameof(StateConstructorAttribute)}' to the constructor"
+                        + $" used to document the parameters of the {nameof(IState)}."
                 );
             }
 
-            return traitConstructors.First();
+            return stateConstructors.First();
         }
 
         throw new UnreachableException(
             $"Could not defined the constructor "
-                + $"used to document the parameters of the {nameof(ITrait)}."
+                + $"used to document the parameters of the {nameof(IState)}."
         );
     }
 
     public static List<IParameter> GetParameters(this PropertyInfo property)
     {
-        var constructor = property.GetTraitConstructor();
+        var constructor = property.GetStateConstructor();
         if (constructor is null)
         {
             return [];
@@ -87,12 +87,12 @@ internal static class PropertyInfoExtensions
         return parameters;
     }
 
-    public static TraitAttribute? GetTraitAttribute(this PropertyInfo property)
+    public static StateAttribute? GetStateAttribute(this PropertyInfo property)
     {
         ArgumentNullException.ThrowIfNull(property);
         return property
-            .GetCustomAttributes(typeof(TraitAttribute), inherit: true)
-            .Cast<TraitAttribute>()
+            .GetCustomAttributes(typeof(StateAttribute), inherit: true)
+            .Cast<StateAttribute>()
             .FirstOrDefault();
     }
 }

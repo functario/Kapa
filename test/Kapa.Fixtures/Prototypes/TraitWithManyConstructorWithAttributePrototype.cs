@@ -5,6 +5,6 @@ namespace Kapa.Fixtures.Prototypes;
 [Prototype(nameof(RecordPositionalPrototype))]
 public class TraitWithManyConstructorWithAttributePrototype
 {
-    [Trait(nameof(ManyConstructorsWithTraitConstructorAttributeTrait))]
+    [State(nameof(ManyConstructorsWithTraitConstructorAttributeTrait))]
     public ManyConstructorsWithTraitConstructorAttributeTrait? Trait1 { get; set; }
 }

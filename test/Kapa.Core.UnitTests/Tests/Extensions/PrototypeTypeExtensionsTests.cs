@@ -7,7 +7,7 @@ namespace Kapa.Core.UnitTests.Tests.Extensions;
 public class PrototypeTypeExtensionsTests
 {
     [Fact(
-        DisplayName = $"Create {nameof(IPrototype)} with one {nameof(ITrait)} "
+        DisplayName = $"Create {nameof(IPrototype)} with one {nameof(IState)} "
             + $"from {nameof(Type)} "
             + $"decorated with {nameof(PrototypeAttribute)}"
     )]
@@ -22,12 +22,12 @@ public class PrototypeTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<IPrototype>();
-        sut.Traits.Should().HaveCount(1);
-        sut.Traits.First().Name.Should().Be(nameof(OneTraitPrototype.BoolTrait));
+        sut.States.Should().HaveCount(1);
+        sut.States.First().Name.Should().Be(nameof(OneTraitPrototype.BoolTrait));
     }
 
     [Fact(
-        DisplayName = $"Create {nameof(IPrototype)} with many {nameof(ITrait)} "
+        DisplayName = $"Create {nameof(IPrototype)} with many {nameof(IState)} "
             + $"from {nameof(Type)} "
             + $"decorated with {nameof(PrototypeAttribute)}"
     )]
@@ -42,8 +42,8 @@ public class PrototypeTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<IPrototype>();
-        sut.Traits.Should().HaveCount(4);
-        sut.Traits.Select(x => x.Name)
+        sut.States.Should().HaveCount(4);
+        sut.States.Select(x => x.Name)
             .Should()
             .BeEquivalentTo(
                 [
@@ -56,7 +56,7 @@ public class PrototypeTypeExtensionsTests
     }
 
     [Fact(
-        DisplayName = $"Create {nameof(IPrototype)} without {nameof(ITrait)} "
+        DisplayName = $"Create {nameof(IPrototype)} without {nameof(IState)} "
             + $"from {nameof(Type)} "
             + $"decorated with {nameof(PrototypeAttribute)}"
     )]
@@ -71,13 +71,13 @@ public class PrototypeTypeExtensionsTests
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeAssignableTo<IPrototype>();
-        sut.Traits.Should().HaveCount(0);
+        sut.States.Should().HaveCount(0);
     }
 
     [Fact(
         DisplayName = $"Cannot create {nameof(IPrototype)} "
-            + $"with {nameof(ITrait)} having multiple constructors "
-            + $"but not decorated with {nameof(TraitConstructorAttribute)}"
+            + $"with {nameof(IState)} having multiple constructors "
+            + $"but not decorated with {nameof(StateConstructorAttribute)}"
     )]
     public void Test4()
     {
@@ -89,13 +89,13 @@ public class PrototypeTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        sut.Should().ThrowExactly<MultipleTraitConstructorsException>();
+        sut.Should().ThrowExactly<MultipleStateConstructorsException>();
     }
 
     [Fact(
         DisplayName = $"Cannot create {nameof(IPrototype)} "
-            + $"with {nameof(ITrait)} having multiple constructors "
-            + $"decorated with {nameof(TraitConstructorAttribute)}"
+            + $"with {nameof(IState)} having multiple constructors "
+            + $"decorated with {nameof(StateConstructorAttribute)}"
     )]
     public void Test5()
     {
@@ -107,12 +107,12 @@ public class PrototypeTypeExtensionsTests
 
         // Assert
         using var scope = new AssertionScope();
-        sut.Should().ThrowExactly<MultipleTraitConstructorsException>();
+        sut.Should().ThrowExactly<MultipleStateConstructorsException>();
     }
 
     [Fact(
         DisplayName = $"Cannot create {nameof(IPrototype)} "
-            + $"not decorated with {nameof(TraitConstructorAttribute)}"
+            + $"not decorated with {nameof(StateConstructorAttribute)}"
     )]
     public void Test6()
     {

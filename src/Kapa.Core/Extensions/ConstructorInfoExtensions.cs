@@ -5,6 +5,6 @@ namespace Kapa.Core.Extensions;
 
 internal static class ConstructorInfoExtensions
 {
-    internal static bool IsTraitConstructor(this ConstructorInfo constructor) =>
-        constructor?.IsDefined(typeof(TraitConstructorAttribute), inherit: true) ?? false;
+    internal static bool IsStateConstructor(this ConstructorInfo constructor) =>
+        constructor?.IsDefined(typeof(StateConstructorAttribute), inherit: true) ?? false;
 }

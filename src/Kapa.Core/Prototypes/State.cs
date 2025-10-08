@@ -4,9 +4,9 @@ using Kapa.Abstractions.Prototypes;
 namespace Kapa.Core.Prototypes;
 
 /// <inheritdoc/>
-public sealed record Trait : ITrait
+public sealed record State : IState
 {
-    public Trait(string name, string description, params IParameter[] parameters)
+    public State(string name, string description, params IParameter[] parameters)
     {
         Name = name;
         Description = description;

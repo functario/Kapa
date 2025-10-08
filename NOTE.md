@@ -1,5 +1,5 @@
 ## Kapa workflow
-1. Create a `Prototype` with some `Trait`.
+1. Create a `Prototype` with some `State`.
 1. Create a `CapabilityType` with some `Capability`:
     - Add `Mutation`
 1. Create another `CapabilityType` with some `Capability`:

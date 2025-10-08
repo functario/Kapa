@@ -3,6 +3,6 @@
 [Prototype(nameof(OneTraitPrototype))]
 public sealed class OneTraitPrototype
 {
-    [Trait(nameof(BoolTrait))]
+    [State(nameof(BoolTrait))]
     public bool BoolTrait { get; set; }
 }

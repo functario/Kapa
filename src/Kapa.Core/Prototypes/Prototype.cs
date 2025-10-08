@@ -5,14 +5,14 @@ namespace Kapa.Core.Prototypes;
 /// <inheritdoc/>
 public sealed class Prototype : IPrototype
 {
-    public Prototype(string name, string description, params ITrait[] traits)
+    public Prototype(string name, string description, params IState[] traits)
     {
         Name = name;
         Description = description;
-        Traits = traits;
+        States = traits;
     }
 
-    public IReadOnlyCollection<ITrait> Traits { get; }
+    public IReadOnlyCollection<IState> States { get; }
     public string Name { get; }
     public string Description { get; }
 }

@@ -13,7 +13,7 @@ public sealed class ClassMultiConstructorsTrait
         Boolean = boolean;
     }
 
-    [TraitConstructor]
+    [StateConstructor]
     public ClassMultiConstructorsTrait(
         [Parameter(nameof(number))] int number,
         [Parameter(nameof(boolean))] bool boolean,

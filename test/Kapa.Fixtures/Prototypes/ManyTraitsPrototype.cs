@@ -6,15 +6,15 @@ namespace Kapa.Fixtures.Prototypes;
 [Prototype(nameof(ManyTraitsPrototype))]
 public sealed class ManyTraitsPrototype : IGeneratedPrototype
 {
-    [Trait(nameof(BoolTrait))]
+    [State(nameof(BoolTrait))]
     public bool BoolTrait { get; set; }
 
-    [Trait(nameof(RecordTrait))]
+    [State(nameof(RecordTrait))]
     public RecordPositionalConstructorTrait? RecordTrait { get; set; }
 
-    [Trait(nameof(ClassPrimaryConstructorTrait))]
+    [State(nameof(ClassPrimaryConstructorTrait))]
     public ClassPrimaryConstructorTrait? ClassPrimaryConstructorTrait { get; set; }
 
-    [Trait(nameof(ClassMultiConstructorsTrait))]
+    [State(nameof(ClassMultiConstructorsTrait))]
     public ClassMultiConstructorsTrait? ClassMultiConstructorsTrait { get; set; }
 }

@@ -3,16 +3,16 @@
 namespace Kapa.Core.Prototypes;
 
 /// <summary>
-/// Indicates that the property is a <see cref="ITrait"/>.
+/// Indicates that the property is a <see cref="IState"/>.
 /// </summary>
 /// <remarks>
 /// Record positional constructor properties are not supported.
 /// Only explict properties are supported.
 /// </remarks>
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class TraitAttribute : Attribute
+public sealed class StateAttribute : Attribute
 {
-    public TraitAttribute(string description)
+    public StateAttribute(string description)
     {
         Description = description;
     }
