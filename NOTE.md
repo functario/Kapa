@@ -40,6 +40,10 @@ was not `Ok` ('What if?'). Diagnostic can then be executed try to find the root 
 
 ## Todo
 
+- Validate if needs to support multiple statement in Requirement and Mutations:
+  'x => x.Number > 0 && x.Number < 3' or 'x => x.Number > 0 and x.Boolean == true'.
+  Or this should this 'x => x.Number > 0 && x.Number < 3' 
+  should be 'x => x.NumberInRange == true'.
 - Add `hints[]` for Outcome in case of failure (Or diagnostic could be enough?).
 
 
