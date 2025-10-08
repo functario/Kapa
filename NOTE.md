@@ -1,3 +1,27 @@
+## Concept
+
+Kapa is a framework to guide the implementation of a documented and self validating system,
+built on top of functationalities from multiple domains.
+
+Separating functationalities (`Capability`) from data (`Prototype` and `State`). In a sens,
+this is functional programming oriented with metadata that exposes the dependencies
+to `Prototypes States`. 
+
+This allows to compose a chain of functions from a graph. The dependencies in the chain can be validated before to be executed.
+Chain can also be uses as an oracle to observe what will happen if the result from a Capability
+was not `Ok` ('What if?'). Diagnostic can then be executed try to find the root cause of the problem.
+
+## Weakness to try to resolve
+
+1. When a Capability need multiple complex objects from from multiple Capabilities,
+  the current mindset is to store this data in a Prototype and expose via State.
+  So there is duplication of object declaration like any DTO.
+  The goal still remain to make visible only what is needed to make the system works.
+  But it could remain a point of friction for adoption 
+  (like who owns de Prototypes? What is the process to expose the need of information? But is different than today?
+  Teams still need to talk when creating an API contract).
+  It ask the developpers to think about the state of the system as a whole rather than individual components.
+
 ## Kapa workflow
 1. Create a `Prototype` with some `State`.
 1. Create a `CapabilityType` with some `Capability`:
@@ -16,13 +40,7 @@
 
 ## Todo
 
-- Change `Outcome.Source` to be object with DeclaringType and Method signature, instead of string.
-- Add `hints[]` for Outcome in case of failure.
-- Add `Priority` on Capability to set a score on the scenarios.
-- Add `Options` type to configure the dependency resolution of `Requirement` (by value or statement).
-  Given `x => x.A == 2 && x.B == true`:
-  * option 1 (default) - check `left = true` when `x.A = 2` and check `right = true` when `x.B = true`
-  * option 2 - check `x.A == 2` and `x.B == true`
+- Add `hints[]` for Outcome in case of failure (Or diagnostic could be enough?).
 
 
 ## Features
