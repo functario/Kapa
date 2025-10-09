@@ -55,6 +55,7 @@ public class Tests
     public void Test2()
     {
         // Arrange
+        var thermostat = new Thermostat(Guid.NewGuid(), "Thermostat00", "ThermostatModel");
         // Act
         var sut = typeof(DomoticCapabilities).GetCapabilities();
 

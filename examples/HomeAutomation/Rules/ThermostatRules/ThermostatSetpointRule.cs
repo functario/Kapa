@@ -15,7 +15,8 @@ public sealed class ThermostatSetpointRule : IRule
 
     public Type TypeOfT => typeof(Thermostat);
 
-    public IOutcome Validate<T>(T subject)
+    public IOutcome Validate<TActor, TSubject>(TActor _, TSubject subject)
+        where TActor : IActor
     {
         if (subject is not Thermostat thermostat)
             throw new InvalidCastException();
