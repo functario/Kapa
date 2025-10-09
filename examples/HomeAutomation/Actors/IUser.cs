@@ -1,6 +1,4 @@
-﻿using HomeAutomation.Actors.Homes;
-
-namespace HomeAutomation.Actors;
+﻿namespace HomeAutomation.Actors;
 
 public interface IUser
 {

@@ -1,7 +1,4 @@
-﻿using HomeAutomation.Actors.Homes;
-using Kapa.Core.Actors;
-
-namespace HomeAutomation.Actors;
+﻿namespace HomeAutomation.Actors;
 
 [Actor($"The {nameof(User)}.")]
 public sealed record User : IGeneratedActor, IUser

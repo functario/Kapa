@@ -1,8 +1,5 @@
-﻿using Kapa.Core.Actors;
+﻿namespace HomeAutomation.Actors.Homes;
 
-namespace HomeAutomation.Actors.Homes;
-
-[Actor($"A {nameof(Light)}.")]
 public class Light : Device, IGeneratedActor
 {
     public Light(Guid id, string name, string model)
@@ -13,6 +10,5 @@ public class Light : Device, IGeneratedActor
         Model = model;
     }
 
-    [State($"The state of the light. The true if the device is on. False otherwise.")]
     public bool IsOn { get; set; }
 }

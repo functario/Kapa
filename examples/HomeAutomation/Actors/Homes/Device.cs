@@ -1,6 +1,4 @@
-﻿using Kapa.Core.Actors;
-
-namespace HomeAutomation.Actors.Homes;
+﻿namespace HomeAutomation.Actors.Homes;
 
 [Actor($"A {nameof(Device)}.")]
 public class Device : IDevice, IGeneratedActor
