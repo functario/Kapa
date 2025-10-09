@@ -5,7 +5,9 @@ namespace Kapa.Core.Prototypes;
 /// <summary>
 /// Indicates that the property is a <see cref="IState"/>.
 /// </summary>
-[AttributeUsage(AttributeTargets.Property)]
+[AttributeUsage(
+    AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.GenericParameter
+)]
 public sealed class StateAttribute : Attribute
 {
     public StateAttribute(string description)

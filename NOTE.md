@@ -40,6 +40,8 @@ was not `Ok` ('What if?'). Diagnostic can then be executed try to find the root 
 
 ## Todo
 
+- User actor pattern to change `Prototype.State` (with logs of which method mutates, when, etc).
+- How to expose some models from `State` that are collection? are they `Prototype`?
 - Validate if needs to support multiple statement in Requirement and Mutations:
   'x => x.Number > 0 && x.Number < 3' or 'x => x.Number > 0 and x.Boolean == true'.
   Or this should this 'x => x.Number > 0 && x.Number < 3' 
