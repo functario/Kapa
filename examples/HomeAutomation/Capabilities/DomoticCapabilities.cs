@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
+using HomeAutomation.Rules.ThermostatRules;
 
 namespace HomeAutomation.Capabilities;
 
+[CapabilityType]
 public sealed class DomoticCapabilities
 {
     private readonly IUser _user;
@@ -13,8 +15,9 @@ public sealed class DomoticCapabilities
 
     [Capability($"Change the {nameof(Thermostat)} {nameof(Thermostat.Setpoint)}.")]
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> SetThermostatSetpoint(
-        string thermostatName,
-        double setpoint
+        [Parameter($"The {nameof(Thermostat)} name.", typeof(ThermostatSetpointRule))]
+            string thermostatName,
+        [Parameter($"The setpoint to apply to the {nameof(Thermostat)}.")] double setpoint
     )
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(thermostatName, nameof(thermostatName));

@@ -3,13 +3,16 @@ using AwesomeAssertions.Execution;
 using HomeAutomation.Actors;
 using HomeAutomation.Actors.Homes;
 using HomeAutomation.Capabilities;
+using Kapa.Abstractions.Graphs;
+using Kapa.Core.Extensions;
 using Kapa.Core.Validations;
+using Microsoft.Testing.Platform.Capabilities;
 
 namespace HomeAutomation.Demo;
 
 public class Tests
 {
-    [Fact]
+    [Fact(DisplayName = $"{nameof(User)} is a shared instance between {nameof(ICapability)}.")]
     public async Task Test1()
     {
         // Arrange
@@ -46,5 +49,15 @@ public class Tests
         identification!.Token?.AccessToken.Should().NotBeNullOrEmpty();
         identification!.Token?.RefreshToken.Should().NotBeNullOrEmpty();
         identification!.Token?.ExpiresOn.Should().BeAfter(timeProvider.GetUtcNow());
+    }
+
+    [Fact(DisplayName = $"Resolve {nameof(IGraph)}")]
+    public void Test2()
+    {
+        // Arrange
+        // Act
+        var sut = typeof(DomoticCapabilities).GetCapabilities();
+
+        // Assert
     }
 }

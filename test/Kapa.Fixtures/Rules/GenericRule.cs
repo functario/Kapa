@@ -6,7 +6,9 @@ public sealed class GenericRule : IRule
 {
     public string Name => nameof(GenericRule);
 
-    public IOutcome Validate()
+    public Type TypeOfT => typeof(object);
+
+    public IOutcome Validate<T>(T subject)
     {
         return TypedOutcomes.Ok(Name);
     }

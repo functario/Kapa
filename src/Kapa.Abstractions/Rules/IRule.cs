@@ -8,5 +8,6 @@ namespace Kapa.Abstractions.Rules;
 public interface IRule
 {
     public string Name { get; }
-    public IOutcome Validate();
+    public IOutcome Validate<T>(T subject);
+    public Type TypeOfT { get; }
 }
