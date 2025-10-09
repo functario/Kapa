@@ -1,8 +1,4 @@
 ﻿using System.Reflection;
-using HomeAutomation.Prototypes;
-using HomeAutomation.Prototypes.Identifications;
-using Kapa.Core.Capabilities;
-using Kapa.Core.Validations;
 
 namespace HomeAutomation.Capabilities;
 

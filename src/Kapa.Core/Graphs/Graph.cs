@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Graphs;
-using Kapa.Abstractions.Prototypes;
 
 namespace Kapa.Core.Graphs;
 
@@ -153,7 +153,7 @@ public sealed class Graph : IGraph
     }
 
     private static bool DoesMutationSatisfyCondition(
-        IMutation<IGeneratedPrototype> mutation,
+        IMutation<IGeneratedActor> mutation,
         AtomicCondition condition
     )
     {

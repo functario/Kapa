@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Graphs;
-using Kapa.Abstractions.Prototypes;
 using Kapa.Abstractions.Validations;
+using Kapa.Core.Actors;
 using Kapa.Core.Factories;
 using Kapa.Core.Graphs;
-using Kapa.Core.Prototypes;
 using Kapa.Core.Validations;
 
 namespace Kapa.Core.UnitTests.Tests.Workbench;
@@ -117,8 +117,8 @@ internal sealed class CapabilityType3
     }
 }
 
-[Prototype(nameof(PrototypeA))]
-internal sealed class PrototypeA : IGeneratedPrototype
+[Actor(nameof(ActorA))]
+internal sealed class ActorA : IGeneratedActor
 {
     public bool IsStateTrue { get; set; }
     public string? StateAsString { get; set; }
@@ -128,37 +128,37 @@ internal sealed class PrototypeA : IGeneratedPrototype
     public long StateAsLong { get; set; }
 }
 
-internal sealed class Relations1 : IPrototypeRelations<IGeneratedPrototype>
+internal sealed class Relations1 : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
-        [MutationFactory.Create<PrototypeA>(p => p.IsStateTrue == true)];
+    public ICollection<IMutation<IGeneratedActor>> Mutations =>
+        [MutationFactory.Create<ActorA>(p => p.IsStateTrue == true)];
 
-    public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
+    public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }
 
-internal sealed class Relations2 : IPrototypeRelations<IGeneratedPrototype>
+internal sealed class Relations2 : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
-        [MutationFactory.Create<PrototypeA>(p => p.StateAsInt > 2)];
+    public ICollection<IMutation<IGeneratedActor>> Mutations =>
+        [MutationFactory.Create<ActorA>(p => p.StateAsInt > 2)];
 
-    public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
+    public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }
 
-internal sealed class Relations3 : IPrototypeRelations<IGeneratedPrototype>
+internal sealed class Relations3 : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedPrototype>> Mutations => [];
+    public ICollection<IMutation<IGeneratedActor>> Mutations => [];
 
-    public ICollection<IRequirement<IGeneratedPrototype>> Requirements =>
+    public ICollection<IRequirement<IGeneratedActor>> Requirements =>
         [
-            RequirementFactory.Create<PrototypeA>(p => p.StateAsInt > 2),
-            RequirementFactory.Create<PrototypeA>(p => p.IsStateTrue == true),
+            RequirementFactory.Create<ActorA>(p => p.StateAsInt > 2),
+            RequirementFactory.Create<ActorA>(p => p.IsStateTrue == true),
         ];
 }
 
-internal sealed class Relations4 : IPrototypeRelations<IGeneratedPrototype>
+internal sealed class Relations4 : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedPrototype>> Mutations =>
-        [MutationFactory.Create<PrototypeA>(p => p.StateAsDouble > 2)];
+    public ICollection<IMutation<IGeneratedActor>> Mutations =>
+        [MutationFactory.Create<ActorA>(p => p.StateAsDouble > 2)];
 
-    public ICollection<IRequirement<IGeneratedPrototype>> Requirements => [];
+    public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }

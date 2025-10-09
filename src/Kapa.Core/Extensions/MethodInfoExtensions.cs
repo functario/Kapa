@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Capabilities;
-using Kapa.Abstractions.Prototypes;
 using Kapa.Abstractions.Validations;
 using Kapa.Core.Capabilities;
 using Kapa.Core.Validations;
@@ -78,13 +78,13 @@ internal static class MethodInfoExtensions
         return attr;
     }
 
-    public static IPrototypeRelations<IGeneratedPrototype>? GetRelations(this MethodInfo method)
+    public static IRelations<IGeneratedActor>? GetRelations(this MethodInfo method)
     {
         ArgumentNullException.ThrowIfNull(method);
         var relationsAttributes = method.GetRelationsAttribute();
 
         // Trick to avoid using a constant that will not be attached to the RelationsAttribute.
-        var relationString = nameof(RelationsAttribute<PrototypeRelations>.Relations);
+        var relationString = nameof(RelationsAttribute<Relations>.Relations);
         var relationsProperty = relationsAttributes?.GetType().GetProperty(relationString);
 
         if (relationsProperty is null)
@@ -94,7 +94,7 @@ internal static class MethodInfoExtensions
 
         if (
             relationsProperty.GetValue(relationsAttributes)
-            is not IPrototypeRelations<IGeneratedPrototype> relations
+            is not IRelations<IGeneratedActor> relations
         )
         {
             return null;

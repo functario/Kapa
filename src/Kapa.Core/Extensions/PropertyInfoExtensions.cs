@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Exceptions;
-using Kapa.Abstractions.Prototypes;
+using Kapa.Core.Actors;
 using Kapa.Core.Capabilities;
-using Kapa.Core.Prototypes;
 
 namespace Kapa.Core.Extensions;
 

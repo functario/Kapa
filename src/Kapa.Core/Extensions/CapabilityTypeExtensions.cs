@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Exceptions;
-using Kapa.Abstractions.Prototypes;
 using Kapa.Core.Capabilities;
 
 namespace Kapa.Core.Extensions;
@@ -59,9 +59,7 @@ public static class CapabilityTypeExtensions
         return capabilities;
     }
 
-    public static IPrototypeRelations<IGeneratedPrototype>? GetPrototypeRelations(
-        this Type capabilityType
-    )
+    public static IRelations<IGeneratedActor>? GetRelations(this Type capabilityType)
     {
         ArgumentNullException.ThrowIfNull(capabilityType);
         ThrowIfNotCapabilityType(capabilityType);

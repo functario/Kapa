@@ -1,5 +1,5 @@
-﻿using Kapa.Abstractions.Capabilities;
-using Kapa.Abstractions.Prototypes;
+﻿using Kapa.Abstractions.Actors;
+using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Validations;
 
 namespace Kapa.Core.Capabilities;
@@ -19,7 +19,7 @@ public record Capability : ICapability
         string name,
         string description,
         IOutcomeMetadata outcomeMetadata,
-        IPrototypeRelations<IGeneratedPrototype>? relations
+        IRelations<IGeneratedActor>? relations
     )
         : this(name, description, outcomeMetadata, relations, []) { }
 
@@ -30,7 +30,7 @@ public record Capability : ICapability
         string name,
         string description,
         IOutcomeMetadata outcomeMetadata,
-        IPrototypeRelations<IGeneratedPrototype>? relations,
+        IRelations<IGeneratedActor>? relations,
         IParameter[] parameters
     )
     {
@@ -49,5 +49,5 @@ public record Capability : ICapability
 
     public IOutcomeMetadata OutcomeMetadata { get; init; }
 
-    public IPrototypeRelations<IGeneratedPrototype>? Relations { get; init; }
+    public IRelations<IGeneratedActor>? Relations { get; init; }
 }

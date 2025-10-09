@@ -1,1 +1,5 @@
-﻿global using Kapa.Abstractions.Prototypes;
+﻿global using HomeAutomation.Actors;
+global using HomeAutomation.Actors.Identifications;
+global using Kapa.Abstractions.Actors;
+global using Kapa.Core.Capabilities;
+global using Kapa.Core.Validations;

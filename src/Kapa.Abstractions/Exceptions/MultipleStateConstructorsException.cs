@@ -1,4 +1,4 @@
-﻿using Kapa.Abstractions.Prototypes;
+﻿using Kapa.Abstractions.Actors;
 
 namespace Kapa.Abstractions.Exceptions;
 

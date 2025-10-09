@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Graphs;
 
 namespace Kapa.Core.Extensions;
@@ -115,7 +116,7 @@ public static class GraphExtensions
             expression = unary.Operand;
         }
 
-        // Extract the prototype type name and build a readable expression
+        // Extract the actor type name and build a readable expression
         string expressionString;
 
         if (expression is System.Linq.Expressions.BinaryExpression binaryExpr)
@@ -181,7 +182,7 @@ public static class GraphExtensions
                         }
                     }
 
-                    // Build the expression: PrototypeName.PropertyName operator value
+                    // Build the expression
                     var propertyName = memberExpr.Member.Name;
                     var operatorSymbol = GetOperatorSymbol(binaryExpr.NodeType);
                     var value = GetConstantValue(binaryExpr.Right);
@@ -252,7 +253,7 @@ public static class GraphExtensions
 
     private static List<INode> FindNodesThatSatisfyRequirement(
         IGraph graph,
-        Abstractions.Prototypes.IRequirement<Abstractions.Prototypes.IGeneratedPrototype> requirement
+        IRequirement<IGeneratedActor> requirement
     )
     {
         var satisfyingNodes = new List<INode>();
