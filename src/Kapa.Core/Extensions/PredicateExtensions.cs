@@ -6,7 +6,7 @@ namespace Kapa.Core.Extensions;
 public static class PredicateExtensions
 {
     public static IEffect<TGeneratedActor> ToEffect<TGeneratedActor>(
-        this Func<TGeneratedActor, bool> predicate,
+        this Predicate<TGeneratedActor> predicate,
         string id,
         string description
     )

@@ -12,19 +12,19 @@ public interface IUser : IGeneratedActor
         $"{nameof(IUser)}.{nameof(IsAuthenticated)}",
         $"The {nameof(IUser)} is authenticated."
     )]
-    public static Func<IUser, bool> IsAuthenticated => u => u.Identification != null;
+    public static Predicate<IUser> IsAuthenticated => u => u.Identification != null;
 
     [EffectPredicate(
         HasThermostatId,
         $"The {nameof(IUser)}'s {nameof(Home)} has at least 1 {nameof(Thermostat)}."
     )]
-    public static Func<IUser, bool> HasThermostat => u => u.Home.Devices.Any(x => x is Thermostat);
+    public static Predicate<IUser> HasThermostat => u => u.Home.Devices.Any(x => x is Thermostat);
 
     [EffectPredicate(
         $"{nameof(IUser)}.{nameof(HasLight)}",
         $"The {nameof(IUser)}'s {nameof(Home)} has at least 1 {nameof(Light)}."
     )]
-    public static Func<IUser, bool> HasLight => u => u.Home.Devices.Any(x => x is Light);
+    public static Predicate<IUser> HasLight => u => u.Home.Devices.Any(x => x is Light);
 }
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]

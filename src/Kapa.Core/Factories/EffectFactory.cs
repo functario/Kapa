@@ -6,7 +6,7 @@ namespace Kapa.Core.Factories;
 public static class EffectFactory
 {
     public static Effect<TGeneratedActor> Create<TGeneratedActor>(
-        this Func<TGeneratedActor, bool> predicate,
+        this Predicate<TGeneratedActor> predicate,
         string id,
         string description
     )

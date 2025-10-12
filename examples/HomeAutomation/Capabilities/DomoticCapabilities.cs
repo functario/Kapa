@@ -111,7 +111,7 @@ public sealed class SetThermostatSetpointRelations : IRelations<IGeneratedActor>
 
     public ICollection<IEffect<IGeneratedActor>> Requirements =>
         [
-            IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated"),
+            IUser.IsAuthenticated.ToEffect(IUser.HasThermostatId, "Is authenticated"),
             IUser.HasThermostat.ToEffect(nameof(IUser.HasThermostat), "Has Thermostat"),
         ];
 }
