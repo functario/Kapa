@@ -11,9 +11,27 @@ public static class PredicateExtensions
     )
         where TGeneratedActor : IGeneratedActor
     {
+        // Default origin is TGeneratedActor
+        return ToEffect<TGeneratedActor>(predicate, typeof(TGeneratedActor));
+    }
+
+    public static IEffect<TGeneratedActor> ToEffect<TGeneratedActor, TPredicateOrigin>(
+        this Predicate<TGeneratedActor> predicate
+    )
+        where TGeneratedActor : IGeneratedActor
+    {
+        return ToEffect<TGeneratedActor>(predicate, typeof(TPredicateOrigin));
+    }
+
+    public static IEffect<TGeneratedActor> ToEffect<TGeneratedActor>(
+        this Predicate<TGeneratedActor> predicate,
+        Type predicateOrigin
+    )
+        where TGeneratedActor : IGeneratedActor
+    {
         ArgumentNullException.ThrowIfNull(predicate);
-        // Use reflection to find EffectPredicateAttribute on the property that returns this predicate
-        var type = typeof(TGeneratedActor);
+        ArgumentNullException.ThrowIfNull(predicateOrigin);
+        var type = predicateOrigin;
         var predicateMethod = predicate.Method;
 
         foreach (
@@ -42,7 +60,7 @@ public static class PredicateExtensions
         }
 
         throw new InvalidOperationException(
-            $"No EffectPredicateAttribute found for predicate {predicateMethod.Name} on {type.Name}."
+            $"No {nameof(EffectPredicateAttribute)} found for predicate {predicateMethod.Name} on {type.Name}."
         );
     }
 }

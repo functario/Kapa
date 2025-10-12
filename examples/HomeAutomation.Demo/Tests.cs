@@ -101,10 +101,8 @@ public class Tests
             [setups, authentications, setThermostatSetpoint, setLightIsOn, addThermostat, addLight]
         );
 
-        var re = graph.ToMermaidGraph();
+        var fullGraph = graph.ToMermaidGraph();
 
-        // Not implemented!
-        //var resolve = graph.Resolve([domotic]);
         var reduce = graph.Reduce([setLightIsOn], []).ToMermaidGraph();
         // Assert
     }
