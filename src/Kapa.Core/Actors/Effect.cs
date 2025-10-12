@@ -2,9 +2,9 @@
 
 namespace Kapa.Core.Actors;
 
-public sealed record Mutation<TGeneratedActor>(
+public sealed record Effect<TGeneratedActor>(
     string Description,
     Func<IGeneratedActor, bool> Predicate
-) : IMutation<TGeneratedActor>
+) : IEffect<TGeneratedActor>
     where TGeneratedActor : IGeneratedActor
 { }

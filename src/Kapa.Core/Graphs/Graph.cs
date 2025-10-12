@@ -111,7 +111,7 @@ public sealed class Graph : IGraph
     }
 
     private static List<INode> FindNodesThatSatisfyRequirement(
-        IRequirement<IGeneratedActor> requirement,
+        IEffect<IGeneratedActor> requirement,
         HashSet<INode> availableNodes
     )
     {

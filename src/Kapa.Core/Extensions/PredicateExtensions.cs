@@ -5,7 +5,7 @@ namespace Kapa.Core.Extensions;
 
 public static class PredicateExtensions
 {
-    public static IRequirement<TGeneratedActor> ToRequirement<TGeneratedActor>(
+    public static IEffect<TGeneratedActor> ToEffect<TGeneratedActor>(
         this Func<TGeneratedActor, bool> predicate,
         string description
     )
@@ -13,24 +13,13 @@ public static class PredicateExtensions
     {
         ArgumentNullException.ThrowIfNull(predicate);
 
-        return RequirementFactory.Create(predicate, description);
-    }
-
-    public static IMutation<TGeneratedActor> ToMutation<TGeneratedActor>(
-        this Func<TGeneratedActor, bool> predicate,
-        string description
-    )
-        where TGeneratedActor : IGeneratedActor
-    {
-        ArgumentNullException.ThrowIfNull(predicate);
-
-        return MutationFactory.Create(predicate, description);
+        return EffectFactory.Create(predicate, description);
     }
 
     /// <summary>
     /// Determines whether two predicates are functionally equivalent by comparing their underlying implementation.
     /// This method is designed to match predicates that have been wrapped by factory methods like
-    /// <see cref="RequirementFactory.Create{TGeneratedActor}"/> and <see cref="MutationFactory.Create{TGeneratedActor}"/>.
+    /// <see cref="EffectFactory.Create{TGeneratedActor}"/>.
     /// </summary>
     /// <param name="predicate1">The first predicate to compare.</param>
     /// <param name="predicate2">The second predicate to compare.</param>
@@ -47,7 +36,7 @@ public static class PredicateExtensions
     /// <code>
     /// // Example: Static predicate properties
     /// public static Func&lt;IUser, bool&gt; IsAuthenticated => u => u.Identification != null;
-    /// 
+    ///
     /// var req = IUser.IsAuthenticated.ToRequirement("Is authenticated");
     /// var mut = IUser.IsAuthenticated.ToMutation("Is authenticated");
     /// // These will match via reference equality
@@ -61,7 +50,7 @@ public static class PredicateExtensions
     /// <code>
     /// // Example: Reused lambda variable
     /// Func&lt;ActorA, bool&gt; sharedPredicate = a => a.StateAsInt > 2;
-    /// 
+    ///
     /// var req = RequirementFactory.Create(sharedPredicate, "State > 2");
     /// var mut = MutationFactory.Create(sharedPredicate, "State > 2");
     /// // These will match via captured delegate comparison

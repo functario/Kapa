@@ -1,6 +1,6 @@
 ﻿namespace Kapa.Abstractions.Actors;
 
-public interface IMutation<out TGeneratedActor>
+public interface IEffect<out TGeneratedActor>
     where TGeneratedActor : IGeneratedActor
 {
     public string Description { get; }

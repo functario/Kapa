@@ -3,6 +3,6 @@
 public interface IRelations<TGeneratedActor>
     where TGeneratedActor : IGeneratedActor
 {
-    public ICollection<IMutation<TGeneratedActor>> Mutations { get; }
-    public ICollection<IRequirement<TGeneratedActor>> Requirements { get; }
+    public ICollection<IEffect<TGeneratedActor>> Mutations { get; }
+    public ICollection<IEffect<TGeneratedActor>> Requirements { get; }
 }

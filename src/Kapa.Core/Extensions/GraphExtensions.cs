@@ -96,7 +96,7 @@ public static class GraphExtensions
 
     private static List<INode> FindNodesThatSatisfyRequirement(
         IGraph graph,
-        IRequirement<IGeneratedActor> requirement
+        IEffect<IGeneratedActor> requirement
     )
     {
         var satisfyingNodes = new List<INode>();

@@ -11,14 +11,14 @@ public class Relations : IRelations<IGeneratedActor>
     }
 
     public Relations(
-        ICollection<IMutation<IGeneratedActor>> mutations,
-        ICollection<IRequirement<IGeneratedActor>> requirements
+        ICollection<IEffect<IGeneratedActor>> mutations,
+        ICollection<IEffect<IGeneratedActor>> requirements
     )
     {
         Mutations = mutations;
         Requirements = requirements;
     }
 
-    public ICollection<IMutation<IGeneratedActor>> Mutations { get; }
-    public ICollection<IRequirement<IGeneratedActor>> Requirements { get; }
+    public ICollection<IEffect<IGeneratedActor>> Mutations { get; }
+    public ICollection<IEffect<IGeneratedActor>> Requirements { get; }
 }

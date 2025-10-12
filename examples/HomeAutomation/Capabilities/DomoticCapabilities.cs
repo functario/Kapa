@@ -107,40 +107,37 @@ public sealed class DomoticCapabilities
 
 public sealed class SetThermostatSetpointRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedActor>> Mutations => [];
+    public ICollection<IEffect<IGeneratedActor>> Mutations => [];
 
-    public ICollection<IRequirement<IGeneratedActor>> Requirements =>
+    public ICollection<IEffect<IGeneratedActor>> Requirements =>
         [
-            IUser.IsAuthenticated.ToRequirement("Is authenticated"),
-            IUser.HasThermostat.ToRequirement("Has Thermostat"),
+            IUser.IsAuthenticated.ToEffect("Is authenticated"),
+            IUser.HasThermostat.ToEffect("Has Thermostat"),
         ];
 }
 
 public sealed class SetLightRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedActor>> Mutations => [];
+    public ICollection<IEffect<IGeneratedActor>> Mutations => [];
 
-    public ICollection<IRequirement<IGeneratedActor>> Requirements =>
-        [
-            IUser.IsAuthenticated.ToRequirement("Is authenticated"),
-            IUser.HasLight.ToRequirement("Has Light"),
-        ];
+    public ICollection<IEffect<IGeneratedActor>> Requirements =>
+        [IUser.IsAuthenticated.ToEffect("Is authenticated"), IUser.HasLight.ToEffect("Has Light")];
 }
 
 public sealed class AddThermostatRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [IUser.HasThermostat.ToMutation("Has Thermostat")];
+    public ICollection<IEffect<IGeneratedActor>> Mutations =>
+        [IUser.HasThermostat.ToEffect("Has Thermostat")];
 
-    public ICollection<IRequirement<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToRequirement("Is authenticated")];
+    public ICollection<IEffect<IGeneratedActor>> Requirements =>
+        [IUser.IsAuthenticated.ToEffect("Is authenticated")];
 }
 
 public sealed class AddLightRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [IUser.HasLight.ToMutation("Has Light")];
+    public ICollection<IEffect<IGeneratedActor>> Mutations =>
+        [IUser.HasLight.ToEffect("Has Light")];
 
-    public ICollection<IRequirement<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToRequirement("Is authenticated")];
+    public ICollection<IEffect<IGeneratedActor>> Requirements =>
+        [IUser.IsAuthenticated.ToEffect("Is authenticated")];
 }

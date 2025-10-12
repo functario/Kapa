@@ -50,8 +50,8 @@ public sealed class AuthenticationCapabilities
 
 public sealed class AuthenticationsRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [IUser.IsAuthenticated.ToMutation("Is authenticated")];
+    public ICollection<IEffect<IGeneratedActor>> Mutations =>
+        [IUser.IsAuthenticated.ToEffect("Is authenticated")];
 
-    public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
+    public ICollection<IEffect<IGeneratedActor>> Requirements => [];
 }

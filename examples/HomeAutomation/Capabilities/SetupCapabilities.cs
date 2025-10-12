@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Kapa.Core.Extensions;
+using Kapa.Core.Factories;
 
 namespace HomeAutomation.Capabilities;
 
@@ -32,8 +33,12 @@ public sealed class SetupCapabilities
 
 public sealed class SetupRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [IUser.HasThermostat.ToMutation("Has Thermostat"), IUser.HasLight.ToMutation("Has Light")];
+    public ICollection<IEffect<IGeneratedActor>> Mutations =>
+        [
+            EffectFactory.Create<User>(u => u.Home.Devices.Any(x => x is Thermostat), ""),
+            //IUser.HasThermostat.ToMutation("Has Thermostat"),
+            IUser.HasLight.ToEffect("Has Light"),
+        ];
 
-    public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
+    public ICollection<IEffect<IGeneratedActor>> Requirements => [];
 }
