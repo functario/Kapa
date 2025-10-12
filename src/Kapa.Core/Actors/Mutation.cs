@@ -1,12 +1,10 @@
-﻿using System.Linq.Expressions;
-using Kapa.Abstractions.Actors;
+﻿using Kapa.Abstractions.Actors;
 
 namespace Kapa.Core.Actors;
 
 public sealed record Mutation<TGeneratedActor>(
-    Expression<Func<TGeneratedActor, bool>> MutationExpression
+    string Description,
+    Func<IGeneratedActor, bool> Predicate
 ) : IMutation<TGeneratedActor>
     where TGeneratedActor : IGeneratedActor
-{
-    public Func<TGeneratedActor, bool> CompiledMutation => MutationExpression.Compile();
-}
+{ }

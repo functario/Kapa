@@ -6,19 +6,11 @@ public interface IGraph
 {
     public IReadOnlyCollection<INode> Nodes { get; }
 
-    public ICollection<IRoute> Resolve(ICollection<INode> includedNodes, int maxRoutes = 50);
-
-    public ICollection<IRoute> Resolve(
-        ICollection<INode> includedNodes,
-        ICollection<INode> excludedNodes,
-        int maxRoutes = 50
-    );
-
     /// <summary>
-    /// Reduce the <see cref="IGraph"/> to <see cref="ICapability"/> resolving the dependencies of <paramref name="includedNodes"/>
+    /// Reduce the <see cref="IGraph"/> to <see cref="ICapability"/> resolving the dependencies of <paramref name="includedNodes"/>.
     /// </summary>
-    /// <param name="includedNodes"></param>
-    /// <param name="excludedNodes"></param>
-    /// <returns></returns>
-    public IGraph Reduce(ICollection<INode> includedNodes, ICollection<INode> excludedNodes);
+    /// <param name="includedNodes">The <see cref="INode"/> to included in order.</param>
+    /// <param name="excludedNodes">The <see cref="INode"/> to excluded.</param>
+    /// <returns>A reduced <see cref="IGraph"/>.</returns>
+    public IGraph Reduce(IReadOnlyList<INode> includedNodes, IReadOnlyList<INode> excludedNodes);
 }

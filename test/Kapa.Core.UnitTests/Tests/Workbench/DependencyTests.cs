@@ -131,7 +131,7 @@ internal sealed class ActorA : IGeneratedActor
 internal sealed class Relations1 : IRelations<IGeneratedActor>
 {
     public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [MutationFactory.Create<ActorA>(p => p.IsStateTrue == true)];
+        [MutationFactory.Create<ActorA>(p => p.IsStateTrue == true, "temp description")];
 
     public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }
@@ -139,7 +139,7 @@ internal sealed class Relations1 : IRelations<IGeneratedActor>
 internal sealed class Relations2 : IRelations<IGeneratedActor>
 {
     public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [MutationFactory.Create<ActorA>(p => p.StateAsInt > 2)];
+        [MutationFactory.Create<ActorA>(p => p.StateAsInt > 2, "temp description")];
 
     public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }
@@ -150,15 +150,15 @@ internal sealed class Relations3 : IRelations<IGeneratedActor>
 
     public ICollection<IRequirement<IGeneratedActor>> Requirements =>
         [
-            RequirementFactory.Create<ActorA>(p => p.StateAsInt > 2),
-            RequirementFactory.Create<ActorA>(p => p.IsStateTrue == true),
+            RequirementFactory.Create<ActorA>(p => p.StateAsInt > 2, "temp description"),
+            RequirementFactory.Create<ActorA>(p => p.IsStateTrue == true, "temp description"),
         ];
 }
 
 internal sealed class Relations4 : IRelations<IGeneratedActor>
 {
     public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [MutationFactory.Create<ActorA>(p => p.StateAsDouble > 2)];
+        [MutationFactory.Create<ActorA>(p => p.StateAsDouble > 2, "temp description")];
 
     public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }

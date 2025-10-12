@@ -48,5 +48,8 @@ public sealed class SetThermostatSetpointRelations : IRelations<IGeneratedActor>
     public ICollection<IMutation<IGeneratedActor>> Mutations => [];
 
     public ICollection<IRequirement<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToRequirement(), IUser.HasDevices.ToRequirement()];
+        [
+            IUser.IsAuthenticated.ToRequirement("Is authenticated"),
+            IUser.HasDevices.ToRequirement("Has devices"),
+        ];
 }

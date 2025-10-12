@@ -67,7 +67,7 @@ public class Tests
 
         // Not implemented!
         //var resolve = graph.Resolve([domotic]);
-        var reduce = graph.Reduce([domotic], []);
+        var reduce = graph.Reduce([domotic], []).ToMermaidGraph();
         // Assert
     }
 }
