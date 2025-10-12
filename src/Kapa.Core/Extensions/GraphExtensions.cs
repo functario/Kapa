@@ -1,6 +1,7 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Graphs;
+using Kapa.Core.Graphs;
 
 namespace Kapa.Core.Extensions;
 
@@ -14,11 +15,38 @@ public static class GraphExtensions
         var sb = new StringBuilder();
         sb.AppendLine("graph TD");
 
-        // Render all nodes
-        var nodeNames = graph.Nodes.Select(node => GetNodeName(node, options)).ToHashSet();
-        foreach (var nodeName in nodeNames)
+        // Render all nodes with requirements in the box
+        foreach (var node in graph.Nodes)
         {
-            sb.AppendLine(nodeName);
+            var nodeName = GetNodeName(node, options);
+            var relations = node.Capability.Relations;
+            var requirements = relations?.Requirements ?? [];
+            var missing =
+                graph is Graph g && g.MissingRequirements.TryGetValue(node, out var missingReqs)
+                    ? missingReqs
+                    : [];
+
+            var requirementsText = string.Empty;
+            if (options.DisplayNodeRequirements)
+            {
+                IEnumerable<IEffect<IGeneratedActor>> reqsToShow = requirements;
+                if (options.DisplayOnlyNodeMissingRequirements)
+                {
+                    reqsToShow = missing;
+                }
+                if (reqsToShow.Any())
+                {
+                    var lines = new List<string>();
+                    foreach (var req in reqsToShow)
+                    {
+                        var isMissing = missing.Any(m => m.Id == req.Id);
+                        var marker = isMissing ? "❌" : "✅";
+                        lines.Add($"{marker} {req.Description}");
+                    }
+                    requirementsText = "<br/>" + string.Join("<br/>", lines);
+                }
+            }
+            sb.AppendLine(nodeName + "[\"" + nodeName + requirementsText + "\"]");
         }
 
         // Render all edges based on requirements and mutations
@@ -41,8 +69,11 @@ public static class GraphExtensions
                             {
                                 var otherNodeName = GetNodeName(otherNode, options);
                                 sb.AppendLine(
-                                    CultureInfo.InvariantCulture,
-                                    $"{otherNodeName} -->|{requirement.Description}| {nodeName}"
+                                    otherNodeName
+                                        + " -->|"
+                                        + requirement.Description
+                                        + "| "
+                                        + nodeName
                                 );
                             }
                         }
@@ -80,5 +111,5 @@ public record MermaidGraphOptions
     public bool UseFullName { get; set; }
     public bool DisplayRequirementsOnEdges { get; set; } = true;
     public bool DisplayNodeRequirements { get; set; } = true;
-    public bool DisplayOnlyNodeMissingRequirements { get; set; } = true;
+    public bool DisplayOnlyNodeMissingRequirements { get; set; }
 }
