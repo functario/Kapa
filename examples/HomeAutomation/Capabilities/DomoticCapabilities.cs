@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using HomeAutomation.Rules.ThermostatRules;
+using Kapa.Core.Extensions;
 
 namespace HomeAutomation.Capabilities;
 
@@ -14,6 +15,7 @@ public sealed class DomoticCapabilities
     }
 
     [Capability($"Change the {nameof(Thermostat)} {nameof(Thermostat.Setpoint)}.")]
+    [Relations<SetThermostatSetpointRelations>]
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> SetThermostatSetpoint(
         [Parameter($"The {nameof(Thermostat)} name.", typeof(ThermostatSetpointRule))]
             string thermostatName,
@@ -39,4 +41,12 @@ public sealed class DomoticCapabilities
 
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
     }
+}
+
+public sealed class SetThermostatSetpointRelations : IRelations<IGeneratedActor>
+{
+    public ICollection<IMutation<IGeneratedActor>> Mutations => [];
+
+    public ICollection<IRequirement<IGeneratedActor>> Requirements =>
+        [IUser.IsAuthenticated.ToRequirement(), IUser.HasDevices.ToRequirement()];
 }

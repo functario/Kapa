@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Kapa.Core.Extensions;
 
 namespace HomeAutomation.Capabilities;
 
@@ -13,6 +14,7 @@ public sealed class SetupCapabilities
     }
 
     [Capability($"Setup the {nameof(User)}.")]
+    [Relations<SetupRelations>]
     public Ok<IUser> Setup()
     {
         IDevice[] devices =
@@ -26,4 +28,11 @@ public sealed class SetupCapabilities
 
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
     }
+}
+
+public sealed class SetupRelations : IRelations<IGeneratedActor>
+{
+    public ICollection<IMutation<IGeneratedActor>> Mutations => [IUser.HasDevices.ToMutation()];
+
+    public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }

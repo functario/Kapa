@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Kapa.Core.Extensions;
 
 namespace HomeAutomation.Capabilities;
 
@@ -15,6 +16,7 @@ public sealed class AuthenticationCapabilities
     }
 
     [Capability($"Authenticate the {nameof(User)}.")]
+    [Relations<AuthenticationsRelations>]
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> AuthenticateAsync(
         [Parameter($"The {nameof(User)} email used for authentification.")] string email,
         [Parameter($"The {nameof(User)} password used for authentification.")] string password
@@ -44,4 +46,12 @@ public sealed class AuthenticationCapabilities
 
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
     }
+}
+
+public sealed class AuthenticationsRelations : IRelations<IGeneratedActor>
+{
+    public ICollection<IMutation<IGeneratedActor>> Mutations =>
+        [IUser.IsAuthenticated.ToMutation()];
+
+    public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }

@@ -80,7 +80,8 @@ public static class GraphExtensions
 
     private static string GetNodeName(INode node, MermaidGraphOptions options)
     {
-        var source = node.Capability.OutcomeMetadata.Source;
+        // Remove parameter signature if any.
+        var source = node.Capability.OutcomeMetadata.Source.Split("(").First();
 
         // Extract just the capability name if not using full name
         if (!options.UseFullName)
@@ -94,12 +95,7 @@ public static class GraphExtensions
         }
 
         // Remove only parentheses and angle brackets (dots are allowed in Mermaid)
-        return source
-            .Replace("<", "", StringComparison.Ordinal)
-            .Replace(">", "", StringComparison.Ordinal)
-            .Replace("(", "", StringComparison.Ordinal)
-            .Replace(")", "", StringComparison.Ordinal)
-            .Replace(" ", "", StringComparison.Ordinal);
+        return source;
     }
 
     private static string GetExpressionLabel(

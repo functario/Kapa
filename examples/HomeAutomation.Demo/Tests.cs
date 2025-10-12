@@ -5,6 +5,7 @@ using HomeAutomation.Actors.Homes;
 using HomeAutomation.Capabilities;
 using Kapa.Abstractions.Graphs;
 using Kapa.Core.Extensions;
+using Kapa.Core.Graphs;
 using Kapa.Core.Validations;
 using Microsoft.Testing.Platform.Capabilities;
 
@@ -17,8 +18,8 @@ public class Tests
     {
         // Arrange
         var user = new User();
-        var setups = new SetupCapabilities(user);
         var timeProvider = TimeProvider.System;
+        var setups = new SetupCapabilities(user);
         var authentications = new AuthenticationCapabilities(user, timeProvider);
         var domotic = new DomoticCapabilities(user);
         var tstat00Name = "Thermostat00";
@@ -55,10 +56,18 @@ public class Tests
     public void Test2()
     {
         // Arrange
-        var thermostat = new Thermostat(Guid.NewGuid(), "Thermostat00", "ThermostatModel");
-        // Act
-        var sut = typeof(DomoticCapabilities).GetCapabilities();
+        var user = new User();
+        var timeProvider = TimeProvider.System;
+        var setups = typeof(SetupCapabilities).GetCapabilitiesAsNodes().First();
+        var authentications = typeof(AuthenticationCapabilities).GetCapabilitiesAsNodes().First();
+        var domotic = typeof(DomoticCapabilities).GetCapabilitiesAsNodes().First();
+        var graph = new Graph([setups, authentications, domotic]);
 
+        var re = graph.ToMermaidGraph();
+
+        // Not implemented!
+        //var resolve = graph.Resolve([domotic]);
+        var reduce = graph.Reduce([domotic], []);
         // Assert
     }
 }

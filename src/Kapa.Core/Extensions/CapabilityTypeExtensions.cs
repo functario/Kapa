@@ -2,6 +2,7 @@
 using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Exceptions;
+using Kapa.Abstractions.Graphs;
 using Kapa.Core.Capabilities;
 
 namespace Kapa.Core.Extensions;
@@ -57,6 +58,17 @@ public static class CapabilityTypeExtensions
         ThrowIfMissingCapabilityException(capabilityType, capabilities.Count);
 
         return capabilities;
+    }
+
+    public static ICollection<INode> GetCapabilitiesAsNodes(this Type capabilityType)
+    {
+        ArgumentNullException.ThrowIfNull(capabilityType);
+
+        ThrowIfNotCapabilityType(capabilityType);
+
+        var capabilities = GetCapabilities(capabilityType);
+
+        return [.. capabilities.Select(x => x.ToNode())];
     }
 
     public static IRelations<IGeneratedActor>? GetRelations(this Type capabilityType)
