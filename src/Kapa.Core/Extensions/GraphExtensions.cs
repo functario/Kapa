@@ -75,4 +75,10 @@ public static class GraphExtensions
     }
 }
 
-public record MermaidGraphOptions(bool UseFullName = false) { }
+public record MermaidGraphOptions
+{
+    public bool UseFullName { get; set; }
+    public bool DisplayRequirementsOnEdges { get; set; } = true;
+    public bool DisplayNodeRequirements { get; set; } = true;
+    public bool DisplayOnlyNodeMissingRequirements { get; set; } = true;
+}
