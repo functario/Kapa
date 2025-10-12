@@ -60,8 +60,8 @@ public class Tests
         var timeProvider = TimeProvider.System;
         var setups = typeof(SetupCapabilities).GetCapabilitiesAsNodes().First();
         var authentications = typeof(AuthenticationCapabilities).GetCapabilitiesAsNodes().First();
-        var domitics = typeof(DomoticCapabilities).GetCapabilitiesAsNodes();
-        var setThermostatSetpoint = domitics
+        var domotics = typeof(DomoticCapabilities).GetCapabilitiesAsNodes();
+        var setThermostatSetpoint = domotics
             .Where(x =>
                 x.Capability.OutcomeMetadata.Source.Contains(
                     nameof(DomoticCapabilities.SetThermostatSetpoint),
@@ -70,7 +70,7 @@ public class Tests
             )
             .First();
 
-        var setLightIsOn = domitics
+        var setLightIsOn = domotics
             .Where(x =>
                 x.Capability.OutcomeMetadata.Source.Contains(
                     nameof(DomoticCapabilities.SetLightIsOn),
@@ -79,7 +79,7 @@ public class Tests
             )
             .First();
 
-        var addThermostat = domitics
+        var addThermostat = domotics
             .Where(x =>
                 x.Capability.OutcomeMetadata.Source.Contains(
                     nameof(DomoticCapabilities.AddThermostat),
@@ -88,7 +88,7 @@ public class Tests
             )
             .First();
 
-        var addLight = domitics
+        var addLight = domotics
             .Where(x =>
                 x.Capability.OutcomeMetadata.Source.Contains(
                     nameof(DomoticCapabilities.AddLight),
