@@ -15,7 +15,55 @@ public static class GraphExtensions
         var sb = new StringBuilder();
         sb.AppendLine("graph TD");
 
-        // Render all nodes with requirements in the box
+        // Track edges and assign reference numbers
+        var edgeList = new List<(string from, string to, string label, string reqId)>();
+        var edgeCounter = 1;
+        var edgeRefs = new Dictionary<(string nodeName, string reqId), List<int>>();
+
+        // First pass: collect edges and assign numbers
+        foreach (var node in graph.Nodes)
+        {
+            var nodeName = GetNodeName(node, options);
+            var relations = node.Capability.Relations;
+            if (relations?.Requirements != null && relations.Requirements.Count > 0)
+            {
+                foreach (var requirement in relations.Requirements)
+                {
+                    foreach (var otherNode in graph.Nodes)
+                    {
+                        var mutations = otherNode.Capability.Relations?.Mutations;
+                        if (mutations == null)
+                            continue;
+                        foreach (var mutation in mutations)
+                        {
+                            if (mutation.AreEqual(requirement))
+                            {
+                                var otherNodeName = GetNodeName(otherNode, options);
+                                edgeList.Add(
+                                    (
+                                        otherNodeName,
+                                        nodeName,
+                                        requirement.Description,
+                                        requirement.Id
+                                    )
+                                );
+                                // Track edge reference for node/requirement
+                                var key = (nodeName, requirement.Id);
+                                if (!edgeRefs.TryGetValue(key, out var list))
+                                {
+                                    list = [];
+                                    edgeRefs[key] = list;
+                                }
+                                list.Add(edgeCounter);
+                                edgeCounter++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Render all nodes with requirements in the box, including edge refs
         foreach (var node in graph.Nodes)
         {
             var nodeName = GetNodeName(node, options);
@@ -41,7 +89,17 @@ public static class GraphExtensions
                     {
                         var isMissing = missing.Any(m => m.Id == req.Id);
                         var marker = isMissing ? "❌" : "✅";
-                        lines.Add($"{marker} {req.Description}");
+                        var key = (nodeName, req.Id);
+                        var refs = "";
+                        if (
+                            !isMissing
+                            && edgeRefs.TryGetValue(key, out var refList)
+                            && refList.Count > 0
+                        )
+                        {
+                            refs = " [" + string.Join(", ", refList) + "]";
+                        }
+                        lines.Add($"{marker} {req.Description}{refs}");
                     }
                     requirementsText = "<br/>" + string.Join("<br/>", lines);
                 }
@@ -49,37 +107,12 @@ public static class GraphExtensions
             sb.AppendLine(nodeName + "[\"" + nodeName + requirementsText + "\"]");
         }
 
-        // Render all edges based on requirements and mutations
-        foreach (var node in graph.Nodes)
+        // Render all edges with reference numbers in label, using correct Mermaid entity codes for brackets
+        var edgeNum = 1;
+        foreach (var (from, to, label, reqId) in edgeList)
         {
-            var nodeName = GetNodeName(node, options);
-            var relations = node.Capability.Relations;
-            if (relations?.Requirements != null && relations.Requirements.Count > 0)
-            {
-                foreach (var requirement in relations.Requirements)
-                {
-                    foreach (var otherNode in graph.Nodes)
-                    {
-                        var mutations = otherNode.Capability.Relations?.Mutations;
-                        if (mutations == null)
-                            continue;
-                        foreach (var mutation in mutations)
-                        {
-                            if (mutation.AreEqual(requirement))
-                            {
-                                var otherNodeName = GetNodeName(otherNode, options);
-                                sb.AppendLine(
-                                    otherNodeName
-                                        + " -->|"
-                                        + requirement.Description
-                                        + "| "
-                                        + nodeName
-                                );
-                            }
-                        }
-                    }
-                }
-            }
+            sb.AppendLine(($"{from} -->|\"{label} [{edgeNum}]\"| {to}").ToString());
+            edgeNum++;
         }
 
         return sb.ToString();
