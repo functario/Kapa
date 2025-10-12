@@ -110,10 +110,7 @@ public sealed class SetThermostatSetpointRelations : IRelations<IGeneratedActor>
     public ICollection<IEffect<IGeneratedActor>> Mutations => [];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements =>
-        [
-            IUser.IsAuthenticated.ToEffect(IUser.HasThermostatId, "Is authenticated"),
-            IUser.HasThermostat.ToEffect(nameof(IUser.HasThermostat), "Has Thermostat"),
-        ];
+        [IUser.IsAuthenticated.ToEffect(), IUser.HasThermostat.ToEffect()];
 }
 
 public sealed class SetLightRelations : IRelations<IGeneratedActor>
@@ -121,26 +118,19 @@ public sealed class SetLightRelations : IRelations<IGeneratedActor>
     public ICollection<IEffect<IGeneratedActor>> Mutations => [];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements =>
-        [
-            IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated"),
-            IUser.HasLight.ToEffect(nameof(IUser.HasLight), "Has Light"),
-        ];
+        [IUser.IsAuthenticated.ToEffect(), IUser.HasLight.ToEffect()];
 }
 
 public sealed class AddThermostatRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IEffect<IGeneratedActor>> Mutations =>
-        [IUser.HasThermostat.ToEffect(nameof(IUser.HasThermostat), "Has Thermostat")];
+    public ICollection<IEffect<IGeneratedActor>> Mutations => [IUser.HasThermostat.ToEffect()];
 
-    public ICollection<IEffect<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated")];
+    public ICollection<IEffect<IGeneratedActor>> Requirements => [IUser.IsAuthenticated.ToEffect()];
 }
 
 public sealed class AddLightRelations : IRelations<IGeneratedActor>
 {
-    public ICollection<IEffect<IGeneratedActor>> Mutations =>
-        [IUser.HasLight.ToEffect(nameof(IUser.HasLight), "Has Light")];
+    public ICollection<IEffect<IGeneratedActor>> Mutations => [IUser.HasLight.ToEffect()];
 
-    public ICollection<IEffect<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated")];
+    public ICollection<IEffect<IGeneratedActor>> Requirements => [IUser.IsAuthenticated.ToEffect()];
 }

@@ -41,7 +41,7 @@ public sealed class SetupRelations : IRelations<IGeneratedActor>
                 IUser.HasThermostatId,
                 "Has Thermostat"
             ),
-            IUser.HasLight.ToEffect(nameof(IUser.HasLight), "Has Light"),
+            IUser.HasLight.ToEffect(),
         ];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements => [];
