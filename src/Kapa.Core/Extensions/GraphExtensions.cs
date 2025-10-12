@@ -109,7 +109,7 @@ public static class GraphExtensions
 
             foreach (var mutation in mutations)
             {
-                if (mutation.Predicate.ArePredicatesEquivalent(requirement.Predicate))
+                if (mutation.AreEqual(requirement))
                 {
                     satisfyingNodes.Add(node);
                 }

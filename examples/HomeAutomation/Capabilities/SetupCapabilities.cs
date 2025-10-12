@@ -35,9 +35,13 @@ public sealed class SetupRelations : IRelations<IGeneratedActor>
 {
     public ICollection<IEffect<IGeneratedActor>> Mutations =>
         [
-            EffectFactory.Create<User>(u => u.Home.Devices.Any(x => x is Thermostat), ""),
+            EffectFactory.Create<User>(
+                u => u.Home.Devices.Any(x => x is Thermostat),
+                nameof(IUser.HasThermostat),
+                "Has Thermostat"
+            ),
             //IUser.HasThermostat.ToMutation("Has Thermostat"),
-            IUser.HasLight.ToEffect("Has Light"),
+            IUser.HasLight.ToEffect(nameof(IUser.HasLight), "Has Light"),
         ];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements => [];

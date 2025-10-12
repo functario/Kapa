@@ -111,8 +111,8 @@ public sealed class SetThermostatSetpointRelations : IRelations<IGeneratedActor>
 
     public ICollection<IEffect<IGeneratedActor>> Requirements =>
         [
-            IUser.IsAuthenticated.ToEffect("Is authenticated"),
-            IUser.HasThermostat.ToEffect("Has Thermostat"),
+            IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated"),
+            IUser.HasThermostat.ToEffect(nameof(IUser.HasThermostat), "Has Thermostat"),
         ];
 }
 
@@ -121,23 +121,26 @@ public sealed class SetLightRelations : IRelations<IGeneratedActor>
     public ICollection<IEffect<IGeneratedActor>> Mutations => [];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToEffect("Is authenticated"), IUser.HasLight.ToEffect("Has Light")];
+        [
+            IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated"),
+            IUser.HasLight.ToEffect(nameof(IUser.HasLight), "Has Light"),
+        ];
 }
 
 public sealed class AddThermostatRelations : IRelations<IGeneratedActor>
 {
     public ICollection<IEffect<IGeneratedActor>> Mutations =>
-        [IUser.HasThermostat.ToEffect("Has Thermostat")];
+        [IUser.HasThermostat.ToEffect(nameof(IUser.HasThermostat), "Has Thermostat")];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToEffect("Is authenticated")];
+        [IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated")];
 }
 
 public sealed class AddLightRelations : IRelations<IGeneratedActor>
 {
     public ICollection<IEffect<IGeneratedActor>> Mutations =>
-        [IUser.HasLight.ToEffect("Has Light")];
+        [IUser.HasLight.ToEffect(nameof(IUser.HasLight), "Has Light")];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements =>
-        [IUser.IsAuthenticated.ToEffect("Is authenticated")];
+        [IUser.IsAuthenticated.ToEffect(nameof(IUser.IsAuthenticated), "Is authenticated")];
 }

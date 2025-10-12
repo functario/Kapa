@@ -1,6 +1,5 @@
 ﻿using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Graphs;
-using Kapa.Core.Extensions;
 
 namespace Kapa.Core.Graphs;
 
@@ -127,7 +126,7 @@ public sealed class Graph : IGraph
             {
                 // Check if the mutation's predicate matches the requirement's predicate
                 // We need to compare the underlying delegates, not the wrapper
-                if (mutation.Predicate.ArePredicatesEquivalent(requirement.Predicate))
+                if (mutation.AreEqual(requirement))
                 {
                     satisfyingNodes.Add(node);
                     break; // One mutation is enough
