@@ -1,4 +1,5 @@
-﻿using Kapa.Abstractions.Capabilities;
+﻿using Kapa.Abstractions.Actors;
+using Kapa.Abstractions.Capabilities;
 
 namespace Kapa.Abstractions.Graphs;
 
@@ -13,4 +14,6 @@ public interface IGraph
     /// <param name="excludedNodes">The <see cref="INode"/> to excluded.</param>
     /// <returns>A reduced <see cref="IGraph"/>.</returns>
     public IGraph Reduce(IReadOnlyList<INode> includedNodes, IReadOnlyList<INode> excludedNodes);
+
+    public IDictionary<INode, ICollection<IEffect<IGeneratedActor>>> MissingRequirements { get; }
 }

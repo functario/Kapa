@@ -8,9 +8,26 @@ public sealed class Graph : IGraph
     public Graph(IReadOnlyCollection<INode> nodes)
     {
         Nodes = nodes;
+        MissingRequirements = new Dictionary<INode, ICollection<IEffect<IGeneratedActor>>>();
+        Reduce([.. nodes], []);
     }
 
-    public IReadOnlyCollection<INode> Nodes { get; }
+    private Graph(
+        IReadOnlyCollection<INode> nodes,
+        IDictionary<INode, ICollection<IEffect<IGeneratedActor>>> missingRequirements
+    )
+    {
+        Nodes = nodes;
+        MissingRequirements = missingRequirements;
+    }
+
+    public IReadOnlyCollection<INode> Nodes { get; init; }
+
+    public IDictionary<
+        INode,
+        ICollection<IEffect<IGeneratedActor>>
+    > MissingRequirements
+    { get; init; }
 
     public IGraph Reduce(IReadOnlyList<INode> includedNodes, IReadOnlyList<INode> excludedNodes)
     {
@@ -51,10 +68,10 @@ public sealed class Graph : IGraph
             }
         }
 
-        return new Graph([.. requiredNodes]);
+        return new Graph([.. requiredNodes], MissingRequirements);
     }
 
-    private static void ResolveDependencies(
+    private void ResolveDependencies(
         INode currentNode,
         HashSet<INode> availableNodes,
         HashSet<INode> requiredNodes,
@@ -85,11 +102,25 @@ public sealed class Graph : IGraph
 
         // Find all nodes that satisfy this node's requirements
         var requirements = currentNode.Capability.Relations?.Requirements;
-        if (requirements != null)
+        if (requirements is not null)
         {
             foreach (var requirement in requirements)
             {
                 var satisfyingNodes = FindNodesThatSatisfyRequirement(requirement, availableNodes);
+                if (satisfyingNodes.Count < 1)
+                {
+                    if (MissingRequirements.TryGetValue(currentNode, out var missingRequirements))
+                    {
+                        if (!missingRequirements.Any(x => x.Id == requirement.Id))
+                        {
+                            missingRequirements.Add(requirement);
+                        }
+                    }
+                    else
+                    {
+                        MissingRequirements.Add(currentNode, [requirement]);
+                    }
+                }
 
                 // Recursively process satisfying nodes
                 foreach (var satisfyingNode in satisfyingNodes)
@@ -119,7 +150,7 @@ public sealed class Graph : IGraph
         foreach (var node in availableNodes)
         {
             var mutations = node.Capability.Relations?.Mutations;
-            if (mutations == null)
+            if (mutations is null)
                 continue;
 
             foreach (var mutation in mutations)

@@ -58,7 +58,7 @@ public class Tests
         // Arrange
         var user = new User();
         var timeProvider = TimeProvider.System;
-        var setups = typeof(SetupCapabilities).GetCapabilitiesAsNodes().First();
+        //var setups = typeof(SetupCapabilities).GetCapabilitiesAsNodes().First();
         var authentications = typeof(AuthenticationCapabilities).GetCapabilitiesAsNodes().First();
         var domitics = typeof(DomoticCapabilities).GetCapabilitiesAsNodes();
         var setThermostatSetpoint = domitics
@@ -97,13 +97,12 @@ public class Tests
             )
             .First();
 
-        var graph = new Graph(
-            [setups, authentications, setThermostatSetpoint, setLightIsOn, addThermostat, addLight]
-        );
+        var fullGraph = new Graph([authentications, setThermostatSetpoint, setLightIsOn, addLight]);
 
-        var fullGraph = graph.ToMermaidGraph();
+        var reduce = fullGraph.Reduce([setThermostatSetpoint], []);
 
-        var reduce = graph.Reduce([setLightIsOn], []).ToMermaidGraph();
+        var fullGraphMermaid = fullGraph.ToMermaidGraph();
+        var reduceMermaid = reduce.ToMermaidGraph();
         // Assert
     }
 }
