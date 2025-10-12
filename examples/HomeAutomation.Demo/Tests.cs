@@ -70,32 +70,23 @@ public class Tests
             )
             .First();
 
-        var setLightIsOn = domotics
-            .Where(x =>
-                x.Capability.OutcomeMetadata.Source.Contains(
-                    nameof(DomoticCapabilities.SetLightIsOn),
-                    StringComparison.OrdinalIgnoreCase
-                )
-            )
-            .First();
+        var setLightIsOn = domotics.ByCapabilitySouce<DomoticCapabilities>(
+            nameof(DomoticCapabilities.SetLightIsOn),
+            typeof(string),
+            typeof(bool)
+        );
 
-        var addThermostat = domotics
-            .Where(x =>
-                x.Capability.OutcomeMetadata.Source.Contains(
-                    nameof(DomoticCapabilities.AddThermostat),
-                    StringComparison.OrdinalIgnoreCase
-                )
-            )
-            .First();
+        var addThermostat = domotics.ByCapabilitySouce<DomoticCapabilities>(
+            nameof(DomoticCapabilities.AddThermostat),
+            typeof(string),
+            typeof(string)
+        );
 
-        var addLight = domotics
-            .Where(x =>
-                x.Capability.OutcomeMetadata.Source.Contains(
-                    nameof(DomoticCapabilities.AddLight),
-                    StringComparison.OrdinalIgnoreCase
-                )
-            )
-            .First();
+        var addLight = domotics.ByCapabilitySouce<DomoticCapabilities>(
+            nameof(DomoticCapabilities.AddLight),
+            typeof(string),
+            typeof(string)
+        );
 
         var fullGraph = new Graph(
             [setups, authentications, setThermostatSetpoint, setLightIsOn, addLight]
@@ -104,7 +95,7 @@ public class Tests
         var reduce = fullGraph.Reduce([setThermostatSetpoint], []);
 
         var fullGraphMermaid = fullGraph.ToMermaidGraph(
-            new MermaidGraphOptions() { DisplayEdgeReference = false }
+            new MermaidGraphOptions() { DisplayEdgeReference = true }
         );
 
         var reduceMermaid = reduce.ToMermaidGraph();
