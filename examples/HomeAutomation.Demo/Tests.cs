@@ -103,7 +103,10 @@ public class Tests
 
         var reduce = fullGraph.Reduce([setThermostatSetpoint], []);
 
-        var fullGraphMermaid = fullGraph.ToMermaidGraph();
+        var fullGraphMermaid = fullGraph.ToMermaidGraph(
+            new MermaidGraphOptions() { DisplayEdgeReference = false }
+        );
+
         var reduceMermaid = reduce.ToMermaidGraph();
         // Assert
     }

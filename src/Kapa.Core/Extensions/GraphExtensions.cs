@@ -63,7 +63,7 @@ public static class GraphExtensions
             }
         }
 
-        // Render all nodes with requirements in the box, including edge refs
+        // Render all nodes with requirements in the box, including edge refs only if option enabled
         foreach (var node in graph.Nodes)
         {
             var nodeName = GetNodeName(node, options);
@@ -92,6 +92,7 @@ public static class GraphExtensions
                         var key = (nodeName, req.Id);
                         var refs = "";
                         if (
+                            options.DisplayEdgeReference &&
                             !isMissing
                             && edgeRefs.TryGetValue(key, out var refList)
                             && refList.Count > 0
@@ -107,11 +108,18 @@ public static class GraphExtensions
             sb.AppendLine(nodeName + "[\"" + nodeName + requirementsText + "\"]");
         }
 
-        // Render all edges with reference numbers in label, using correct Mermaid entity codes for brackets
+        // Render all edges with reference numbers in label only if option enabled
         var edgeNum = 1;
         foreach (var (from, to, label, reqId) in edgeList)
         {
-            sb.AppendLine(($"{from} -->|\"{label} [{edgeNum}]\"| {to}").ToString());
+            if (options.DisplayEdgeReference)
+            {
+                sb.AppendLine(($"{from} -->|\"{label} [{edgeNum}]\"| {to}").ToString());
+            }
+            else
+            {
+                sb.AppendLine(($"{from} -->|\"{label}\"| {to}").ToString());
+            }
             edgeNum++;
         }
 
@@ -145,4 +153,5 @@ public record MermaidGraphOptions
     public bool DisplayRequirementsOnEdges { get; set; } = true;
     public bool DisplayNodeRequirements { get; set; } = true;
     public bool DisplayOnlyNodeMissingRequirements { get; set; }
+    public bool DisplayEdgeReference { get; set; } = true;
 }
