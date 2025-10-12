@@ -5,8 +5,37 @@ public interface IUser : IGeneratedActor
     public Home Home { get; set; }
     public Identification Identification { get; set; }
 
+    // For the purpose of showing shared Id examples.
+    public const string HasThermostatId = $"{nameof(IUser)}.{nameof(HasThermostat)}";
+
+    [EffectPredicate(
+        $"{nameof(IUser)}.{nameof(IsAuthenticated)}",
+        $"The {nameof(IUser)} is authenticated."
+    )]
     public static Func<IUser, bool> IsAuthenticated => u => u.Identification != null;
 
+    [EffectPredicate(
+        HasThermostatId,
+        $"The {nameof(IUser)}'s {nameof(Home)} has at least 1 {nameof(Thermostat)}."
+    )]
     public static Func<IUser, bool> HasThermostat => u => u.Home.Devices.Any(x => x is Thermostat);
-    public static Func<IUser, bool> HasLight => u => u.Home.Devices.Any(x => x is Thermostat);
+
+    [EffectPredicate(
+        $"{nameof(IUser)}.{nameof(HasLight)}",
+        $"The {nameof(IUser)}'s {nameof(Home)} has at least 1 {nameof(Light)}."
+    )]
+    public static Func<IUser, bool> HasLight => u => u.Home.Devices.Any(x => x is Light);
+}
+
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+public sealed class EffectPredicateAttribute : Attribute
+{
+    public EffectPredicateAttribute(string id, string description)
+    {
+        Id = id;
+        Description = description;
+    }
+
+    public string Id { get; }
+    public string Description { get; }
 }

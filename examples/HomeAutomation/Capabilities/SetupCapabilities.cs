@@ -37,7 +37,7 @@ public sealed class SetupRelations : IRelations<IGeneratedActor>
         [
             EffectFactory.Create<User>(
                 u => u.Home.Devices.Any(x => x is Thermostat),
-                nameof(IUser.HasThermostat),
+                IUser.HasThermostatId,
                 "Has Thermostat"
             ),
             //IUser.HasThermostat.ToMutation("Has Thermostat"),
