@@ -1,6 +1,6 @@
 ﻿namespace HomeAutomation.Actors.Homes;
 
-public sealed class Home : IGeneratedActor
+public sealed class Home
 {
     public Home(ICollection<IDevice> devices)
     {

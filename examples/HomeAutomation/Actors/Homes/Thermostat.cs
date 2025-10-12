@@ -1,6 +1,6 @@
 ﻿namespace HomeAutomation.Actors.Homes;
 
-public class Thermostat : Device, IGeneratedActor
+public class Thermostat : Device
 {
     public Thermostat(Guid id, string name, string model)
         : base(id, name, model)

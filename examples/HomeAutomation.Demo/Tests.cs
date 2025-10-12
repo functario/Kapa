@@ -60,14 +60,52 @@ public class Tests
         var timeProvider = TimeProvider.System;
         var setups = typeof(SetupCapabilities).GetCapabilitiesAsNodes().First();
         var authentications = typeof(AuthenticationCapabilities).GetCapabilitiesAsNodes().First();
-        var domotic = typeof(DomoticCapabilities).GetCapabilitiesAsNodes().First();
-        var graph = new Graph([setups, authentications, domotic]);
+        var domitics = typeof(DomoticCapabilities).GetCapabilitiesAsNodes();
+        var setThermostatSetpoint = domitics
+            .Where(x =>
+                x.Capability.OutcomeMetadata.Source.Contains(
+                    nameof(DomoticCapabilities.SetThermostatSetpoint),
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            .First();
+
+        var setLightIsOn = domitics
+            .Where(x =>
+                x.Capability.OutcomeMetadata.Source.Contains(
+                    nameof(DomoticCapabilities.SetLightIsOn),
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            .First();
+
+        var addThermostat = domitics
+            .Where(x =>
+                x.Capability.OutcomeMetadata.Source.Contains(
+                    nameof(DomoticCapabilities.AddThermostat),
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            .First();
+
+        var addLight = domitics
+            .Where(x =>
+                x.Capability.OutcomeMetadata.Source.Contains(
+                    nameof(DomoticCapabilities.AddLight),
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            .First();
+
+        var graph = new Graph(
+            [setups, authentications, setThermostatSetpoint, setLightIsOn, addThermostat, addLight]
+        );
 
         var re = graph.ToMermaidGraph();
 
         // Not implemented!
         //var resolve = graph.Resolve([domotic]);
-        var reduce = graph.Reduce([domotic], []).ToMermaidGraph();
+        var reduce = graph.Reduce([setLightIsOn], []).ToMermaidGraph();
         // Assert
     }
 }

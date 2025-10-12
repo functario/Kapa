@@ -33,7 +33,7 @@ public sealed class SetupCapabilities
 public sealed class SetupRelations : IRelations<IGeneratedActor>
 {
     public ICollection<IMutation<IGeneratedActor>> Mutations =>
-        [IUser.HasDevices.ToMutation("Is setup")];
+        [IUser.HasThermostat.ToMutation("Has Thermostat"), IUser.HasLight.ToMutation("Has Light")];
 
     public ICollection<IRequirement<IGeneratedActor>> Requirements => [];
 }

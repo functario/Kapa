@@ -1,6 +1,6 @@
 ﻿namespace HomeAutomation.Actors.Identifications;
 
-public sealed class Identification : IGeneratedActor
+public sealed class Identification
 {
     public bool IsAuthenticated { get; set; }
 

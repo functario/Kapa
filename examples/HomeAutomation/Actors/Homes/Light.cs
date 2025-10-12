@@ -1,6 +1,6 @@
 ﻿namespace HomeAutomation.Actors.Homes;
 
-public class Light : Device, IGeneratedActor
+public class Light : Device
 {
     public Light(Guid id, string name, string model)
         : base(id, name, model)

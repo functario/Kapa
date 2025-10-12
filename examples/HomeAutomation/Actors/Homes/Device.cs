@@ -1,7 +1,6 @@
 ﻿namespace HomeAutomation.Actors.Homes;
 
-[Actor($"A {nameof(Device)}.")]
-public class Device : IDevice, IGeneratedActor
+public class Device : IDevice
 {
     public Device(Guid id, string name, string model)
     {

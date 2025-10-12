@@ -7,5 +7,6 @@ public interface IUser : IGeneratedActor
 
     public static Func<IUser, bool> IsAuthenticated => u => u.Identification != null;
 
-    public static Func<IUser, bool> HasDevices => u => u.Home.Devices.Count != 0;
+    public static Func<IUser, bool> HasThermostat => u => u.Home.Devices.Any(x => x is Thermostat);
+    public static Func<IUser, bool> HasLight => u => u.Home.Devices.Any(x => x is Thermostat);
 }
