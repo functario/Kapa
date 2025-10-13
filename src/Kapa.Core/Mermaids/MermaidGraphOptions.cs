@@ -22,12 +22,12 @@ public enum EffectDisplayOptions
     /// <summary>
     /// Use the <see cref="IEffect{IGeneratedActor}"/> <see cref="IEffect{IGeneratedActor}.Id"/>.
     /// </summary>
-    UseId,
+    UseId = 1,
 
     /// <summary>
     /// Use the <see cref="IEffect{IGeneratedActor}"/> <see cref="IEffect{IGeneratedActor}.Description"/>.
     /// </summary>
-    UseDescription,
+    UseDescription = 2,
 }
 
 public enum DisplayNodeRequirementOptions

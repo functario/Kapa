@@ -149,31 +149,38 @@ public static class GraphExtensions
             var fromName = GetNodeName(edge.FromCapacity, options);
             var toName = GetNodeName(edge.ToCapacity, options);
 
-            if (options.DisplayNodeRequirementOptions != DisplayNodeRequirementOptions.None)
+            // Edge index is always displayed
+            var labelParts = new List<string> { $"[{edge.Index}]" };
+
+            // Build effect display based on flags
+            if (options.EffectDisplayOptions != EffectDisplayOptions.None)
             {
-                // Display all mutations with the edge's single index
-                var combinedLabel =
-                    $"[{edge.Index}] "
-                    + string.Join(
-                        "<br/>",
-                        edge.ResolvingMutations.Select(m => $"'{m.Description}'")
-                    );
-                sb.AppendLine(
-                    CultureInfo.InvariantCulture,
-                    $"{fromName} -->|\"{combinedLabel}\"| {toName}"
-                );
+                foreach (var mutation in edge.ResolvingMutations)
+                {
+                    var effectParts = new List<string>();
+
+                    if (options.EffectDisplayOptions.HasFlag(EffectDisplayOptions.UseId))
+                    {
+                        effectParts.Add(mutation.Id);
+                    }
+
+                    if (options.EffectDisplayOptions.HasFlag(EffectDisplayOptions.UseDescription))
+                    {
+                        effectParts.Add($"'{mutation.Description}'");
+                    }
+
+                    if (effectParts.Count > 0)
+                    {
+                        labelParts.Add(string.Join(" - ", effectParts));
+                    }
+                }
             }
-            else
-            {
-                var combinedLabel = string.Join(
-                    "<br/>",
-                    edge.ResolvingMutations.Select(m => m.Description)
-                );
-                sb.AppendLine(
-                    CultureInfo.InvariantCulture,
-                    $"{fromName} -->|\"{combinedLabel}\"| {toName}"
-                );
-            }
+
+            var combinedLabel = string.Join("<br/>", labelParts);
+            sb.AppendLine(
+                CultureInfo.InvariantCulture,
+                $"{fromName} -->|\"{combinedLabel}\"| {toName}"
+            );
         }
 
         return sb.ToString();

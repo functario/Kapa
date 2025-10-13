@@ -7,8 +7,8 @@ SetThermostatSetpoint["SetThermostatSetpoint<br/>'Change the Thermostat Setpoint
 AuthenticateAsync["AuthenticateAsync<br/>'Authenticate the User.' "]
 Setup["Setup<br/>'Setup the User.' "]
 AddThermostat["AddThermostat<br/>'Add a Thermostat to the Home.' "]
-AuthenticateAsync -->|"The IUser is authenticated."| SetThermostatSetpoint
-Setup -->|"The IUser is authenticated.<br/>Has Thermostat"| SetThermostatSetpoint
-AddThermostat -->|"The IUser's Home has at least 1 Thermostat."| SetThermostatSetpoint
-AuthenticateAsync -->|"The IUser is authenticated."| AddThermostat
-Setup -->|"The IUser is authenticated."| AddThermostat
+AuthenticateAsync -->|"[1]<br/>'The IUser is authenticated.'"| SetThermostatSetpoint
+Setup -->|"[2]<br/>'The IUser is authenticated.'<br/>'Has Thermostat'"| SetThermostatSetpoint
+AddThermostat -->|"[3]<br/>'The IUser's Home has at least 1 Thermostat.'"| SetThermostatSetpoint
+AuthenticateAsync -->|"[4]<br/>'The IUser is authenticated.'"| AddThermostat
+Setup -->|"[5]<br/>'The IUser is authenticated.'"| AddThermostat

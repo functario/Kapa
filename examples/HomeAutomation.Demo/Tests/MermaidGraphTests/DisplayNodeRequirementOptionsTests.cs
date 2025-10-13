@@ -15,6 +15,7 @@ public class DisplayNodeRequirementOptionsTests
         var mermaidOptions = new MermaidGraphOptions()
         {
             DisplayNodeRequirementOptions = displayNodeRequirementOption,
+            EffectDisplayOptions = EffectDisplayOptions.UseDescription,
         };
 
         // Act
