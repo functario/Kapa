@@ -95,13 +95,32 @@ public static class GraphExtensions
                         var isMissing = missing.Any(m => m.Id == req.Id);
                         var marker = isMissing ? "❌" : "✅";
                         var key = (nodeName, req.Id);
-                        var refs = "";
 
-                        if (
-                            options.DisplayNodeRequirementOptions
-                                != DisplayNodeRequirementOptions.None
-                            && !isMissing
-                        )
+                        var effectParts = new List<string>();
+
+                        // Build effect display based on flags (only if not None)
+                        if (options.EffectFormatOptions != EffectFormatOptions.None)
+                        {
+                            if (options.EffectFormatOptions.HasFlag(EffectFormatOptions.UseId))
+                            {
+                                effectParts.Add(req.Id);
+                            }
+
+                            if (
+                                options.EffectFormatOptions.HasFlag(
+                                    EffectFormatOptions.UseDescription
+                                )
+                            )
+                            {
+                                effectParts.Add(req.Description);
+                            }
+                        }
+
+                        var effectText =
+                            effectParts.Count > 0 ? $"'{string.Join(" - ", effectParts)}'" : "";
+
+                        var refs = "";
+                        if (!isMissing)
                         {
                             if (
                                 options.DisplayNodeRequirementOptions
@@ -134,7 +153,14 @@ public static class GraphExtensions
                             }
                         }
 
-                        lines.Add($"{marker} {req.Description}{refs}");
+                        var line = $"{marker}";
+                        if (!string.IsNullOrEmpty(effectText))
+                        {
+                            line += $" {effectText}";
+                        }
+                        line += refs;
+
+                        lines.Add(line);
                     }
                     requirementsText = "<br/>" + string.Join("<br/>", lines);
                 }
@@ -153,25 +179,25 @@ public static class GraphExtensions
             var labelParts = new List<string> { $"[{edge.Index}]" };
 
             // Build effect display based on flags
-            if (options.EffectDisplayOptions != EffectDisplayOptions.None)
+            if (options.EffectFormatOptions != EffectFormatOptions.None)
             {
                 foreach (var mutation in edge.ResolvingMutations)
                 {
                     var effectParts = new List<string>();
 
-                    if (options.EffectDisplayOptions.HasFlag(EffectDisplayOptions.UseId))
+                    if (options.EffectFormatOptions.HasFlag(EffectFormatOptions.UseId))
                     {
                         effectParts.Add(mutation.Id);
                     }
 
-                    if (options.EffectDisplayOptions.HasFlag(EffectDisplayOptions.UseDescription))
+                    if (options.EffectFormatOptions.HasFlag(EffectFormatOptions.UseDescription))
                     {
-                        effectParts.Add($"'{mutation.Description}'");
+                        effectParts.Add(mutation.Description);
                     }
 
                     if (effectParts.Count > 0)
                     {
-                        labelParts.Add(string.Join(" - ", effectParts));
+                        labelParts.Add($"'{string.Join(" - ", effectParts)}'");
                     }
                 }
             }

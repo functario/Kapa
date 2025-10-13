@@ -11,11 +11,11 @@ public record MermaidGraphOptions
     public bool DisplayOnlyNodeMissingRequirements { get; set; }
     public MermaidGraphOrientations GraphOrientations { get; set; }
     public DisplayNodeRequirementOptions DisplayNodeRequirementOptions { get; set; }
-    public EffectDisplayOptions EffectDisplayOptions { get; set; }
+    public EffectFormatOptions EffectFormatOptions { get; set; }
 }
 
 [Flags]
-public enum EffectDisplayOptions
+public enum EffectFormatOptions
 {
     None = 0,
 

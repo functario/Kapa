@@ -2,6 +2,7 @@
 
 public class DisplayNodeRequirementOptionsTests
 {
+    // TODO: Need a matrix since EffectFormatOptions and DisplayNodeRequirementOptions impact each others
     [Theory(
         DisplayName = $"Display {nameof(Graph)} depending {nameof(MermaidGraphOptions.DisplayNodeRequirementOptions)}"
     )]
@@ -15,7 +16,7 @@ public class DisplayNodeRequirementOptionsTests
         var mermaidOptions = new MermaidGraphOptions()
         {
             DisplayNodeRequirementOptions = displayNodeRequirementOption,
-            EffectDisplayOptions = EffectDisplayOptions.UseDescription,
+            EffectFormatOptions = EffectFormatOptions.UseId | EffectFormatOptions.UseDescription,
         };
 
         // Act
