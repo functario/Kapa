@@ -1,0 +1,8 @@
+﻿---
+config:
+  layout: elk
+---
+graph TD
+SetThermostatSetpoint["🔴SetThermostatSetpoint<br/>ℹ️ 'Change the Thermostat Setpoint.' <br/>⚡❌ 'The IUser is authenticated.'<br/>⚡✅ 'The IUser's Home has at least 1 Thermostat.' [1]"]
+AddThermostat["🔴AddThermostat<br/>ℹ️ 'Add a Thermostat to the Home.' <br/>⚡❌ 'The IUser is authenticated.'"]
+AddThermostat -->|"[1]<br/>⚡'The IUser's Home has at least 1 Thermostat.'"| SetThermostatSetpoint

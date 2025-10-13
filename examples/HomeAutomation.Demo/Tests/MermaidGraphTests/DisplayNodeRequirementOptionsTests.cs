@@ -30,7 +30,6 @@ public class DisplayNodeRequirementOptionsTests
 
     [Theory(
         DisplayName = $"Display {nameof(Graph)} with missing {nameof(Graph.MissingRequirements)}"
-            + $" depending {nameof(MermaidGraphOptions.DisplayNodeRequirementOptions)}"
     )]
     [InlineData(DisplayNodeRequirementOptions.None)]
     [InlineData(DisplayNodeRequirementOptions.ReferenceDirectEdges)]
