@@ -95,7 +95,10 @@ public static class GraphExtensions
                     : [];
 
             var requirementsText = string.Empty;
-            if (options.DisplayNodeRequirements)
+            if (
+                options.DisplayNodeRequirementOptions
+                == DisplayNodeRequirementOptions.ReferenceDirectEdges
+            )
             {
                 IEnumerable<IEffect<IGeneratedActor>> reqsToShow = requirements;
                 if (options.DisplayOnlyNodeMissingRequirements)
