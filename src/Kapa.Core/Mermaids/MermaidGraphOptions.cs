@@ -29,8 +29,8 @@ public enum DisplayNodeRequirementOptions
 
     /// <summary>
     /// Display all <see cref="IEdge"/>s resolving the <see cref="Relations.Requirements"/>.
-    /// Including <see cref="Relations.Requirements"/> the ones
-    /// resolved via a previous <see cref="INode"/>s <see cref="Relations.Requirements"/>.
+    /// Including resolutions inherited
+    /// from previous <see cref="INode"/>s <see cref="Relations.Requirements"/>.
     /// </summary>
     ReferenceInheritedEdges,
 }
