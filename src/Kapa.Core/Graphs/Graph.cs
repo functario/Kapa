@@ -9,19 +9,25 @@ public sealed class Graph : IGraph
     {
         Nodes = nodes;
         MissingRequirements = new Dictionary<INode, ICollection<IEffect<IGeneratedActor>>>();
-        Reduce([.. nodes], []);
+        Edges = Reduce([.. nodes], []).Edges;
     }
 
     private Graph(
         IReadOnlyCollection<INode> nodes,
-        IDictionary<INode, ICollection<IEffect<IGeneratedActor>>> missingRequirements
+        IDictionary<INode, ICollection<IEffect<IGeneratedActor>>> missingRequirements,
+        IReadOnlyCollection<IEdge> edges
     )
     {
         Nodes = nodes;
         MissingRequirements = missingRequirements;
+        Edges = edges;
     }
 
+    /// <inheritdoc/>
     public IReadOnlyCollection<INode> Nodes { get; init; }
+
+    /// <inheritdoc/>
+    public IReadOnlyCollection<IEdge> Edges { get; init; }
 
     public IDictionary<
         INode,
@@ -52,6 +58,7 @@ public sealed class Graph : IGraph
         var requiredNodes = new HashSet<INode>();
         var visitedForCycleDetection = new HashSet<INode>();
         var currentPath = new Stack<INode>();
+        var edgeMap = new Dictionary<(INode from, INode to), List<IEffect<IGeneratedActor>>>();
 
         // Process each included node and find its dependencies using DFS
         foreach (var includedNode in includedNodes)
@@ -63,12 +70,22 @@ public sealed class Graph : IGraph
                     availableNodes,
                     requiredNodes,
                     visitedForCycleDetection,
-                    currentPath
+                    currentPath,
+                    edgeMap
                 );
             }
         }
 
-        return new Graph([.. requiredNodes], MissingRequirements);
+        // Create edges with sequential indices
+        var edges = new List<IEdge>();
+        var edgeIndex = 1;
+        foreach (var ((from, to), resolvingMutations) in edgeMap)
+        {
+            edges.Add(new Edge(from, to, resolvingMutations, edgeIndex));
+            edgeIndex++;
+        }
+
+        return new Graph([.. requiredNodes], MissingRequirements, edges);
     }
 
     private void ResolveDependencies(
@@ -76,7 +93,8 @@ public sealed class Graph : IGraph
         HashSet<INode> availableNodes,
         HashSet<INode> requiredNodes,
         HashSet<INode> visitedForCycleDetection,
-        Stack<INode> currentPath
+        Stack<INode> currentPath,
+        Dictionary<(INode from, INode to), List<IEffect<IGeneratedActor>>> edgeMap
     )
     {
         // Check for cycles
@@ -106,8 +124,11 @@ public sealed class Graph : IGraph
         {
             foreach (var requirement in requirements)
             {
-                var satisfyingNodes = FindNodesThatSatisfyRequirement(requirement, availableNodes);
-                if (satisfyingNodes.Count < 1)
+                var satisfyingNodesWithMutations = FindNodesThatSatisfyRequirement(
+                    requirement,
+                    availableNodes
+                );
+                if (satisfyingNodesWithMutations.Count < 1)
                 {
                     if (MissingRequirements.TryGetValue(currentNode, out var missingRequirements))
                     {
@@ -122,15 +143,28 @@ public sealed class Graph : IGraph
                     }
                 }
 
-                // Recursively process satisfying nodes
-                foreach (var satisfyingNode in satisfyingNodes)
+                // Create edges and recursively process satisfying nodes
+                foreach (var (satisfyingNode, mutation) in satisfyingNodesWithMutations)
                 {
+                    // Track edge from satisfying node to current node
+                    var edgeKey = (satisfyingNode, currentNode);
+                    if (!edgeMap.TryGetValue(edgeKey, out var mutations))
+                    {
+                        mutations = [];
+                        edgeMap[edgeKey] = mutations;
+                    }
+                    if (!mutations.Contains(mutation))
+                    {
+                        mutations.Add(mutation);
+                    }
+
                     ResolveDependencies(
                         satisfyingNode,
                         availableNodes,
                         requiredNodes,
                         visitedForCycleDetection,
-                        currentPath
+                        currentPath,
+                        edgeMap
                     );
                 }
             }
@@ -140,12 +174,12 @@ public sealed class Graph : IGraph
         currentPath.Pop();
     }
 
-    private static List<INode> FindNodesThatSatisfyRequirement(
+    private static List<(INode node, IEffect<IGeneratedActor> mutation)> FindNodesThatSatisfyRequirement(
         IEffect<IGeneratedActor> requirement,
         HashSet<INode> availableNodes
     )
     {
-        var satisfyingNodes = new List<INode>();
+        var satisfyingNodesWithMutations = new List<(INode node, IEffect<IGeneratedActor> mutation)>();
 
         foreach (var node in availableNodes)
         {
@@ -156,15 +190,14 @@ public sealed class Graph : IGraph
             foreach (var mutation in mutations)
             {
                 // Check if the mutation's predicate matches the requirement's predicate
-                // We need to compare the underlying delegates, not the wrapper
                 if (mutation.AreEqual(requirement))
                 {
-                    satisfyingNodes.Add(node);
-                    break; // One mutation is enough
+                    satisfyingNodesWithMutations.Add((node, mutation));
+                    break; // One mutation per node is enough
                 }
             }
         }
 
-        return satisfyingNodes;
+        return satisfyingNodesWithMutations;
     }
 }

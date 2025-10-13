@@ -5,7 +5,15 @@ namespace Kapa.Abstractions.Graphs;
 
 public interface IGraph
 {
+    /// <summary>
+    /// All the <see cref="INode"/> composing this <see cref="IGraph"/>.
+    /// </summary>
     public IReadOnlyCollection<INode> Nodes { get; }
+
+    /// <summary>
+    /// All the <see cref="IEdge"/> representing dependency relationships between nodes.
+    /// </summary>
+    public IReadOnlyCollection<IEdge> Edges { get; }
 
     /// <summary>
     /// Reduce the <see cref="IGraph"/> to <see cref="ICapability"/> resolving the dependencies of <paramref name="includedNodes"/>.
