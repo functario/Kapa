@@ -219,7 +219,7 @@ public static class GraphExtensions
             visited
         );
 
-        return allRefs.OrderBy(x => x).ToList();
+        return [.. allRefs.OrderBy(x => x)];
     }
 
     private static void CollectRecursiveEdgeReferencesForRequirement(
@@ -269,10 +269,10 @@ public static class GraphExtensions
                 {
                     foreach (var reqRef in reqRefs)
                     {
-                        var edge = edgeList[reqRef - 1]; // edgeRef is 1-based
+                        var (from, to, label, reqId) = edgeList[reqRef - 1]; // edgeRef is 1-based
                         // Recursively check the source node for the same requirement type
                         CollectRecursiveEdgeReferencesForRequirement(
-                            edge.from,
+                            from,
                             requirementId, // Look for the SAME requirement type
                             graph,
                             edgeRefs,
