@@ -3,17 +3,17 @@ config:
   layout: elk
 ---
 graph TD
-SetThermostatSetpoint["SetThermostatSetpoint<br/>'Change the Thermostat Setpoint.' <br/>✅ The IUser is authenticated. [1]<br/>✅ The IUser's Home has at least 1 Thermostat. [2, 3, 4]"]
 AuthenticateAsync["AuthenticateAsync<br/>'Authenticate the User.' "]
-AddThermostat["AddThermostat<br/>'Add a Thermostat to the Home.' <br/>✅ The IUser is authenticated. [4]"]
-Setup["Setup<br/>'Setup the User.' "]
-SwitchLight["SwitchLight<br/>'Change the Light IsOn state.' <br/>✅ The IUser is authenticated. [5]<br/>✅ The IUser's Home has at least 1 Light. [6, 7, 8]"]
+SwitchLight["SwitchLight<br/>'Change the Light IsOn state.' <br/>✅ The IUser is authenticated. [1, 8]<br/>✅ The IUser's Home has at least 1 Light. [2, 3]"]
+SetThermostatSetpoint["SetThermostatSetpoint<br/>'Change the Thermostat Setpoint.' <br/>✅ The IUser is authenticated. [4, 7]<br/>✅ The IUser's Home has at least 1 Thermostat. [5, 6]"]
+AddThermostat["AddThermostat<br/>'Add a Thermostat to the Home.' <br/>✅ The IUser is authenticated. [7]"]
 AddLight["AddLight<br/>'Add a Light to the Home.' <br/>✅ The IUser is authenticated. [8]"]
-AuthenticateAsync -->|"The IUser is authenticated. [1]"| SetThermostatSetpoint
-AddThermostat -->|"The IUser's Home has at least 1 Thermostat. [2]"| SetThermostatSetpoint
-Setup -->|"The IUser's Home has at least 1 Thermostat. [3]"| SetThermostatSetpoint
-AuthenticateAsync -->|"The IUser is authenticated. [4]"| AddThermostat
-AuthenticateAsync -->|"The IUser is authenticated. [5]"| SwitchLight
-Setup -->|"The IUser's Home has at least 1 Light. [6]"| SwitchLight
-AddLight -->|"The IUser's Home has at least 1 Light. [7]"| SwitchLight
+Setup["Setup<br/>'Setup the User.' "]
+AuthenticateAsync -->|"The IUser is authenticated. [1]"| SwitchLight
+AddLight -->|"The IUser's Home has at least 1 Light. [2]"| SwitchLight
+Setup -->|"The IUser's Home has at least 1 Light. [3]"| SwitchLight
+AuthenticateAsync -->|"The IUser is authenticated. [4]"| SetThermostatSetpoint
+AddThermostat -->|"The IUser's Home has at least 1 Thermostat. [5]"| SetThermostatSetpoint
+Setup -->|"The IUser's Home has at least 1 Thermostat. [6]"| SetThermostatSetpoint
+AuthenticateAsync -->|"The IUser is authenticated. [7]"| AddThermostat
 AuthenticateAsync -->|"The IUser is authenticated. [8]"| AddLight

@@ -32,5 +32,5 @@ public enum DisplayNodeRequirementOptions
     /// Including <see cref="Relations.Requirements"/> the ones
     /// resolved via a previous <see cref="INode"/>s <see cref="Relations.Requirements"/>.
     /// </summary>
-    ReferenceRecursiveEdges,
+    ReferenceInheritedEdges,
 }

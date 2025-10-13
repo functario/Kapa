@@ -133,7 +133,7 @@ public static class GraphExtensions
                             }
                             else if (
                                 options.DisplayNodeRequirementOptions
-                                == DisplayNodeRequirementOptions.ReferenceRecursiveEdges
+                                == DisplayNodeRequirementOptions.ReferenceInheritedEdges
                             )
                             {
                                 // Show all edges (direct and recursive) that resolve this requirement
@@ -147,7 +147,7 @@ public static class GraphExtensions
                                 );
                                 if (allRefs.Count > 0)
                                 {
-                                    refs = " [" + string.Join(", ", allRefs.OrderBy(x => x)) + "]";
+                                    refs = " [" + string.Join(", ", allRefs) + "]";
                                 }
                             }
                         }
@@ -203,11 +203,12 @@ public static class GraphExtensions
         MermaidGraphOptions options
     )
     {
-        var allRefs = new List<int>();
+        var allRefs = new HashSet<int>();
         var visited = new HashSet<string>();
         var nodeName = GetNodeName(node, options);
 
-        CollectRecursiveEdgeReferencesHelper(
+        // Collect all edges that resolve this requirement type in the entire dependency chain
+        CollectRecursiveEdgeReferencesForRequirement(
             nodeName,
             requirement.Id,
             graph,
@@ -218,46 +219,61 @@ public static class GraphExtensions
             visited
         );
 
-        return allRefs;
+        return allRefs.OrderBy(x => x).ToList();
     }
 
-    private static void CollectRecursiveEdgeReferencesHelper(
+    private static void CollectRecursiveEdgeReferencesForRequirement(
         string currentNodeName,
         string requirementId,
         IGraph graph,
         Dictionary<(string nodeName, string reqId), List<int>> edgeRefs,
         List<(string from, string to, string label, string reqId)> edgeList,
         MermaidGraphOptions options,
-        List<int> allRefs,
+        HashSet<int> allRefs,
         HashSet<string> visited
     )
     {
-        var key = (currentNodeName, requirementId);
-
         // Avoid cycles
-        if (visited.Contains($"{currentNodeName}:{requirementId}"))
+        if (visited.Contains(currentNodeName))
             return;
 
-        visited.Add($"{currentNodeName}:{requirementId}");
+        visited.Add(currentNodeName);
 
-        // Add direct edges for this requirement
+        var currentNode = graph.Nodes.FirstOrDefault(n =>
+            GetNodeName(n, options) == currentNodeName
+        );
+        if (currentNode == null)
+            return;
+
+        // First, check if this node has the requirement we're looking for
+        // and collect all edges that resolve it
+        var key = (currentNodeName, requirementId);
         if (edgeRefs.TryGetValue(key, out var directRefs))
         {
-            allRefs.AddRange(directRefs);
-
-            // For each direct edge, find the source node and recursively collect its requirements
-            foreach (var edgeRef in directRefs)
+            foreach (var directRef in directRefs)
             {
-                var (from, to, label, reqId) = edgeList[edgeRef - 1]; // edgeRef is 1-based
-                var sourceNode = graph.Nodes.FirstOrDefault(n => GetNodeName(n, options) == from);
+                allRefs.Add(directRef);
+            }
+        }
 
-                if (sourceNode?.Capability.Relations?.Requirements != null)
+        // Then, recursively traverse all dependencies of this node
+        // to find if any of them also have the same requirement resolved
+        var requirements = currentNode.Capability.Relations?.Requirements;
+        if (requirements != null)
+        {
+            foreach (var req in requirements)
+            {
+                // Find all nodes that satisfy this requirement
+                var reqKey = (currentNodeName, req.Id);
+                if (edgeRefs.TryGetValue(reqKey, out var reqRefs))
                 {
-                    foreach (var srcReq in sourceNode.Capability.Relations.Requirements)
+                    foreach (var reqRef in reqRefs)
                     {
-                        CollectRecursiveEdgeReferencesHelper(
-                            from,
-                            srcReq.Id,
+                        var edge = edgeList[reqRef - 1]; // edgeRef is 1-based
+                        // Recursively check the source node for the same requirement type
+                        CollectRecursiveEdgeReferencesForRequirement(
+                            edge.from,
+                            requirementId, // Look for the SAME requirement type
                             graph,
                             edgeRefs,
                             edgeList,

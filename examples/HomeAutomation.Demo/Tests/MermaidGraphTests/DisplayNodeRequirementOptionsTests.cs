@@ -7,20 +7,18 @@ public class DisplayNodeRequirementOptionsTests
     )]
     [InlineData(DisplayNodeRequirementOptions.None)]
     [InlineData(DisplayNodeRequirementOptions.ReferenceDirectEdges)]
-    [InlineData(DisplayNodeRequirementOptions.ReferenceRecursiveEdges)]
+    [InlineData(DisplayNodeRequirementOptions.ReferenceInheritedEdges)]
     public async Task Test1(DisplayNodeRequirementOptions displayNodeRequirementOption)
     {
         // Arrange
         var fullGraph = GraphCatalog.Full();
-        INode[] includedNodes = [NodeCatalog.SetThermostatSetpoint, NodeCatalog.SwitchLight];
-        INode[] excludedNodes = [];
         var mermaidOptions = new MermaidGraphOptions()
         {
             DisplayNodeRequirementOptions = displayNodeRequirementOption,
         };
 
         // Act
-        var sut = fullGraph.Reduce(includedNodes, excludedNodes).ToMermaidGraph(mermaidOptions);
+        var sut = fullGraph.ToMermaidGraph(mermaidOptions);
 
         // Assert
         await sut.VerifyMermaidAsync();
