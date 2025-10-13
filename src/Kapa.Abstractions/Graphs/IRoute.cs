@@ -2,5 +2,5 @@
 
 public interface IRoute
 {
-    IReadOnlyList<IEdge> Edges { get; init; }
+    IReadOnlyList<IEdge> Edges { get; }
 }
