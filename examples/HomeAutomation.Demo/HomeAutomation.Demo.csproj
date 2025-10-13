@@ -5,6 +5,8 @@
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
         <RootNamespace>HomeAutomation.Demo</RootNamespace>
+        <UseLegacyPathHandling>false</UseLegacyPathHandling>
+        <LongPathAware>true</LongPathAware>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AutoFixture.Xunit3" />

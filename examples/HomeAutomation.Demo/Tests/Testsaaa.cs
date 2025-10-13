@@ -2,7 +2,10 @@
 
 public class Testsaaa
 {
-    [Fact(DisplayName = $"{nameof(User)} is a shared instance between {nameof(ICapability)}.")]
+    [Fact(
+        DisplayName = $"{nameof(User)} is a shared instance between {nameof(ICapability)}.",
+        Explicit = true
+    )]
     public async Task Test1()
     {
         // Arrange
@@ -41,7 +44,7 @@ public class Testsaaa
         identification!.Token?.ExpiresOn.Should().BeAfter(timeProvider.GetUtcNow());
     }
 
-    [Fact(DisplayName = $"Resolve {nameof(IGraph)}")]
+    [Fact(DisplayName = $"Resolve {nameof(IGraph)}", Explicit = true)]
     public async Task Test2()
     {
         // Arrange

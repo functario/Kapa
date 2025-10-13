@@ -166,7 +166,10 @@ public static class GraphExtensions
                 }
             }
 
-            sb.AppendLine(nodeName + "[\"📍" + nodeName + description + requirementsText + "\"]");
+            // Determine node icon based on missing requirements
+            var nodeIcon = missing.Count > 0 ? "🔴" : "🟢";
+
+            sb.AppendLine(nodeName + "[\"" + nodeIcon + nodeName + description + requirementsText + "\"]");
         }
 
         // Render edges - each edge already groups multiple mutations with a single index

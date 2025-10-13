@@ -21,10 +21,7 @@ public class DisplayNodeRequirementOptionsTests
 
         // Act
         var sut = fullGraph
-            .Reduce(
-                [NodeCatalog.SetThermostatSetpoint],
-                [NodeCatalog.Setup, NodeCatalog.AuthenticateAsync]
-            )
+            .Reduce([NodeCatalog.SetThermostatSetpoint], [])
             .ToMermaidGraph(mermaidOptions);
 
         // Assert
