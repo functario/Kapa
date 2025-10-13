@@ -41,9 +41,9 @@ public class GraphTests
         INode[] excludedNodes = [];
 
         // Act
-        var sut = fullGraph.Reduce(includedNodes, excludedNodes).ToMermaidGraph();
+        var sut = fullGraph.Reduce(includedNodes, excludedNodes);
 
         // Assert
-        await sut.VerifyMermaidAsync();
+        await sut.ToMermaidGraph().VerifyMermaidAsync();
     }
 }

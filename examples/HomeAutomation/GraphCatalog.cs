@@ -5,5 +5,5 @@ namespace HomeAutomation;
 
 public static class GraphCatalog
 {
-    public static IGraph Full() => new Graph([.. NodeCatalog.Nodes]);
+    public static IGraph Full() => new Graph([.. NodeCatalog.GetNodes()]);
 }

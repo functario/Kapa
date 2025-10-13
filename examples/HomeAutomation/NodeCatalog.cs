@@ -7,25 +7,21 @@ namespace HomeAutomation;
 
 public static class NodeCatalog
 {
-    private static INode[]? s_nodes;
-
-    public static ICollection<INode> Nodes
-    {
-        get
-        {
-            s_nodes ??= GetNodes();
-            return s_nodes;
-        }
-    }
-
-    private static INode[] GetNodes()
+    public static INode[] GetNodes()
     {
         var capabilityTypes = Assembly
             .GetExecutingAssembly()
             .GetTypes()
-            .Where(t => t.GetCustomAttribute<CapabilityTypeAttribute>() != null);
+            .Where(t => t.GetCustomAttribute<CapabilityTypeAttribute>() != null)
+            .ToArray();
 
         var nodes = capabilityTypes.SelectMany(t => t.GetCapabilitiesAsNodes()).ToArray();
+
+        // Debug: Verify nodes are being collected
+        if (nodes.Length == 0)
+        {
+            throw new InvalidOperationException("GetNodes() returned zero nodes!");
+        }
 
         return nodes;
     }
@@ -40,6 +36,6 @@ public static class NodeCatalog
     private static INode GetNode([CallerMemberName] string? caller = null)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(caller);
-        return Nodes.GetByName(caller);
+        return GetNodes().GetByName(caller);
     }
 }

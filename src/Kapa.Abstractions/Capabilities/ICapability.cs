@@ -3,7 +3,7 @@ using Kapa.Abstractions.Validations;
 
 namespace Kapa.Abstractions.Capabilities;
 
-public interface ICapability
+public interface ICapability : IEquatable<ICapability>
 {
     public string Name { get; }
     public string Description { get; }

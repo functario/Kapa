@@ -1,6 +1,6 @@
 ﻿namespace Kapa.Abstractions.Graphs;
 
-public interface IRoute
+public interface IRoute : IEquatable<IRoute>
 {
     /// <summary>
     /// An arbritary index to reference the <see cref="IRoute"/> solenely

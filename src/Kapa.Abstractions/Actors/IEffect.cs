@@ -1,6 +1,6 @@
 ﻿namespace Kapa.Abstractions.Actors;
 
-public interface IEffect<out TGeneratedActor>
+public interface IEffect<out TGeneratedActor> : IEquatable<IEffect<IGeneratedActor>>
     where TGeneratedActor : IGeneratedActor
 {
     public string Id { get; }

@@ -29,49 +29,32 @@ public static class GraphExtensions
             $"graph {Enum.GetName(options.GraphOrientations)}"
         );
 
-        // Track edges and assign reference numbers
-        var edgeList = new List<(string from, string to, string label, string reqId)>();
-        var edgeCounter = 1;
+        // Build edge reference tracking from graph.Edges
         var edgeRefs = new Dictionary<(string nodeName, string reqId), List<int>>();
-
-        // First pass: collect edges and assign numbers
-        foreach (var node in graph.Nodes)
+        
+        foreach (var edge in graph.Edges)
         {
-            var nodeName = GetNodeName(node, options);
-            var relations = node.Capability.Relations;
-            if (relations?.Requirements != null && relations.Requirements.Count > 0)
+            var toNodeName = GetNodeName(edge.ToCapacity, options);
+            
+            // Map each resolving mutation to the requirements it satisfies
+            foreach (var mutation in edge.ResolvingMutations)
             {
-                foreach (var requirement in relations.Requirements)
+                // Find matching requirements in the target node
+                var requirements = edge.ToCapacity.Capability.Relations?.Requirements;
+                if (requirements != null)
                 {
-                    foreach (var otherNode in graph.Nodes)
+                    foreach (var requirement in requirements)
                     {
-                        var mutations = otherNode.Capability.Relations?.Mutations;
-                        if (mutations == null)
-                            continue;
-
-                        foreach (var mutation in mutations)
+                        if (mutation.AreEqual(requirement))
                         {
-                            if (mutation.AreEqual(requirement))
+                            var key = (toNodeName, requirement.Id);
+                            if (!edgeRefs.TryGetValue(key, out var list))
                             {
-                                var otherNodeName = GetNodeName(otherNode, options);
-                                edgeList.Add(
-                                    (
-                                        otherNodeName,
-                                        nodeName,
-                                        requirement.Description,
-                                        requirement.Id
-                                    )
-                                );
-                                // Track edge reference for node/requirement
-                                var key = (nodeName, requirement.Id);
-                                if (!edgeRefs.TryGetValue(key, out var list))
-                                {
-                                    list = [];
-                                    edgeRefs[key] = list;
-                                }
-                                list.Add(edgeCounter);
-                                edgeCounter++;
+                                list = [];
+                                edgeRefs[key] = list;
                             }
+                            list.Add(edge.Index);
+                            break; // One mutation matches one requirement
                         }
                     }
                 }
@@ -142,7 +125,6 @@ public static class GraphExtensions
                                     req,
                                     graph,
                                     edgeRefs,
-                                    edgeList,
                                     options
                                 );
                                 if (allRefs.Count > 0)
@@ -161,35 +143,41 @@ public static class GraphExtensions
             sb.AppendLine(nodeName + "[\"" + nodeName + description + requirementsText + "\"]");
         }
 
-        // Merge edges between the same nodes and render them
-        var mergedEdges = new Dictionary<(string from, string to), List<(string label, int edgeNum)>>();
-        var edgeNum = 1;
-        foreach (var (from, to, label, reqId) in edgeList)
+        // Group edges by (from, to) pair for merged rendering
+        var mergedEdges = new Dictionary<(string from, string to), List<(IEffect<IGeneratedActor> mutation, int index)>>();
+        
+        foreach (var edge in graph.Edges)
         {
-            var key = (from, to);
-            if (!mergedEdges.TryGetValue(key, out var labels))
+            var fromName = GetNodeName(edge.FromCapacity, options);
+            var toName = GetNodeName(edge.ToCapacity, options);
+            var key = (fromName, toName);
+            
+            if (!mergedEdges.TryGetValue(key, out var mutations))
             {
-                labels = [];
-                mergedEdges[key] = labels;
+                mutations = [];
+                mergedEdges[key] = mutations;
             }
-            labels.Add((label, edgeNum));
-            edgeNum++;
+            
+            foreach (var mutation in edge.ResolvingMutations)
+            {
+                mutations.Add((mutation, edge.Index));
+            }
         }
 
         // Render merged edges
-        foreach (var ((from, to), labels) in mergedEdges)
+        foreach (var ((from, to), mutations) in mergedEdges)
         {
             if (options.DisplayNodeRequirementOptions != DisplayNodeRequirementOptions.None)
             {
                 var combinedLabel = string.Join(
                     "<br/>",
-                    labels.Select(l => $"{l.label} [{l.edgeNum}]")
+                    mutations.Select(m => $"{m.mutation.Description} [{m.index}]")
                 );
                 sb.AppendLine(($"{from} -->|\"{combinedLabel}\"| {to}").ToString());
             }
             else
             {
-                var combinedLabel = string.Join("<br/>", labels.Select(l => l.label));
+                var combinedLabel = string.Join("<br/>", mutations.Select(m => m.mutation.Description));
                 sb.AppendLine(($"{from} -->|\"{combinedLabel}\"| {to}").ToString());
             }
         }
@@ -217,7 +205,6 @@ public static class GraphExtensions
         IEffect<IGeneratedActor> requirement,
         IGraph graph,
         Dictionary<(string nodeName, string reqId), List<int>> edgeRefs,
-        List<(string from, string to, string label, string reqId)> edgeList,
         MermaidGraphOptions options
     )
     {
@@ -231,7 +218,6 @@ public static class GraphExtensions
             requirement.Id,
             graph,
             edgeRefs,
-            edgeList,
             options,
             allRefs,
             visited
@@ -245,7 +231,6 @@ public static class GraphExtensions
         string requirementId,
         IGraph graph,
         Dictionary<(string nodeName, string reqId), List<int>> edgeRefs,
-        List<(string from, string to, string label, string reqId)> edgeList,
         MermaidGraphOptions options,
         HashSet<int> allRefs,
         HashSet<string> visited
@@ -281,24 +266,28 @@ public static class GraphExtensions
         {
             foreach (var req in requirements)
             {
-                // Find all nodes that satisfy this requirement
+                // Find all edges that point to this node for this requirement
                 var reqKey = (currentNodeName, req.Id);
                 if (edgeRefs.TryGetValue(reqKey, out var reqRefs))
                 {
                     foreach (var reqRef in reqRefs)
                     {
-                        var (from, to, label, reqId) = edgeList[reqRef - 1]; // edgeRef is 1-based
-                        // Recursively check the source node for the same requirement type
-                        CollectRecursiveEdgeReferencesForRequirement(
-                            from,
-                            requirementId, // Look for the SAME requirement type
-                            graph,
-                            edgeRefs,
-                            edgeList,
-                            options,
-                            allRefs,
-                            visited
-                        );
+                        // Find the edge with this index
+                        var edge = graph.Edges.FirstOrDefault(e => e.Index == reqRef);
+                        if (edge != null)
+                        {
+                            var fromName = GetNodeName(edge.FromCapacity, options);
+                            // Recursively check the source node for the same requirement type
+                            CollectRecursiveEdgeReferencesForRequirement(
+                                fromName,
+                                requirementId, // Look for the SAME requirement type
+                                graph,
+                                edgeRefs,
+                                options,
+                                allRefs,
+                                visited
+                            );
+                        }
                     }
                 }
             }

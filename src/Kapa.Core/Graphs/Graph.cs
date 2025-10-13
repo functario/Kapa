@@ -174,12 +174,16 @@ public sealed class Graph : IGraph
         currentPath.Pop();
     }
 
-    private static List<(INode node, IEffect<IGeneratedActor> mutation)> FindNodesThatSatisfyRequirement(
+    private static List<(
+        INode node,
+        IEffect<IGeneratedActor> mutation
+    )> FindNodesThatSatisfyRequirement(
         IEffect<IGeneratedActor> requirement,
         HashSet<INode> availableNodes
     )
     {
-        var satisfyingNodesWithMutations = new List<(INode node, IEffect<IGeneratedActor> mutation)>();
+        var satisfyingNodesWithMutations =
+            new List<(INode node, IEffect<IGeneratedActor> mutation)>();
 
         foreach (var node in availableNodes)
         {
@@ -199,5 +203,48 @@ public sealed class Graph : IGraph
         }
 
         return satisfyingNodesWithMutations;
+    }
+
+    /// <summary>
+    /// Determines whether this <see cref="IGraph"/> is equal to another.
+    /// Comparison is based on <see cref="Nodes"/> collection (all nodes must match by value).
+    /// </summary>
+    /// <param name="other">The <see cref="IGraph"/> to compare with.</param>
+    /// <returns>True if both graphs contain the same nodes (compared by <see cref="INode"/> equality), false otherwise.</returns>
+    public bool Equals(IGraph? other)
+    {
+        if (other is null)
+            return false;
+
+        if (ReferenceEquals(this, other))
+            return true;
+
+        // Compare by node count and node equality
+        if (Nodes.Count != other.Nodes.Count)
+            return false;
+
+        return Nodes.All(n => other.Nodes.Any(on => n.Equals(on)));
+    }
+
+    /// <inheritdoc/>
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as IGraph);
+    }
+
+    /// <summary>
+    /// Returns the hash code for this <see cref="IGraph"/>.
+    /// Hash code is computed from all <see cref="Nodes"/> in the graph.
+    /// </summary>
+    /// <returns>A hash code for the current graph.</returns>
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+        foreach (var node in Nodes.OrderBy(n => n.Capability.OutcomeMetadata.Source))
+        {
+            hash.Add(node);
+        }
+
+        return hash.ToHashCode();
     }
 }

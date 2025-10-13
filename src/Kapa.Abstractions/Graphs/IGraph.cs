@@ -3,7 +3,7 @@ using Kapa.Abstractions.Capabilities;
 
 namespace Kapa.Abstractions.Graphs;
 
-public interface IGraph
+public interface IGraph : IEquatable<IGraph>
 {
     /// <summary>
     /// All the <see cref="INode"/> composing this <see cref="IGraph"/>.

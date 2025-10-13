@@ -2,7 +2,7 @@
 
 namespace Kapa.Abstractions.Graphs;
 
-public interface INode
+public interface INode : IEquatable<INode>
 {
     ICapability Capability { get; }
 }

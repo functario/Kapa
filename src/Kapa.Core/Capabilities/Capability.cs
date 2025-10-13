@@ -50,4 +50,29 @@ public record Capability : ICapability
     public IOutcomeMetadata OutcomeMetadata { get; init; }
 
     public IRelations<IGeneratedActor>? Relations { get; init; }
+
+    /// <summary>
+    /// Determines whether this <see cref="ICapability"/> is equal to another.
+    /// Comparison is based on <see cref="IOutcomeMetadata.Source"/> property from <see cref="OutcomeMetadata"/>.
+    /// </summary>
+    /// <param name="other">The <see cref="ICapability"/> to compare with.</param>
+    /// <returns>True if both capabilities have the same <see cref="IOutcomeMetadata.Source"/>, false otherwise.</returns>
+    public bool Equals(ICapability? other)
+    {
+        if (other is null)
+            return false;
+        if (ReferenceEquals(this, other))
+            return true;
+        return OutcomeMetadata.Source == other.OutcomeMetadata.Source;
+    }
+
+    /// <summary>
+    /// Returns the hash code for this <see cref="ICapability"/>.
+    /// Hash code is computed from <see cref="IOutcomeMetadata.Source"/> property.
+    /// </summary>
+    /// <returns>A hash code for the current capability.</returns>
+    public override int GetHashCode()
+    {
+        return OutcomeMetadata.Source.GetHashCode(StringComparison.Ordinal);
+    }
 }
