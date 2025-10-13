@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace HomeAutomation.Demo.Extensions;
 
 public static class VerifyExtensions
 {
-    public static SettingsTask VerifyMermaidAsync(this string mermaid)
+    [ModuleInitializer]
+    public static void Initialize()
     {
-        var verifySettings = GetVerifySettings();
         DerivePathInfo(
             (_, projectDirectory, type, method) =>
             {
@@ -25,7 +26,11 @@ public static class VerifyExtensions
                 return new PathInfo(directory, filePrefix, fileName);
             }
         );
+    }
 
+    public static SettingsTask VerifyMermaidAsync(this string mermaid)
+    {
+        var verifySettings = GetVerifySettings();
         return Verify(mermaid, "mmd", verifySettings);
     }
 

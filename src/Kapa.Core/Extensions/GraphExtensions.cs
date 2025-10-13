@@ -48,6 +48,7 @@ public static class GraphExtensions
                         var mutations = otherNode.Capability.Relations?.Mutations;
                         if (mutations == null)
                             continue;
+
                         foreach (var mutation in mutations)
                         {
                             if (mutation.AreEqual(requirement))
@@ -77,7 +78,7 @@ public static class GraphExtensions
             }
         }
 
-        // Render all nodes with requirements in the box, including edge refs only if option enabled
+        // Render all nodes with requirements in the box, including edge refs based on option
         foreach (var node in graph.Nodes)
         {
             var nodeName = GetNodeName(node, options);
@@ -95,16 +96,14 @@ public static class GraphExtensions
                     : [];
 
             var requirementsText = string.Empty;
-            if (
-                options.DisplayNodeRequirementOptions
-                == DisplayNodeRequirementOptions.ReferenceDirectEdges
-            )
+            if (options.DisplayNodeRequirementOptions != DisplayNodeRequirementOptions.None)
             {
                 IEnumerable<IEffect<IGeneratedActor>> reqsToShow = requirements;
                 if (options.DisplayOnlyNodeMissingRequirements)
                 {
                     reqsToShow = missing;
                 }
+
                 if (reqsToShow.Any())
                 {
                     var lines = new List<string>();
@@ -114,15 +113,41 @@ public static class GraphExtensions
                         var marker = isMissing ? "❌" : "✅";
                         var key = (nodeName, req.Id);
                         var refs = "";
-                        if (
-                            options.DisplayEdgeReference
-                            && !isMissing
-                            && edgeRefs.TryGetValue(key, out var refList)
-                            && refList.Count > 0
-                        )
+
+                        if (options.DisplayEdgeReference && !isMissing)
                         {
-                            refs = " [" + string.Join(", ", refList) + "]";
+                            if (
+                                options.DisplayNodeRequirementOptions
+                                == DisplayNodeRequirementOptions.ReferenceDirectEdges
+                            )
+                            {
+                                // Show only direct edges that resolve this requirement
+                                if (edgeRefs.TryGetValue(key, out var refList) && refList.Count > 0)
+                                {
+                                    refs = " [" + string.Join(", ", refList) + "]";
+                                }
+                            }
+                            else if (
+                                options.DisplayNodeRequirementOptions
+                                == DisplayNodeRequirementOptions.ReferenceRecursiveEdges
+                            )
+                            {
+                                // Show all edges (direct and recursive) that resolve this requirement
+                                var allRefs = CollectRecursiveEdgeReferences(
+                                    node,
+                                    req,
+                                    graph,
+                                    edgeRefs,
+                                    edgeList,
+                                    options
+                                );
+                                if (allRefs.Count > 0)
+                                {
+                                    refs = " [" + string.Join(", ", allRefs.OrderBy(x => x)) + "]";
+                                }
+                            }
                         }
+
                         lines.Add($"{marker} {req.Description}{refs}");
                     }
                     requirementsText = "<br/>" + string.Join("<br/>", lines);
@@ -163,5 +188,82 @@ public static class GraphExtensions
 
         // Remove only parentheses and angle brackets (dots are allowed in Mermaid)
         return source;
+    }
+
+    private static List<int> CollectRecursiveEdgeReferences(
+        INode node,
+        IEffect<IGeneratedActor> requirement,
+        IGraph graph,
+        Dictionary<(string nodeName, string reqId), List<int>> edgeRefs,
+        List<(string from, string to, string label, string reqId)> edgeList,
+        MermaidGraphOptions options
+    )
+    {
+        var allRefs = new List<int>();
+        var visited = new HashSet<string>();
+        var nodeName = GetNodeName(node, options);
+
+        CollectRecursiveEdgeReferencesHelper(
+            nodeName,
+            requirement.Id,
+            graph,
+            edgeRefs,
+            edgeList,
+            options,
+            allRefs,
+            visited
+        );
+
+        return allRefs;
+    }
+
+    private static void CollectRecursiveEdgeReferencesHelper(
+        string currentNodeName,
+        string requirementId,
+        IGraph graph,
+        Dictionary<(string nodeName, string reqId), List<int>> edgeRefs,
+        List<(string from, string to, string label, string reqId)> edgeList,
+        MermaidGraphOptions options,
+        List<int> allRefs,
+        HashSet<string> visited
+    )
+    {
+        var key = (currentNodeName, requirementId);
+
+        // Avoid cycles
+        if (visited.Contains($"{currentNodeName}:{requirementId}"))
+            return;
+
+        visited.Add($"{currentNodeName}:{requirementId}");
+
+        // Add direct edges for this requirement
+        if (edgeRefs.TryGetValue(key, out var directRefs))
+        {
+            allRefs.AddRange(directRefs);
+
+            // For each direct edge, find the source node and recursively collect its requirements
+            foreach (var edgeRef in directRefs)
+            {
+                var (from, to, label, reqId) = edgeList[edgeRef - 1]; // edgeRef is 1-based
+                var sourceNode = graph.Nodes.FirstOrDefault(n => GetNodeName(n, options) == from);
+
+                if (sourceNode?.Capability.Relations?.Requirements != null)
+                {
+                    foreach (var srcReq in sourceNode.Capability.Relations.Requirements)
+                    {
+                        CollectRecursiveEdgeReferencesHelper(
+                            from,
+                            srcReq.Id,
+                            graph,
+                            edgeRefs,
+                            edgeList,
+                            options,
+                            allRefs,
+                            visited
+                        );
+                    }
+                }
+            }
+        }
     }
 }

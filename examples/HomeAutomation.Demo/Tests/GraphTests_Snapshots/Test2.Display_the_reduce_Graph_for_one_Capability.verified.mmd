@@ -3,9 +3,9 @@ config:
   layout: elk
 ---
 graph TD
-SetThermostatSetpoint["SetThermostatSetpoint<br/>'Change the Thermostat Setpoint.' <br/>✅ The IUser is authenticated. [1]<br/>✅ The IUser's Home has at least 1 Thermostat. [2, 3]"]
+SetThermostatSetpoint["SetThermostatSetpoint<br/>'Change the Thermostat Setpoint.' "]
 AuthenticateAsync["AuthenticateAsync<br/>'Authenticate the User.' "]
-AddThermostat["AddThermostat<br/>'Add a Thermostat to the Home.' <br/>✅ The IUser is authenticated. [4]"]
+AddThermostat["AddThermostat<br/>'Add a Thermostat to the Home.' "]
 Setup["Setup<br/>'Setup the User.' "]
 AuthenticateAsync -->|"The IUser is authenticated. [1]"| SetThermostatSetpoint
 AddThermostat -->|"The IUser's Home has at least 1 Thermostat. [2]"| SetThermostatSetpoint
