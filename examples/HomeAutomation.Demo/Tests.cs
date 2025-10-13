@@ -3,6 +3,7 @@ using AwesomeAssertions.Execution;
 using HomeAutomation.Actors;
 using HomeAutomation.Actors.Homes;
 using HomeAutomation.Capabilities;
+using HomeAutomation.Demo.Commons;
 using Kapa.Abstractions.Graphs;
 using Kapa.Core.Extensions;
 using Kapa.Core.Graphs;
@@ -53,7 +54,7 @@ public class Tests
     }
 
     [Fact(DisplayName = $"Resolve {nameof(IGraph)}")]
-    public void Test2()
+    public async Task Test2()
     {
         // Arrange
         var user = new User();
@@ -99,6 +100,9 @@ public class Tests
         );
 
         var reduceMermaid = reduce.ToMermaidGraph();
+
+        await reduceMermaid.VerifyMermaidAsync();
+
         // Assert
     }
 }
