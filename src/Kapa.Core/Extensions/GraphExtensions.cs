@@ -31,11 +31,11 @@ public static class GraphExtensions
 
         // Build edge reference tracking from graph.Edges
         var edgeRefs = new Dictionary<(string nodeName, string reqId), List<int>>();
-        
+
         foreach (var edge in graph.Edges)
         {
             var toNodeName = GetNodeName(edge.ToCapacity, options);
-            
+
             // Map each resolving mutation to the requirements it satisfies
             foreach (var mutation in edge.ResolvingMutations)
             {
@@ -65,7 +65,7 @@ public static class GraphExtensions
         foreach (var node in graph.Nodes)
         {
             var nodeName = GetNodeName(node, options);
-            var description = options.DisplayDescription
+            var description = options.DisplayNodeDescription
                 ? $"""
                     <br/>'{node.Capability.Description}' 
                     """
@@ -148,20 +148,31 @@ public static class GraphExtensions
         {
             var fromName = GetNodeName(edge.FromCapacity, options);
             var toName = GetNodeName(edge.ToCapacity, options);
-            
+
             if (options.DisplayNodeRequirementOptions != DisplayNodeRequirementOptions.None)
             {
                 // Display all mutations with the edge's single index
-                var combinedLabel = $"[{edge.Index}] " + string.Join(
-                    "<br/>",
-                    edge.ResolvingMutations.Select(m => $"'{m.Description}'")
+                var combinedLabel =
+                    $"[{edge.Index}] "
+                    + string.Join(
+                        "<br/>",
+                        edge.ResolvingMutations.Select(m => $"'{m.Description}'")
+                    );
+                sb.AppendLine(
+                    CultureInfo.InvariantCulture,
+                    $"{fromName} -->|\"{combinedLabel}\"| {toName}"
                 );
-                sb.AppendLine(CultureInfo.InvariantCulture, $"{fromName} -->|\"{combinedLabel}\"| {toName}");
             }
             else
             {
-                var combinedLabel = string.Join("<br/>", edge.ResolvingMutations.Select(m => m.Description));
-                sb.AppendLine(CultureInfo.InvariantCulture, $"{fromName} -->|\"{combinedLabel}\"| {toName}");
+                var combinedLabel = string.Join(
+                    "<br/>",
+                    edge.ResolvingMutations.Select(m => m.Description)
+                );
+                sb.AppendLine(
+                    CultureInfo.InvariantCulture,
+                    $"{fromName} -->|\"{combinedLabel}\"| {toName}"
+                );
             }
         }
 
@@ -174,7 +185,7 @@ public static class GraphExtensions
         var source = node.Capability.OutcomeMetadata.Source.Split("(").First();
 
         // Extract just the capability name if not using full name
-        if (!options.ReplaceNameBySource)
+        if (!options.ReplaceNodeNameBySource)
         {
             return node.Capability.Name;
         }

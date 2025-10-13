@@ -1,16 +1,33 @@
-﻿using Kapa.Abstractions.Graphs;
+﻿using Kapa.Abstractions.Actors;
+using Kapa.Abstractions.Graphs;
 using Kapa.Core.Capabilities;
 
 namespace Kapa.Core.Mermaids;
 
 public record MermaidGraphOptions
 {
-    public bool ReplaceNameBySource { get; set; }
-    public bool DisplayDescription { get; set; } = true;
-    public bool DisplayRequirementsOnEdges { get; set; } = true;
+    public bool ReplaceNodeNameBySource { get; set; }
+    public bool DisplayNodeDescription { get; set; } = true;
     public bool DisplayOnlyNodeMissingRequirements { get; set; }
     public MermaidGraphOrientations GraphOrientations { get; set; }
     public DisplayNodeRequirementOptions DisplayNodeRequirementOptions { get; set; }
+    public EffectDisplayOptions EffectDisplayOptions { get; set; }
+}
+
+[Flags]
+public enum EffectDisplayOptions
+{
+    None = 0,
+
+    /// <summary>
+    /// Use the <see cref="IEffect{IGeneratedActor}"/> <see cref="IEffect{IGeneratedActor}.Id"/>.
+    /// </summary>
+    UseId,
+
+    /// <summary>
+    /// Use the <see cref="IEffect{IGeneratedActor}"/> <see cref="IEffect{IGeneratedActor}.Description"/>.
+    /// </summary>
+    UseDescription,
 }
 
 public enum DisplayNodeRequirementOptions
