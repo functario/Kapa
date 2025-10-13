@@ -143,42 +143,25 @@ public static class GraphExtensions
             sb.AppendLine(nodeName + "[\"" + nodeName + description + requirementsText + "\"]");
         }
 
-        // Group edges by (from, to) pair for merged rendering
-        var mergedEdges = new Dictionary<(string from, string to), List<(IEffect<IGeneratedActor> mutation, int index)>>();
-        
+        // Render edges - each edge already groups multiple mutations with a single index
         foreach (var edge in graph.Edges)
         {
             var fromName = GetNodeName(edge.FromCapacity, options);
             var toName = GetNodeName(edge.ToCapacity, options);
-            var key = (fromName, toName);
             
-            if (!mergedEdges.TryGetValue(key, out var mutations))
-            {
-                mutations = [];
-                mergedEdges[key] = mutations;
-            }
-            
-            foreach (var mutation in edge.ResolvingMutations)
-            {
-                mutations.Add((mutation, edge.Index));
-            }
-        }
-
-        // Render merged edges
-        foreach (var ((from, to), mutations) in mergedEdges)
-        {
             if (options.DisplayNodeRequirementOptions != DisplayNodeRequirementOptions.None)
             {
-                var combinedLabel = string.Join(
+                // Display all mutations with the edge's single index
+                var combinedLabel = $"[{edge.Index}] " + string.Join(
                     "<br/>",
-                    mutations.Select(m => $"{m.mutation.Description} [{m.index}]")
+                    edge.ResolvingMutations.Select(m => $"'{m.Description}'")
                 );
-                sb.AppendLine(($"{from} -->|\"{combinedLabel}\"| {to}").ToString());
+                sb.AppendLine(CultureInfo.InvariantCulture, $"{fromName} -->|\"{combinedLabel}\"| {toName}");
             }
             else
             {
-                var combinedLabel = string.Join("<br/>", mutations.Select(m => m.mutation.Description));
-                sb.AppendLine(($"{from} -->|\"{combinedLabel}\"| {to}").ToString());
+                var combinedLabel = string.Join("<br/>", edge.ResolvingMutations.Select(m => m.Description));
+                sb.AppendLine(CultureInfo.InvariantCulture, $"{fromName} -->|\"{combinedLabel}\"| {toName}");
             }
         }
 

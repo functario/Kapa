@@ -18,7 +18,9 @@ public class DisplayNodeRequirementOptionsTests
         };
 
         // Act
-        var sut = fullGraph.Reduce([NodeCatalog.SwitchLight], []).ToMermaidGraph(mermaidOptions);
+        var sut = fullGraph
+            .Reduce([NodeCatalog.SetThermostatSetpoint], [])
+            .ToMermaidGraph(mermaidOptions);
 
         // Assert
         await sut.VerifyMermaidAsync();

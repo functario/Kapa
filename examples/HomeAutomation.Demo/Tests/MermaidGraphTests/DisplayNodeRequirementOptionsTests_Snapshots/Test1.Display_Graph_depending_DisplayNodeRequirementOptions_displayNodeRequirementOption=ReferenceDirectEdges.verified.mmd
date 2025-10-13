@@ -3,12 +3,12 @@ config:
   layout: elk
 ---
 graph TD
-SwitchLight["SwitchLight<br/>'Change the Light IsOn state.' <br/>✅ The IUser is authenticated. [1, 2]<br/>✅ The IUser's Home has at least 1 Light. [2, 3]"]
+SetThermostatSetpoint["SetThermostatSetpoint<br/>'Change the Thermostat Setpoint.' <br/>✅ The IUser is authenticated. [1, 2]<br/>✅ The IUser's Home has at least 1 Thermostat. [2, 3]"]
 AuthenticateAsync["AuthenticateAsync<br/>'Authenticate the User.' "]
 Setup["Setup<br/>'Setup the User.' "]
-AddLight["AddLight<br/>'Add a Light to the Home.' <br/>✅ The IUser is authenticated. [4, 5]"]
-AuthenticateAsync -->|"The IUser is authenticated. [1]"| SwitchLight
-Setup -->|"The IUser is authenticated. [2]<br/>The IUser's Home has at least 1 Light. [2]"| SwitchLight
-AddLight -->|"The IUser's Home has at least 1 Light. [3]"| SwitchLight
-AuthenticateAsync -->|"The IUser is authenticated. [4]"| AddLight
-Setup -->|"The IUser is authenticated. [5]"| AddLight
+AddThermostat["AddThermostat<br/>'Add a Thermostat to the Home.' <br/>✅ The IUser is authenticated. [4, 5]"]
+AuthenticateAsync -->|"[1] 'The IUser is authenticated.'"| SetThermostatSetpoint
+Setup -->|"[2] 'The IUser is authenticated.'<br/>'Has Thermostat'"| SetThermostatSetpoint
+AddThermostat -->|"[3] 'The IUser's Home has at least 1 Thermostat.'"| SetThermostatSetpoint
+AuthenticateAsync -->|"[4] 'The IUser is authenticated.'"| AddThermostat
+Setup -->|"[5] 'The IUser is authenticated.'"| AddThermostat
