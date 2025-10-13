@@ -27,11 +27,7 @@ public sealed class AuthenticationCapabilities
 
         // Busy task
         await Task.Delay(10);
-        var token = new Token(
-            Guid.NewGuid().ToString(),
-            Guid.NewGuid().ToString(),
-            _timeProvider.GetUtcNow().AddHours(1)
-        );
+        var token = Token.CreateDummy();
 
         _user.Identification = new Identification() { IsAuthenticated = true, Token = token };
 

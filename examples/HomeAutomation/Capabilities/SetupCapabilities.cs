@@ -27,6 +27,9 @@ public sealed class SetupCapabilities
 
         _user.Home = new Home(devices);
 
+        _user.Identification.IsAuthenticated = true;
+        _user.Identification.Token = Token.CreateDummy();
+
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
     }
 }
@@ -42,6 +45,7 @@ public sealed class SetupRelations : IRelations<IGeneratedActor>
                 "Has Thermostat"
             ),
             IUser.HasLight.ToEffect(),
+            IUser.IsAuthenticated.ToEffect(),
         ];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements => [];

@@ -161,19 +161,37 @@ public static class GraphExtensions
             sb.AppendLine(nodeName + "[\"" + nodeName + description + requirementsText + "\"]");
         }
 
-        // Render all edges with reference numbers in label only if option enabled
+        // Merge edges between the same nodes and render them
+        var mergedEdges = new Dictionary<(string from, string to), List<(string label, int edgeNum)>>();
         var edgeNum = 1;
         foreach (var (from, to, label, reqId) in edgeList)
         {
+            var key = (from, to);
+            if (!mergedEdges.TryGetValue(key, out var labels))
+            {
+                labels = [];
+                mergedEdges[key] = labels;
+            }
+            labels.Add((label, edgeNum));
+            edgeNum++;
+        }
+
+        // Render merged edges
+        foreach (var ((from, to), labels) in mergedEdges)
+        {
             if (options.DisplayNodeRequirementOptions != DisplayNodeRequirementOptions.None)
             {
-                sb.AppendLine(($"{from} -->|\"{label} [{edgeNum}]\"| {to}").ToString());
+                var combinedLabel = string.Join(
+                    "<br/>",
+                    labels.Select(l => $"{l.label} [{l.edgeNum}]")
+                );
+                sb.AppendLine(($"{from} -->|\"{combinedLabel}\"| {to}").ToString());
             }
             else
             {
-                sb.AppendLine(($"{from} -->|\"{label}\"| {to}").ToString());
+                var combinedLabel = string.Join("<br/>", labels.Select(l => l.label));
+                sb.AppendLine(($"{from} -->|\"{combinedLabel}\"| {to}").ToString());
             }
-            edgeNum++;
         }
 
         return sb.ToString();

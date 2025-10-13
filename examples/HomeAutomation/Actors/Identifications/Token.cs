@@ -5,4 +5,7 @@ public sealed record Token(
     [Parameter($"{nameof(User)} refresh token.")] string RefreshToken,
     [Parameter($"{nameof(User)} refresh token expiration DateTimeOffset.")] DateTimeOffset ExpiresOn
 )
-{ }
+{
+    public static Token CreateDummy() =>
+        new("AccessToken", "RefreshToken", DateTimeOffset.UtcNow.AddHours(1));
+}
