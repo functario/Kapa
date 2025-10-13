@@ -35,7 +35,7 @@ public sealed class SetupRelations : IRelations<IGeneratedActor>
 {
     public ICollection<IEffect<IGeneratedActor>> Mutations =>
         [
-            // Mutation does not implement the same EffectPredicate but has the same Id
+            // For example: Mutation does not implement the same EffectPredicate but has the same Id
             EffectFactory.Create<User>(
                 u => u.Home.Devices.Any(x => x is Thermostat),
                 IUser.HasThermostatId,

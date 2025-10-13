@@ -51,7 +51,7 @@ public sealed class AuthenticationCapabilities
 public sealed class AuthenticationsRelations : IRelations<IGeneratedActor>
 {
     public ICollection<IEffect<IGeneratedActor>> Mutations =>
-        // Simulate enforcing the origin of the predicate if not inside the IGeneratedActor
+        // For example: Simulate enforcing the origin of the predicate if not inside the IGeneratedActor
         [IUser.IsAuthenticated.ToEffect<IUser, IUser>()];
 
     public ICollection<IEffect<IGeneratedActor>> Requirements => [];

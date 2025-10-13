@@ -16,7 +16,7 @@ public sealed class DomoticCapabilities
 
     [Capability($"Change the {nameof(Light)} {nameof(Light.IsOn)} state.")]
     [Relations<SetLightRelations>]
-    public async Task<Outcomes<Ok<IUser>, Fail<string>>> SetLightIsOn(
+    public async Task<Outcomes<Ok<IUser>, Fail<string>>> SwitchLight(
         [Parameter($"The {nameof(Light)} name.")] string lightName,
         [Parameter($"The {nameof(Light.IsOn)} state to apply to the {nameof(Light)}.")] bool isOn
     )

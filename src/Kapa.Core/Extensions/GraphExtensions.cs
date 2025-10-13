@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Graphs;
 using Kapa.Core.Graphs;
+using Kapa.Core.Mermaids;
 
 namespace Kapa.Core.Extensions;
 
@@ -13,7 +15,19 @@ public static class GraphExtensions
         options ??= new MermaidGraphOptions();
 
         var sb = new StringBuilder();
-        sb.AppendLine("graph TD");
+        sb.AppendLine(
+            """
+            ---
+            config:
+              layout: elk
+            ---
+            """
+        );
+
+        sb.AppendLine(
+            CultureInfo.InvariantCulture,
+            $"graph {Enum.GetName(options.GraphOrientations)}"
+        );
 
         // Track edges and assign reference numbers
         var edgeList = new List<(string from, string to, string label, string reqId)>();
@@ -67,6 +81,12 @@ public static class GraphExtensions
         foreach (var node in graph.Nodes)
         {
             var nodeName = GetNodeName(node, options);
+            var description = options.DisplayDescription
+                ? $"""
+                    <br/>'{node.Capability.Description}' 
+                    """
+                : "";
+
             var relations = node.Capability.Relations;
             var requirements = relations?.Requirements ?? [];
             var missing =
@@ -92,8 +112,8 @@ public static class GraphExtensions
                         var key = (nodeName, req.Id);
                         var refs = "";
                         if (
-                            options.DisplayEdgeReference &&
-                            !isMissing
+                            options.DisplayEdgeReference
+                            && !isMissing
                             && edgeRefs.TryGetValue(key, out var refList)
                             && refList.Count > 0
                         )
@@ -105,7 +125,8 @@ public static class GraphExtensions
                     requirementsText = "<br/>" + string.Join("<br/>", lines);
                 }
             }
-            sb.AppendLine(nodeName + "[\"" + nodeName + requirementsText + "\"]");
+
+            sb.AppendLine(nodeName + "[\"" + nodeName + description + requirementsText + "\"]");
         }
 
         // Render all edges with reference numbers in label only if option enabled
@@ -132,26 +153,12 @@ public static class GraphExtensions
         var source = node.Capability.OutcomeMetadata.Source.Split("(").First();
 
         // Extract just the capability name if not using full name
-        if (!options.UseFullName)
+        if (!options.ReplaceNameBySource)
         {
-            // Get the name after the last dot (e.g., "Namespace.CapabilityName" -> "CapabilityName")
-            var lastDotIndex = source.LastIndexOf('.');
-            if (lastDotIndex >= 0 && lastDotIndex < source.Length - 1)
-            {
-                source = source[(lastDotIndex + 1)..];
-            }
+            return node.Capability.Name;
         }
 
         // Remove only parentheses and angle brackets (dots are allowed in Mermaid)
         return source;
     }
-}
-
-public record MermaidGraphOptions
-{
-    public bool UseFullName { get; set; }
-    public bool DisplayRequirementsOnEdges { get; set; } = true;
-    public bool DisplayNodeRequirements { get; set; } = true;
-    public bool DisplayOnlyNodeMissingRequirements { get; set; }
-    public bool DisplayEdgeReference { get; set; } = true;
 }

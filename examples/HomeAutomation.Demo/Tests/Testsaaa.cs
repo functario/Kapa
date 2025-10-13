@@ -1,18 +1,6 @@
-﻿using AwesomeAssertions;
-using AwesomeAssertions.Execution;
-using HomeAutomation.Actors;
-using HomeAutomation.Actors.Homes;
-using HomeAutomation.Capabilities;
-using HomeAutomation.Demo.Commons;
-using Kapa.Abstractions.Graphs;
-using Kapa.Core.Extensions;
-using Kapa.Core.Graphs;
-using Kapa.Core.Validations;
-using Microsoft.Testing.Platform.Capabilities;
+﻿namespace HomeAutomation.Demo.Tests;
 
-namespace HomeAutomation.Demo;
-
-public class Tests
+public class Testsaaa
 {
     [Fact(DisplayName = $"{nameof(User)} is a shared instance between {nameof(ICapability)}.")]
     public async Task Test1()
@@ -57,8 +45,6 @@ public class Tests
     public async Task Test2()
     {
         // Arrange
-        var user = new User();
-        var timeProvider = TimeProvider.System;
         var setups = typeof(SetupCapabilities).GetCapabilitiesAsNodes().First();
         var authentications = typeof(AuthenticationCapabilities).GetCapabilitiesAsNodes().First();
         var domotics = typeof(DomoticCapabilities).GetCapabilitiesAsNodes();
@@ -71,19 +57,19 @@ public class Tests
             )
             .First();
 
-        var setLightIsOn = domotics.ByCapabilitySouce<DomoticCapabilities>(
-            nameof(DomoticCapabilities.SetLightIsOn),
+        var setLightIsOn = domotics.GetByCapabilitySouce<DomoticCapabilities>(
+            nameof(DomoticCapabilities.SwitchLight),
             typeof(string),
             typeof(bool)
         );
 
-        var addThermostat = domotics.ByCapabilitySouce<DomoticCapabilities>(
+        var addThermostat = domotics.GetByCapabilitySouce<DomoticCapabilities>(
             nameof(DomoticCapabilities.AddThermostat),
             typeof(string),
             typeof(string)
         );
 
-        var addLight = domotics.ByCapabilitySouce<DomoticCapabilities>(
+        var addLight = domotics.GetByCapabilitySouce<DomoticCapabilities>(
             nameof(DomoticCapabilities.AddLight),
             typeof(string),
             typeof(string)
