@@ -16,12 +16,44 @@ public class DisplayNodeRequirementOptionsTests
         var mermaidOptions = new MermaidGraphOptions()
         {
             DisplayNodeRequirementOptions = displayNodeRequirementOption,
-            EffectFormatOptions = EffectFormatOptions.UseId | EffectFormatOptions.UseDescription,
+            EffectFormatOptions = EffectFormatOptions.UseDescription,
         };
 
         // Act
         var sut = fullGraph
-            .Reduce([NodeCatalog.SetThermostatSetpoint], [])
+            .Reduce(
+                [NodeCatalog.SetThermostatSetpoint],
+                [NodeCatalog.Setup, NodeCatalog.AuthenticateAsync]
+            )
+            .ToMermaidGraph(mermaidOptions);
+
+        // Assert
+        await sut.VerifyMermaidAsync();
+    }
+
+    [Theory(
+        DisplayName = $"Display {nameof(Graph)} with missing {nameof(Graph.MissingRequirements)}"
+            + $" depending {nameof(MermaidGraphOptions.DisplayNodeRequirementOptions)}"
+    )]
+    [InlineData(DisplayNodeRequirementOptions.None)]
+    [InlineData(DisplayNodeRequirementOptions.ReferenceDirectEdges)]
+    [InlineData(DisplayNodeRequirementOptions.ReferenceInheritedEdges)]
+    public async Task Test2(DisplayNodeRequirementOptions displayNodeRequirementOption)
+    {
+        // Arrange
+        var fullGraph = GraphCatalog.Full();
+        var mermaidOptions = new MermaidGraphOptions()
+        {
+            DisplayNodeRequirementOptions = displayNodeRequirementOption,
+            EffectFormatOptions = EffectFormatOptions.UseDescription,
+        };
+
+        // Act
+        var sut = fullGraph
+            .Reduce(
+                [NodeCatalog.SetThermostatSetpoint],
+                [NodeCatalog.Setup, NodeCatalog.AuthenticateAsync]
+            )
             .ToMermaidGraph(mermaidOptions);
 
         // Assert

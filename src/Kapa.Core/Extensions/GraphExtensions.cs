@@ -67,7 +67,7 @@ public static class GraphExtensions
             var nodeName = GetNodeName(node, options);
             var description = options.DisplayNodeDescription
                 ? $"""
-                    <br/>'{node.Capability.Description}' 
+                    <br/>ℹ️ '{node.Capability.Description}' 
                     """
                 : "";
 
@@ -93,7 +93,7 @@ public static class GraphExtensions
                     foreach (var req in reqsToShow)
                     {
                         var isMissing = missing.Any(m => m.Id == req.Id);
-                        var marker = isMissing ? "❌" : "✅";
+                        var marker = isMissing ? "⚡❌" : "⚡✅";
                         var key = (nodeName, req.Id);
 
                         var effectParts = new List<string>();
@@ -166,7 +166,7 @@ public static class GraphExtensions
                 }
             }
 
-            sb.AppendLine(nodeName + "[\"" + nodeName + description + requirementsText + "\"]");
+            sb.AppendLine(nodeName + "[\"📍" + nodeName + description + requirementsText + "\"]");
         }
 
         // Render edges - each edge already groups multiple mutations with a single index
@@ -197,7 +197,7 @@ public static class GraphExtensions
 
                     if (effectParts.Count > 0)
                     {
-                        labelParts.Add($"'{string.Join(" - ", effectParts)}'");
+                        labelParts.Add($"⚡'{string.Join(" - ", effectParts)}'");
                     }
                 }
             }
@@ -272,6 +272,7 @@ public static class GraphExtensions
         var currentNode = graph.Nodes.FirstOrDefault(n =>
             GetNodeName(n, options) == currentNodeName
         );
+
         if (currentNode == null)
             return;
 
