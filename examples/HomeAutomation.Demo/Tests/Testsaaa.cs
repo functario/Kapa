@@ -81,9 +81,7 @@ public class Testsaaa
 
         var reduce = fullGraph.Reduce([setThermostatSetpoint], []);
 
-        var fullGraphMermaid = fullGraph.ToMermaidGraph(
-            new MermaidGraphOptions() { DisplayEdgeReference = true }
-        );
+        var fullGraphMermaid = fullGraph.ToMermaidGraph();
 
         var reduceMermaid = reduce.ToMermaidGraph();
 

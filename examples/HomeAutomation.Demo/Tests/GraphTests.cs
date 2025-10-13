@@ -31,4 +31,19 @@ public class GraphTests
         // Assert
         await sut.VerifyMermaidAsync();
     }
+
+    [Fact(DisplayName = $"Display the reduce {nameof(Graph)} for many {nameof(Capability)}")]
+    public async Task Test3()
+    {
+        // Arrange
+        var fullGraph = GraphCatalog.Full();
+        INode[] includedNodes = [NodeCatalog.SetThermostatSetpoint, NodeCatalog.SwitchLight];
+        INode[] excludedNodes = [];
+
+        // Act
+        var sut = fullGraph.Reduce(includedNodes, excludedNodes).ToMermaidGraph();
+
+        // Assert
+        await sut.VerifyMermaidAsync();
+    }
 }

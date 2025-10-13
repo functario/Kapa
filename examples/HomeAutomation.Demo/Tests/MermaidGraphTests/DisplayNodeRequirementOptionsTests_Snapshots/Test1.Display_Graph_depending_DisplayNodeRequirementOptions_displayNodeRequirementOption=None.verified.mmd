@@ -7,7 +7,13 @@ SetThermostatSetpoint["SetThermostatSetpoint<br/>'Change the Thermostat Setpoint
 AuthenticateAsync["AuthenticateAsync<br/>'Authenticate the User.' "]
 AddThermostat["AddThermostat<br/>'Add a Thermostat to the Home.' "]
 Setup["Setup<br/>'Setup the User.' "]
+SwitchLight["SwitchLight<br/>'Change the Light IsOn state.' "]
+AddLight["AddLight<br/>'Add a Light to the Home.' "]
 AuthenticateAsync -->|"The IUser is authenticated."| SetThermostatSetpoint
 AddThermostat -->|"The IUser's Home has at least 1 Thermostat."| SetThermostatSetpoint
 Setup -->|"The IUser's Home has at least 1 Thermostat."| SetThermostatSetpoint
 AuthenticateAsync -->|"The IUser is authenticated."| AddThermostat
+AuthenticateAsync -->|"The IUser is authenticated."| SwitchLight
+Setup -->|"The IUser's Home has at least 1 Light."| SwitchLight
+AddLight -->|"The IUser's Home has at least 1 Light."| SwitchLight
+AuthenticateAsync -->|"The IUser is authenticated."| AddLight

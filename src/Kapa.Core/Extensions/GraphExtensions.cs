@@ -114,7 +114,11 @@ public static class GraphExtensions
                         var key = (nodeName, req.Id);
                         var refs = "";
 
-                        if (options.DisplayEdgeReference && !isMissing)
+                        if (
+                            options.DisplayNodeRequirementOptions
+                                != DisplayNodeRequirementOptions.None
+                            && !isMissing
+                        )
                         {
                             if (
                                 options.DisplayNodeRequirementOptions
@@ -161,7 +165,7 @@ public static class GraphExtensions
         var edgeNum = 1;
         foreach (var (from, to, label, reqId) in edgeList)
         {
-            if (options.DisplayEdgeReference)
+            if (options.DisplayNodeRequirementOptions != DisplayNodeRequirementOptions.None)
             {
                 sb.AppendLine(($"{from} -->|\"{label} [{edgeNum}]\"| {to}").ToString());
             }
