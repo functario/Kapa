@@ -1,6 +1,6 @@
-﻿namespace HomeAutomation.Demo.Tests;
+﻿namespace HomeAutomation.Demo.Workbench;
 
-public class Testsaaa
+public class WorkbenchTests
 {
     [Fact(
         DisplayName = $"{nameof(User)} is a shared instance between {nameof(ICapability)}.",
