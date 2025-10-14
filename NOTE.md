@@ -74,11 +74,35 @@ A Scenario is build from a ScenarioBuilder in a fluent BBD style. The 'And' depe
 
 ## Example
 
+
+
+
+
+!!! Capability ne sont pas attaché à un Actor donc "x => x.LoginCapability()" ne marchera pas a moins de faire une method d'extension.
+Voir si il n'y a pas un autre type d'écriture. Probablement par:
+Given(user, (AuthenticationCapabilities c) => c.LoginCapability("user@email.com", "Password1"))
+ou 
+Given<AuthenticationCapabilities>(user, c => c.LoginCapability("user@email.com", "Password1")) // This will have advantage of scoping where is the capability
+
+
+
+
+
+
+!!! Ne pas oublier qu'il faut supporter la création de scénario par API!!!
+La validation du scenarioBuild devrait se faire dans une méthode à part pour simplifier
+l'implementation API en ayant la même validation (l'API ne ferait que construire un scenarioBuild depuis un json body)
+
+
+
+// Note: Cette écriture est explicite. Si une capability est manquante cela fera une erreur sur le scenario.Validate().
+// Le dev doit faire appel au graph avant pour voir quelles sont les routes possibles.
+
 ```csharp
 // The actors
 var user = new User();
 var admin = new Admin();
-var scenarioBuild = ScenarioBuilder
+var scenario = ScenarioBuilder
 		.AddActor(user)
 		.WithSetup(new UserSetupCability()) // Setup capability defined the State and initial Mutations.
 		.AddActor(admin)
@@ -93,13 +117,14 @@ var scenarioBuild = ScenarioBuilder
 		.Then(user, x => x.HasAProblem(false)) // Will change the User.HasAProblem state to false
 		.Build();
 
-// The build will returns Errors if:
+// The scenario.Validate() will returns Errors if:
 // - there are any Capability Requirements not resolved by Mutation.
 // - An event is expected but no Actor raised it before.
 
-if (scenarioBuild.Errors.Count() > 0)
+var errors = scenario.Validate();
+if (errors.Count() > 0)
 {
-    throw new Exception(scenarioBuild.Errors);
+    throw new Exception(errors);
 }
 
 var scenario = scenarioBuild.Scenario;
