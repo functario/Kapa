@@ -89,9 +89,8 @@ il faut que l'object soit passer par DI ou factory dans le scenarioBuilder (publ
 
 !!! Attention aussi qu'en passant le AuthenticationCapabilities, l'utilisateur a access à autre chose que des capabilities.
 Ce qui ne fonctionnera pas quand on fera le validate (qui fera un graph.Reduce())
-=> est-ce que ICapability pourrait avoir un Execute() et 
-ainsi passer en générique le ICapability (le ScenarioBuilder pourrait wrapper l'instance de CapabilityType 
-et appeler la capability matchant la signature)?
+=> est-ce qu'on pourrait passer en générique le ICapability (le ScenarioBuilder pourrait wrapper l'instance de CapabilityType 
+et appeler la capability matchant la signature) ou bien avoir un catalogue que capability?
 "Given<LoginCapability>(user, capability => capability("user@email.com", "Password1"))"
 
 
