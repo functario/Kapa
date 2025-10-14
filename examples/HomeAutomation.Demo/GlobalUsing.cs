@@ -1,0 +1,13 @@
+﻿global using AwesomeAssertions;
+global using AwesomeAssertions.Execution;
+global using HomeAutomation.Actors;
+global using HomeAutomation.Actors.Homes;
+global using HomeAutomation.Capabilities;
+global using HomeAutomation.Demo.Extensions;
+global using Kapa.Abstractions.Graphs;
+global using Kapa.Core.Extensions;
+global using Kapa.Core.Graphs;
+global using Kapa.Core.Mermaids;
+global using Kapa.Core.Validations;
+global using Microsoft.Testing.Platform.Capabilities;
+global using Xunit;

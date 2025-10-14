@@ -1,0 +1,21 @@
+﻿---
+config:
+  layout: elk
+---
+graph TD
+SetThermostatSetpoint["🟢SetThermostatSetpoint<br/>ℹ️ 'Change the Thermostat Setpoint.' <br/>⚡✅ 'IUser.IsAuthenticated' [1, 2, 4, 5]<br/>⚡✅ 'IUser.HasThermostat' [2, 3]"]
+AuthenticateAsync["🟢AuthenticateAsync<br/>ℹ️ 'Authenticate the User.' "]
+Setup["🟢Setup<br/>ℹ️ 'Setup the User.' "]
+AddThermostat["🟢AddThermostat<br/>ℹ️ 'Add a Thermostat to the Home.' <br/>⚡✅ 'IUser.IsAuthenticated' [4, 5]"]
+SwitchLight["🟢SwitchLight<br/>ℹ️ 'Change the Light IsOn state.' <br/>⚡✅ 'IUser.IsAuthenticated' [6, 7, 9, 10]<br/>⚡✅ 'IUser.HasLight' [7, 8]"]
+AddLight["🟢AddLight<br/>ℹ️ 'Add a Light to the Home.' <br/>⚡✅ 'IUser.IsAuthenticated' [9, 10]"]
+AuthenticateAsync -->|"[1]<br/>⚡'IUser.IsAuthenticated'"| SetThermostatSetpoint
+Setup -->|"[2]<br/>⚡'IUser.IsAuthenticated'<br/>⚡'IUser.HasThermostat'"| SetThermostatSetpoint
+AddThermostat -->|"[3]<br/>⚡'IUser.HasThermostat'"| SetThermostatSetpoint
+AuthenticateAsync -->|"[4]<br/>⚡'IUser.IsAuthenticated'"| AddThermostat
+Setup -->|"[5]<br/>⚡'IUser.IsAuthenticated'"| AddThermostat
+AuthenticateAsync -->|"[6]<br/>⚡'IUser.IsAuthenticated'"| SwitchLight
+Setup -->|"[7]<br/>⚡'IUser.IsAuthenticated'<br/>⚡'IUser.HasLight'"| SwitchLight
+AddLight -->|"[8]<br/>⚡'IUser.HasLight'"| SwitchLight
+AuthenticateAsync -->|"[9]<br/>⚡'IUser.IsAuthenticated'"| AddLight
+Setup -->|"[10]<br/>⚡'IUser.IsAuthenticated'"| AddLight

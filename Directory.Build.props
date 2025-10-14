@@ -15,6 +15,6 @@
   </PropertyGroup>
   <!--Warnings ignores for the solution-->
   <PropertyGroup>
-    <NoWarn>IDE0055, CS1591, IDE0290</NoWarn>
+    <NoWarn>IDE0055, CS1591, IDE0290, CA1812</NoWarn>
   </PropertyGroup>
 </Project>

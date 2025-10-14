@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using Kapa.Abstractions.Actors;
 using Kapa.Abstractions.Capabilities;
 using Kapa.Abstractions.Exceptions;
+using Kapa.Abstractions.Graphs;
 using Kapa.Core.Capabilities;
 
 namespace Kapa.Core.Extensions;
@@ -58,8 +60,45 @@ public static class CapabilityTypeExtensions
         return capabilities;
     }
 
+    public static ICollection<INode> GetCapabilitiesAsNodes(this Type capabilityType)
+    {
+        ArgumentNullException.ThrowIfNull(capabilityType);
+
+        ThrowIfNotCapabilityType(capabilityType);
+
+        var capabilities = GetCapabilities(capabilityType);
+
+        return [.. capabilities.Select(x => x.ToNode())];
+    }
+
+    public static IRelations<IGeneratedActor>? GetRelations(this Type capabilityType)
+    {
+        ArgumentNullException.ThrowIfNull(capabilityType);
+        ThrowIfNotCapabilityType(capabilityType);
+
+        var method = FindRelationsMethod(capabilityType);
+        var relations = method?.GetRelations();
+        return relations;
+    }
+
     public static bool IsCapabilityType(this Type type) =>
         type?.IsDefined(typeof(CapabilityTypeAttribute), inherit: true) ?? false;
+
+    private static MethodInfo? FindRelationsMethod(Type type)
+    {
+        var method = type.GetMethods(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+            )
+            .FirstOrDefault(m =>
+                m.GetCustomAttributes(false)
+                    .Any(attr =>
+                        attr.GetType().IsGenericType
+                        && attr.GetType().GetGenericTypeDefinition() == typeof(RelationsAttribute<>)
+                    )
+            );
+
+        return method;
+    }
 
     private static void ThrowIfMissingCapabilityException(Type capabilityType, int count)
     {

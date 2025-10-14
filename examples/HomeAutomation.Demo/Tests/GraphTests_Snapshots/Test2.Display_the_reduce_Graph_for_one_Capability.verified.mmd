@@ -1,0 +1,14 @@
+﻿---
+config:
+  layout: elk
+---
+graph TD
+SetThermostatSetpoint["🟢SetThermostatSetpoint<br/>ℹ️ 'Change the Thermostat Setpoint.' <br/>⚡✅ 'IUser.IsAuthenticated' [1, 2, 4, 5]<br/>⚡✅ 'IUser.HasThermostat' [2, 3]"]
+AuthenticateAsync["🟢AuthenticateAsync<br/>ℹ️ 'Authenticate the User.' "]
+Setup["🟢Setup<br/>ℹ️ 'Setup the User.' "]
+AddThermostat["🟢AddThermostat<br/>ℹ️ 'Add a Thermostat to the Home.' <br/>⚡✅ 'IUser.IsAuthenticated' [4, 5]"]
+AuthenticateAsync -->|"[1]<br/>⚡'IUser.IsAuthenticated'"| SetThermostatSetpoint
+Setup -->|"[2]<br/>⚡'IUser.IsAuthenticated'<br/>⚡'IUser.HasThermostat'"| SetThermostatSetpoint
+AddThermostat -->|"[3]<br/>⚡'IUser.HasThermostat'"| SetThermostatSetpoint
+AuthenticateAsync -->|"[4]<br/>⚡'IUser.IsAuthenticated'"| AddThermostat
+Setup -->|"[5]<br/>⚡'IUser.IsAuthenticated'"| AddThermostat
