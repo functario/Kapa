@@ -11,4 +11,5 @@ public interface IActor : IGeneratedActor
     string Name { get; }
     public string Description { get; }
     public IReadOnlyCollection<IState> States { get; }
+    public Task DispatchEvents();
 }

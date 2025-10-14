@@ -58,3 +58,62 @@ was not `Ok` ('What if?'). Diagnostic can then be executed try to find the root 
 - Being able to run automated analysis on `Scenario` failure to investigate.
   For example, on CapabilityB failing, start different checks on the system (via logs, etc).
   Add new `Check(s)` each time a new type of failure is found. Eventually add a`ContingencyPlan`.
+
+
+## ScenarioBuilder
+
+A scenario is a sequence of Steps (wrapping Capabilities) realised by one or many Actors in concurrence.
+Step.Capabilities can change the Actor properties states (called State).
+All Capability returns an IOutcome with a OutcomeStatus (ok, fail, etc)
+Step.Capabilities and Actor.States are owned by one Actor. For example the Actor1.LoginCapability change the Actor1.IsLoggedState, but it will not change the Actor2.IsLoggedState.
+Still the sequence of Step.Capabilities of each actor is synchronise by events. For Example, Actor2.GiveHelpCapability can only happen once the Actor1.AskForHelpCapability has been run and HelpAskedActorEvent raised.
+There can be no deadlock (exception is raised in deadlock detection).
+
+A Scenario is build from a ScenarioBuilder in a fluent BBD style. The 'And' depends of the previous keyword (Given, When, Then).
+
+
+## Example
+
+```csharp
+// The actors
+var user = new User();
+var admin = new Admin();
+var scenarioBuild = ScenarioBuilder
+		.AddActor(user)
+		.WithSetup(new UserSetupCability()) // Setup capability defined the State and initial Mutations.
+		.AddActor(admin)
+		.WithSetup(new AdminSetupCability())
+		.Given( // Both Steps are done in concurrence (not sequencially)
+			{ user, x => x.LoginCapability("user@email.com", "Password1") },
+			{ admin, x => x.LoginCapability("admin@email.com", "PasswordAdmin") }
+		)
+		.And(user, x => x.HasAProblem(true)) // Will change the User.HasAProblem state to true
+		.When<HelpAskedActorEvent>(user, x => x.AskForHelpCapability(), [admin]) // will raise event HelpAskedActorEvent to admin (will not wait for answer from Admin to avoid deadlock). Note that AskForHelpCapability has a Requirement on Mutation "HelpAsked", provided by HasAProblem**
+		.And<HelpAskedActorEvent>(admin, (x, e) => x.Help()) // Can only help once HelpAskedActorEvent is sent to Admin.DispatchEvents().
+		.Then(user, x => x.HasAProblem(false)) // Will change the User.HasAProblem state to false
+		.Build();
+
+// The build will returns Errors if:
+// - there are any Capability Requirements not resolved by Mutation.
+// - An event is expected but no Actor raised it before.
+
+if (scenarioBuild.Errors.Count() > 0)
+{
+    throw new Exception(scenarioBuild.Errors);
+}
+
+var scenario = scenarioBuild.Scenario;
+
+var outcomes = scenario.Run();
+```
+
+** Voir si c'est réalisable! Et comment visualiser cela. Est-ce que cela pourrait être un EventReceivedCapability qui serait silencieusement ajouter
+par le builder sur le HasAProblem?
+
+
+journey
+    title Concurrent Users Example
+    section Login
+      User A logs in: 5: User A, User B
+    section View Dashboard
+      User A opens dashboard: 4: User A, User B

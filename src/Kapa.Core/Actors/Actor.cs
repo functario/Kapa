@@ -15,4 +15,6 @@ public sealed class Actor : IActor
     public IReadOnlyCollection<IState> States { get; }
     public string Name { get; }
     public string Description { get; }
+
+    public Task DispatchEvents() => throw new NotImplementedException();
 }
