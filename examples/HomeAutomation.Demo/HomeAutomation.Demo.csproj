@@ -9,15 +9,15 @@
         <LongPathAware>true</LongPathAware>
     </PropertyGroup>
     <ItemGroup>
-      <Compile Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=None.verified.mmd\**" />
-      <Compile Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceDirectEdges.verified.mmd\**" />
-      <Compile Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceInheritedEdges.verified.mmd\**" />
-      <EmbeddedResource Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=None.verified.mmd\**" />
-      <EmbeddedResource Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceDirectEdges.verified.mmd\**" />
-      <EmbeddedResource Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceInheritedEdges.verified.mmd\**" />
-      <None Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=None.verified.mmd\**" />
-      <None Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceDirectEdges.verified.mmd\**" />
-      <None Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceInheritedEdges.verified.mmd\**" />
+        <Compile Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=None.verified.mmd\**" />
+        <Compile Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceDirectEdges.verified.mmd\**" />
+        <Compile Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceInheritedEdges.verified.mmd\**" />
+        <EmbeddedResource Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=None.verified.mmd\**" />
+        <EmbeddedResource Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceDirectEdges.verified.mmd\**" />
+        <EmbeddedResource Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceInheritedEdges.verified.mmd\**" />
+        <None Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=None.verified.mmd\**" />
+        <None Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceDirectEdges.verified.mmd\**" />
+        <None Remove="Tests\MermaidGraphTests\DisplayNodeRequirementOptionsTests_Snapshots\Test2.Display_Graph_with_missing_MissingRequirements_depending_DisplayNodeRequirementOptions_displayNodeRequirementOption=ReferenceInheritedEdges.verified.mmd\**" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoFixture.Xunit3" />
