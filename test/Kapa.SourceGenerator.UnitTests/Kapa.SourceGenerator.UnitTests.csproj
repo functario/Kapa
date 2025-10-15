@@ -18,6 +18,7 @@
     <ItemGroup>
         <PackageReference Include="AutoFixture.Xunit3" />
         <PackageReference Include="AwesomeAssertions" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NSubstitute" />
@@ -29,6 +30,8 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="xunit.v3" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
