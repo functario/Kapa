@@ -19,9 +19,11 @@
         <PackageReference Include="AutoFixture.Xunit3" />
         <PackageReference Include="AwesomeAssertions" />
         <PackageReference Include="Microsoft.CodeAnalysis.Common" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.XUnit" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NSubstitute" />
+        <PackageReference Include="System.Formats.Asn1" />
         <PackageReference Include="System.Net.Http" />
         <PackageReference Include="System.Text.RegularExpressions" />
         <PackageReference Include="Verify.SourceGenerators" />
@@ -35,6 +37,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Kapa.Core\Kapa.Core.csproj" />
+        <ProjectReference Include="..\..\src\Kapa.SourceGenerator\Kapa.SourceGenerator.csproj" />
         <ProjectReference Include="..\Kapa.Fixtures\Kapa.Fixtures.csproj" />
     </ItemGroup>
 </Project>
