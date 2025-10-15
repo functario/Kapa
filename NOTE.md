@@ -84,14 +84,15 @@ Given(user, (AuthenticationCapabilities c) => c.LoginCapability("user@email.com"
 ou 
 Given<AuthenticationCapabilities>(user, c => c.LoginCapability("user@email.com", "Password1")) // This will have advantage of scoping where is the capability
 
-Aussi pour avoir un AuthenticationCapabilities, 
-il faut que l'object soit passer par DI ou factory dans le scenarioBuilder (public ScenarioBuilder(ICollection<ICapabilityType>))
+- Aussi pour avoir un AuthenticationCapabilities, il faut que l'object soit passer par DI 
+ou factory dans le scenarioBuilder (public ScenarioBuilder(ICollection<ICapabilityType>))
+- Peut on valider qu'une seule capability est appellé dans la lambda et qu'elle a l'attribu "Capability"?
 
-!!! Attention aussi qu'en passant le AuthenticationCapabilities, l'utilisateur a access à autre chose que des capabilities.
-Ce qui ne fonctionnera pas quand on fera le validate (qui fera un graph.Reduce())
-=> est-ce qu'on pourrait passer en générique le ICapability (le ScenarioBuilder pourrait wrapper l'instance de CapabilityType 
-et appeler la capability matchant la signature) ou bien avoir un catalogue que capability?
-"Given<LoginCapability>(user, capability => capability("user@email.com", "Password1"))"
+
+**La meilleur option serait d'avoir des méthodes d'extension prenant le ScenarioBuilder et wrappant les méthodes.
+Possible avec un source generator. 
+**
+
 
 
 
