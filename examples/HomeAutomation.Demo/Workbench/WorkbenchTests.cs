@@ -19,7 +19,11 @@ public class WorkbenchTests
 
         // Act
         setups.Setup();
-        var sut1 = await authentications.AuthenticateAsync("user@home.com", "1234!");
+        var sut1 = await authentications.AuthenticateAsync(
+            "user@home.com",
+            "1234!",
+            CancellationToken.None
+        );
         var sut2 = await domotic.SetThermostatSetpoint(tstat00Name, expectedSetpoint);
 
         // Assert

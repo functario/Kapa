@@ -19,14 +19,15 @@ public sealed class AuthenticationCapabilities
     [Relations<AuthenticationsRelations>]
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> AuthenticateAsync(
         [Parameter($"The {nameof(User)} email used for authentification.")] string email,
-        [Parameter($"The {nameof(User)} password used for authentification.")] string password
+        [Parameter($"The {nameof(User)} password used for authentification.")] string password,
+        CancellationToken cancellationToken
     )
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(email, nameof(email));
         ArgumentException.ThrowIfNullOrWhiteSpace(password, nameof(password));
 
         // Busy task
-        await Task.Delay(10);
+        await Task.Delay(10, cancellationToken);
         var token = Token.CreateDummy();
 
         _user.Identification = new Identification() { IsAuthenticated = true, Token = token };

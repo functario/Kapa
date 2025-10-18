@@ -89,7 +89,8 @@ public sealed class DomoticCapabilities
     [Relations<AddLightRelations>]
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> AddLight(
         [Parameter($"The {nameof(Light)} name.")] string thermostatName,
-        [Parameter($"The {nameof(Light)} model.")] string model
+        [Parameter($"The {nameof(Light)} model.")] string model,
+        CancellationToken cancellationToken
     )
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(thermostatName, nameof(thermostatName));
@@ -99,7 +100,7 @@ public sealed class DomoticCapabilities
         _user.Home?.Devices.Add(thermostat);
 
         // Busy task
-        await Task.Delay(10);
+        await Task.Delay(10, cancellationToken);
 
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
     }
