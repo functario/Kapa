@@ -18,7 +18,8 @@ public sealed class DomoticCapabilities
     [Relations<SetLightRelations>]
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> SwitchLight(
         [Parameter($"The {nameof(Light)} name.")] string lightName,
-        [Parameter($"The {nameof(Light.IsOn)} state to apply to the {nameof(Light)}.")] bool isOn
+        [Parameter($"The {nameof(Light.IsOn)} state to apply to the {nameof(Light)}.")] bool isOn,
+        CancellationToken cancellationToken
     )
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(lightName, nameof(lightName));
@@ -32,7 +33,7 @@ public sealed class DomoticCapabilities
         }
 
         // Busy task
-        await Task.Delay(10);
+        await Task.Delay(10, cancellationToken);
         light.IsOn = isOn;
 
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
@@ -43,7 +44,8 @@ public sealed class DomoticCapabilities
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> SetThermostatSetpoint(
         [Parameter($"The {nameof(Thermostat)} name.", typeof(ThermostatSetpointRule))]
             string thermostatName,
-        [Parameter($"The setpoint to apply to the {nameof(Thermostat)}.")] double setpoint
+        [Parameter($"The setpoint to apply to the {nameof(Thermostat)}.")] double setpoint,
+        CancellationToken cancellationToken
     )
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(thermostatName, nameof(thermostatName));
@@ -60,7 +62,7 @@ public sealed class DomoticCapabilities
         }
 
         // Busy task
-        await Task.Delay(10);
+        await Task.Delay(10, cancellationToken);
         thermostat.Setpoint = setpoint;
 
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
@@ -70,7 +72,8 @@ public sealed class DomoticCapabilities
     [Relations<AddThermostatRelations>]
     public async Task<Outcomes<Ok<IUser>, Fail<string>>> AddThermostat(
         [Parameter($"The {nameof(Thermostat)} name.")] string thermostatName,
-        [Parameter($"The {nameof(Thermostat)} model.")] string model
+        [Parameter($"The {nameof(Thermostat)} model.")] string model,
+        CancellationToken cancellationToken
     )
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(thermostatName, nameof(thermostatName));
@@ -80,7 +83,7 @@ public sealed class DomoticCapabilities
         _user.Home?.Devices.Add(thermostat);
 
         // Busy task
-        await Task.Delay(10);
+        await Task.Delay(10, cancellationToken);
 
         return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
     }
