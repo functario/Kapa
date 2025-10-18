@@ -3,7 +3,7 @@
 namespace Kapa.Core.Actors;
 
 /// <inheritdoc/>
-public sealed class Actor : IActor
+public class Actor : IActor
 {
     public Actor(string name, string description, params IState[] states)
     {

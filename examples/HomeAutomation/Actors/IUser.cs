@@ -1,6 +1,6 @@
 ﻿namespace HomeAutomation.Actors;
 
-public interface IUser : IGeneratedActor
+public interface IUser : IGeneratedActor, IActor
 {
     public Home Home { get; set; }
     public Identification Identification { get; set; }

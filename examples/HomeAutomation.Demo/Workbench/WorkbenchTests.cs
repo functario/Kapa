@@ -1,4 +1,6 @@
-﻿namespace HomeAutomation.Demo.Workbench;
+﻿using Microsoft.Extensions.Hosting;
+
+namespace HomeAutomation.Demo.Workbench;
 
 public class WorkbenchTests
 {
@@ -11,20 +13,22 @@ public class WorkbenchTests
         // Arrange
         var user = new User();
         var timeProvider = TimeProvider.System;
-        var setups = new SetupCapabilities(user);
-        var authentications = new AuthenticationCapabilities(user, timeProvider);
-        var domotic = new DomoticCapabilities(user);
+        var setups = new SetupUserCapabilities();
+        var authentications = new AuthenticationCapabilities(timeProvider);
+        var domotic = new DomoticCapabilities();
         var tstat00Name = "Thermostat00";
         var expectedSetpoint = 17.5;
 
         // Act
-        setups.Setup();
+        setups.SetupUser(user);
         var sut1 = await authentications.AuthenticateAsync(
+            user,
             "user@home.com",
             "1234!",
             CancellationToken.None
         );
         var sut2 = await domotic.SetThermostatSetpoint(
+            user,
             tstat00Name,
             expectedSetpoint,
             CancellationToken.None
@@ -56,7 +60,7 @@ public class WorkbenchTests
     public async Task Test2()
     {
         // Arrange
-        var setups = typeof(SetupCapabilities).GetCapabilitiesAsNodes().First();
+        var setups = typeof(SetupUserCapabilities).GetCapabilitiesAsNodes().First();
         var authentications = typeof(AuthenticationCapabilities).GetCapabilitiesAsNodes().First();
         var domotics = typeof(DomoticCapabilities).GetCapabilitiesAsNodes();
         var setThermostatSetpoint = domotics
@@ -99,5 +103,17 @@ public class WorkbenchTests
         await reduceMermaid.VerifyMermaidAsync();
 
         // Assert
+    }
+
+    [Fact]
+    public void MyTestMethod()
+    {
+        var host = new HostBuilder();
+        host.ConfigureServices(
+            (context, services) =>
+            {
+                services.AddHomeAutomation(context);
+            }
+        );
     }
 }

@@ -5,19 +5,15 @@ using Kapa.Core.Factories;
 namespace HomeAutomation.Capabilities;
 
 [CapabilityType]
-public sealed class SetupCapabilities
+public sealed class SetupUserCapabilities
 {
-    private readonly IUser _user;
-
-    public SetupCapabilities(IUser user)
-    {
-        _user = user;
-    }
+    public SetupUserCapabilities() { }
 
     [Capability($"Setup the {nameof(User)}.")]
     [Relations<SetupRelations>]
-    public Ok<IUser> Setup()
+    public Ok<IUser> SetupUser(IUser user)
     {
+        ArgumentNullException.ThrowIfNull(user);
         IDevice[] devices =
         [
             new Thermostat(Guid.NewGuid(), "Thermostat00", "ThermostatModel"),
@@ -25,12 +21,12 @@ public sealed class SetupCapabilities
             new Light(Guid.NewGuid(), "Light00", "LightModel"),
         ];
 
-        _user.Home = new Home(devices);
+        user.Home = new Home(devices);
 
-        _user.Identification.IsAuthenticated = true;
-        _user.Identification.Token = Token.CreateDummy();
+        user.Identification.IsAuthenticated = true;
+        user.Identification.Token = Token.CreateDummy();
 
-        return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), _user);
+        return TypedOutcomes.Ok(MethodInfo.GetCurrentMethod(), user);
     }
 }
 

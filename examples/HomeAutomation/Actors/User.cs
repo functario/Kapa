@@ -1,7 +1,7 @@
 ﻿namespace HomeAutomation.Actors;
 
 [Actor($"The {nameof(User)}.")]
-public sealed record User : IUser
+public sealed class User
 {
     public User()
     {
