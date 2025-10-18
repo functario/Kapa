@@ -24,7 +24,11 @@ public class WorkbenchTests
             "1234!",
             CancellationToken.None
         );
-        var sut2 = await domotic.SetThermostatSetpoint(tstat00Name, expectedSetpoint);
+        var sut2 = await domotic.SetThermostatSetpoint(
+            tstat00Name,
+            expectedSetpoint,
+            CancellationToken.None
+        );
 
         // Assert
         using var scope = new AssertionScope();
